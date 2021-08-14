@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: GuGu_Simple_Upload
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 100GB
+      max-request-size: 100GB
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql:///${spring.application.name}?serverTimezone=GMT&allowMultiQueries=true
+    username: ENC(sbYHez2roxT3NZupn8+wGA==)
+    password: ENC(awqRkTEC+zPJGgHey2UW+g==)
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+server:
+  port: 80
+logging:
+  level:
+    com.gugu.upload: debug
+config:
+  dir: ${user.home}/${spring.application.name}
+  tmp-dir: ${config.dir}/tmp/
+  log-dir: ${config.dir}/log/
