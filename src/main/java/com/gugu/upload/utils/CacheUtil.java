@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class CacheUtil {
 
-    private static final Map<String, SoftReference<CacheObject>> CACHE_OBJECT_MAP = new ConcurrentHashMap<>(15);
+    private static final Map<String, SoftReference<CacheObject>> CACHE_OBJECT_MAP = new ConcurrentHashMap<>(100);
 
     private CacheUtil() {
     }
