@@ -4,6 +4,7 @@ import com.gugu.upload.exception.InitException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Setter;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ import java.sql.Statement;
 @Setter
 @Configuration
 @ConfigurationProperties("spring.datasource")
+@MapperScan("com.gugu.upload.mapper")
 public class DataSourceConfig {
     private String url;
 
