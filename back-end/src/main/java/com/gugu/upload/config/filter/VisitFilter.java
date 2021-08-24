@@ -24,7 +24,7 @@ import java.util.UUID;
  * @since 1.8
  */
 @Slf4j
-public class RecordFilter implements Filter {
+public class VisitFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         Visit visit = getVisit(servletRequest);
