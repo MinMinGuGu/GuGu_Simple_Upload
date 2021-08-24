@@ -24,6 +24,7 @@ public class Visit {
     private Integer id;
     private String ipAddress;
     private String path;
+    private String method;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

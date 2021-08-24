@@ -40,6 +40,7 @@ public class RecordFilter implements Filter {
         Visit visit = new Visit();
         visit.setIpAddress(ipAddress);
         visit.setPath(path);
+        visit.setMethod(request.getMethod());
         return visit;
     }
 
