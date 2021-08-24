@@ -31,7 +31,7 @@ public class VisitTask {
     @Scheduled(cron = "0 0/3 * * * ? ")
     public void saveVisit(){
         List<Visit> visits = CacheUtil.get(Visit.class);
-        log.info("com.gugu.upload.task.VisitTask.saveVisit start... visit : {}", visits);
+        log.info("VisitTask.saveVisit start... visit : {}", visits);
         visits.forEach(iVisitService::save);
     }
 }
