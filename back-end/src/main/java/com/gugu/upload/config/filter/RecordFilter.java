@@ -36,7 +36,7 @@ public class RecordFilter implements Filter {
     private Visit getVisit(ServletRequest servletRequest) {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String ipAddress = IpUtil.getIpAddress(request);
-        String path = request.getRequestURL().toString();
+        String path = request.getRequestURI();
         Visit visit = new Visit();
         visit.setIpAddress(ipAddress);
         visit.setPath(path);
