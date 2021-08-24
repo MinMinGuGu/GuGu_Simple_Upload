@@ -76,7 +76,10 @@ public class FileTask {
     @Scheduled(cron = "0 0/20 * * * ? ")
     public void cleanFile() throws IOException {
         Map<String, String> dataMap = fileService.list().stream().collect(Collectors.toMap(FileInfo::getFilePath, FileInfo::getFilePath));
-        Files.walkFileTree(Paths.get(applicationConfig.getTmpDir()), new CleanUpIrrelevantFiles(dataMap));
+        Path path = Paths.get(applicationConfig.getTmpDir());
+        if (Files.exists(path)){
+            Files.walkFileTree(path, new CleanUpIrrelevantFiles(dataMap));
+        }
     }
 
     private static class CleanUpIrrelevantFiles extends SimpleFileVisitor<Path>{
