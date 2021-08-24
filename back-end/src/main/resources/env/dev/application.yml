@@ -9,9 +9,9 @@ spring:
       max-request-size: 100GB
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql:///${spring.application.name}?serverTimezone=GMT&allowMultiQueries=true
-    username: ENC(sbYHez2roxT3NZupn8+wGA==)
-    password: ENC(awqRkTEC+zPJGgHey2UW+g==)
+    url: jdbc:mysql://myserver/${spring.application.name}?serverTimezone=GMT&allowMultiQueries=true
+    username: ENC(SOqQqtqr2hBoZOKjBfnyAw==)
+    password: ENC(RI8ITLJTJ4ek56gQ7iFzhQ==)
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss

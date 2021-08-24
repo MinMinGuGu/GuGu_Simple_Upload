@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * The type Json util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class JsonUtil {
 

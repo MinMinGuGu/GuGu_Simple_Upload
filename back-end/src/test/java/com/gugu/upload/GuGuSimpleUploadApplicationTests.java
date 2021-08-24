@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * The type Gu gu simple upload application tests.
+ * The type GuGu simple upload application tests.
  *
- * @date 2021 /08/15
- * @since 1.0
+ * @author minmin
+ * @version 1.0
+ * @since 1.8
  */
 @SpringBootTest
 public class GuGuSimpleUploadApplicationTests {

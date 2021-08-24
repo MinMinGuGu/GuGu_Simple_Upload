@@ -4,8 +4,8 @@ package com.gugu.upload.exception;
  * The type Init exception.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class InitException extends RuntimeException{
 

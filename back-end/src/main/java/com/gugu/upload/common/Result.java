@@ -12,8 +12,8 @@ import java.util.Date;
  *
  * @param <T> the type parameter
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Data
 @Accessors(chain = true)
@@ -77,8 +77,8 @@ public class Result<T> {
      *
      * @param <B> the type parameter
      * @author minmin
-     * @date 2021 /08/14
-     * @since 1.0
+     * @version 1.0
+     * @since 1.8
      */
     public static class Builder<B> {
         private Integer code;

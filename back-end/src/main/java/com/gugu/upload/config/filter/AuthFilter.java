@@ -20,8 +20,8 @@ import java.io.IOException;
  * The type Auth filter.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Slf4j
 public class AuthFilter implements Filter {

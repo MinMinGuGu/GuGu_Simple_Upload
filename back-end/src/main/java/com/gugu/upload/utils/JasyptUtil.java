@@ -6,11 +6,10 @@ import org.jasypt.util.text.BasicTextEncryptor;
  * The type Jasypt util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class JasyptUtil {
-    private static final BasicTextEncryptor BASIC_TEXT_ENCRYPTOR = new BasicTextEncryptor();
 
     private JasyptUtil(){}
 
@@ -22,7 +21,8 @@ public class JasyptUtil {
      * @return the string
      */
     public static String encrypt(String plaintext, String key){
-        BASIC_TEXT_ENCRYPTOR.setPassword(key);
-        return BASIC_TEXT_ENCRYPTOR.encrypt(plaintext);
+        BasicTextEncryptor basicTextEncryptor = new BasicTextEncryptor();
+        basicTextEncryptor.setPassword(key);
+        return basicTextEncryptor.encrypt(plaintext);
     }
 }

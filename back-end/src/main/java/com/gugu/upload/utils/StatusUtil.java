@@ -6,8 +6,8 @@ import lombok.Getter;
  * The type Status util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class StatusUtil {
     private StatusUtil(){}
@@ -35,8 +35,9 @@ public class StatusUtil {
     /**
      * The enum Status.
      *
-     * @date 2021 /08/14
-     * @since 1.0
+     * @author minmin
+     * @version 1.0
+     * @since 1.8
      */
     @Getter
     public enum Status{

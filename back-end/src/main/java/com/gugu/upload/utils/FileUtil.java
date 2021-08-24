@@ -7,8 +7,8 @@ import java.util.UUID;
  * The type File util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class FileUtil {
     private FileUtil(){}

@@ -7,8 +7,8 @@ import lombok.Data;
  * The type Login vo.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Data
 @ApiModel(value = "LoginVo", description = "登录信息")

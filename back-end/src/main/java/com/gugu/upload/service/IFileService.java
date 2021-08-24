@@ -7,8 +7,8 @@ import com.gugu.upload.common.entity.FileInfo;
  * The interface File service.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public interface IFileService extends IService<FileInfo> {
 }

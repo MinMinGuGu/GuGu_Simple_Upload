@@ -11,12 +11,20 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
+ * The type Swagger config.
+ *
  * @author minmin
- * @date 2021/08/15
+ * @version 1.0
+ * @since 1.8
  */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    /**
+     * Login docket.
+     *
+     * @return the docket
+     */
     @Bean
     public Docket login(){
         return new Docket(DocumentationType.SWAGGER_2)
@@ -36,6 +44,11 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * File docket.
+     *
+     * @return the docket
+     */
     @Bean
     public Docket file(){
         return new Docket(DocumentationType.SWAGGER_2)

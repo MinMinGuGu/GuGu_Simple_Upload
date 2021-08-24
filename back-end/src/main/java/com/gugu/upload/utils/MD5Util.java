@@ -8,11 +8,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * The type Md5 util.
+ * The type Md 5 util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 public class MD5Util {
@@ -30,7 +30,7 @@ public class MD5Util {
     }
 
     /**
-     * Get file hash code string.
+     * Get input stream hash code string.
      *
      * @param inputStream the input stream
      * @return the string

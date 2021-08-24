@@ -35,8 +35,8 @@ import java.util.List;
  * The type Upload controller.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Api("文件相关")
 @Slf4j

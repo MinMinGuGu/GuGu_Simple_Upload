@@ -5,6 +5,8 @@ import lombok.Data;
 
 import java.lang.ref.SoftReference;
 import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * The type Cache util.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 public class CacheUtil {
 
@@ -26,26 +28,75 @@ public class CacheUtil {
      * Is there boolean.
      *
      * @param key the key
-     * @return true Exist and cache. false Is not in the cache and deleted.
+     * @return the boolean
      */
-    public static boolean isThere(String key){
+    public static boolean isThere(String key) {
         return get(key) != null;
     }
 
     /**
-     * Get t.
+     * Remove.
      *
      * @param key the key
-     * @return the t
      */
-    public static Object get(String key) {
+    public static void remove(String key) {
+        if (key != null) {
+            CACHE_OBJECT_MAP.remove(key);
+        }
+    }
+
+    /**
+     * Remove.
+     *
+     * @param <T>    the type parameter
+     * @param source the source
+     */
+    public static <T> void remove(Class<T> source) {
+        CACHE_OBJECT_MAP.forEach((key, object) -> {
+            CacheObject cacheObject = get(key);
+            if (checkIsSource(cacheObject, source)) {
+                remove(key);
+            }
+        });
+    }
+
+    /**
+     * Get list.
+     *
+     * @param <T>    the type parameter
+     * @param source the source
+     * @return if found return list otherwise null
+     */
+    public static <T> List<T> get(Class<T> source) {
+        List<T> cacheObjects = new LinkedList<>();
+        CACHE_OBJECT_MAP.forEach((key, object) -> {
+            CacheObject cacheObject = get(key);
+            if (checkIsSource(cacheObject, source)) {
+                Object cacheObjectObject = cacheObject.getObject();
+                cacheObjects.add(source.cast(cacheObjectObject));
+            }
+        });
+        return cacheObjects;
+    }
+
+    private static <T> boolean checkIsSource(CacheObject cacheObject, Class<T> source) {
+        return cacheObject != null && source != null && source.isAssignableFrom(cacheObject.getObject().getClass());
+    }
+
+    /**
+     * Get object.
+     *
+     * @param key the key
+     * @return the object
+     */
+    public static CacheObject get(String key) {
         SoftReference<CacheObject> cacheObjectSoftReference = CACHE_OBJECT_MAP.get(key);
-        if (checkCacheObject(cacheObjectSoftReference)){
+        if (checkCacheObject(cacheObjectSoftReference)) {
             return null;
         }
         CacheObject cacheObject = cacheObjectSoftReference.get();
-        if (isUnavailable(cacheObject)){
-            CACHE_OBJECT_MAP.remove(key);
+        if (isUnavailable(cacheObject)) {
+            remove(key);
             return null;
         }
         return cacheObject;
@@ -63,7 +114,7 @@ public class CacheUtil {
         return tClass.cast(get(key));
     }
 
-    private static boolean checkCacheObject(SoftReference<CacheObject> softReference){
+    private static boolean checkCacheObject(SoftReference<CacheObject> softReference) {
         return softReference == null;
     }
 
@@ -89,8 +140,9 @@ public class CacheUtil {
     /**
      * The type Cache object.
      *
-     * @date 2021 /08/14
-     * @since 1.0
+     * @author minmin
+     * @version 1.0
+     * @since 1.8
      */
     @Data
     public static class CacheObject {
@@ -102,7 +154,7 @@ public class CacheUtil {
          *
          * @param object the object
          */
-        public CacheObject(Object object){
+        public CacheObject(Object object) {
             this(object, 30, TimeUnit.MINUTE);
         }
 
@@ -113,7 +165,7 @@ public class CacheUtil {
          * @param time     the time
          * @param timeUnit the time unit
          */
-        public CacheObject(Object object, long time, TimeUnit timeUnit){
+        public CacheObject(Object object, long time, TimeUnit timeUnit) {
             this.object = object;
             this.expireDate = handler(time, timeUnit);
         }
@@ -124,22 +176,22 @@ public class CacheUtil {
          * @param time     the time
          * @param timeUnit the time unit
          */
-        public void setTime(long time, TimeUnit timeUnit){
+        public void setTime(long time, TimeUnit timeUnit) {
             this.expireDate = handler(time, timeUnit);
         }
 
         private LocalTime handler(long time, TimeUnit timeUnit) {
             switch (timeUnit) {
-                case SECOND:{
+                case SECOND: {
                     return LocalTime.now().plusSeconds(time);
                 }
-                case MINUTE:{
+                case MINUTE: {
                     return LocalTime.now().plusMinutes(time);
                 }
-                case HOUR:{
+                case HOUR: {
                     return LocalTime.now().plusHours(time);
                 }
-                default:{
+                default: {
                     throw new ParamsException("com.gugu.upload.utils.CacheUtil.CacheObject.TimeUnit 参数异常");
                 }
             }
@@ -148,10 +200,11 @@ public class CacheUtil {
         /**
          * The enum Time unit.
          *
-         * @date 2021 /08/14
-         * @since 1.0
+         * @author minmin
+         * @version 1.0
+         * @since 1.8
          */
-        public enum TimeUnit{
+        public enum TimeUnit {
             /**
              * Second time unit.
              */

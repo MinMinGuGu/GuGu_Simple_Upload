@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Configuration;
  * The type Application config.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Setter
 @Getter

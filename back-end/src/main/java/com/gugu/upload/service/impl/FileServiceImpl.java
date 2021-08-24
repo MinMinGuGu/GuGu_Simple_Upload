@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
  * The type File service.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Service
 public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> implements IFileService {

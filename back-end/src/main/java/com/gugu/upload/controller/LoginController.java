@@ -5,12 +5,14 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.utils.CacheUtil;
+import com.gugu.upload.utils.LoginUtil;
 import com.gugu.upload.utils.MD5Util;
 import com.gugu.upload.utils.SessionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,8 @@ import javax.servlet.http.HttpServletRequest;
  * The type Login controller.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Api("登录相关")
 @Slf4j
@@ -36,13 +38,25 @@ public class LoginController {
     private IAccountService accountService;
 
     /**
-     * Login.
+     * Verify result.
+     *
+     * @param request the request
+     * @return the result
+     */
+    @ApiOperation("验证是否登录")
+    @GetMapping
+    public Result<String> verify(HttpServletRequest request){
+        return LoginUtil.isLogged(request) ? Result.fastSuccess() : Result.fastFail();
+    }
+
+    /**
+     * Login result.
      *
      * @param loginVo            the login vo
      * @param httpServletRequest the http servlet request
      * @return the result
      */
-    @ApiOperation("登录接口")
+    @ApiOperation("进行登录")
     @ApiImplicitParam(paramType = "body", name = "loginVo", value = "登录信息", required = true, dataType = "LoginVo")
     @PostMapping
     public Result<String> login(@RequestBody LoginVo loginVo, HttpServletRequest httpServletRequest) {
@@ -84,10 +98,10 @@ public class LoginController {
     }
 
     /**
-     * Find account account entity.
+     * Find account account.
      *
      * @param loginVo the login vo
-     * @return the account entity
+     * @return the account
      */
     public Account findAccount(LoginVo loginVo){
         return accountService
@@ -98,9 +112,9 @@ public class LoginController {
     }
 
     /**
-     * Check entity boolean.
+     * Check dto boolean.
      *
-     * @param account the account entity
+     * @param account the account
      * @return the boolean
      */
     public boolean checkDto(Account account){

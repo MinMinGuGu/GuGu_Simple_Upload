@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 /**
- * The type Upload file vo.
+ * The type File info vo.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Data
 @Accessors(chain = true)

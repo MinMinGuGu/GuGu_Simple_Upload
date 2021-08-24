@@ -20,8 +20,8 @@ import java.sql.Statement;
  * The type Data source config.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @Setter
 @Configuration

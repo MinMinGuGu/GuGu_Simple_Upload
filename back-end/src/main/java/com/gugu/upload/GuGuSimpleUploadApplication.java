@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * The type Gu gu simple upload application.
  *
  * @author minmin
- * @date 2021 /08/14
- * @since 1.0
+ * @version 1.0
+ * @since 1.8
  */
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class GuGuSimpleUploadApplication {
