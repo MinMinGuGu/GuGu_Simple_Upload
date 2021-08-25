@@ -1,6 +1,7 @@
 package com.gugu.upload.utils;
 
 import com.gugu.upload.exception.ParamsException;
+import com.gugu.upload.task.CacheTask;
 import lombok.Data;
 
 import java.lang.ref.SoftReference;
@@ -12,7 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type Cache util.
- * <p>If a large amount of data is written and read only once, there will be a risk of overflow</p>
+ * <p>If there is a large amount of data that is no longer read in the cache and {@link CacheUtil#clearUp()} is not called, it may cause memory overflow.</p>
+ * <p>In order to deal with the possibility of memory overflow, in the application and used timing tasks to periodically clean up the cache.see {@link CacheTask#cleanCache()}</p>
  *
  * @author minmin
  * @version 1.0
@@ -33,6 +35,13 @@ public class CacheUtil {
      */
     public static boolean isThere(String key) {
         return get(key) != null;
+    }
+
+    /**
+     * Clear up.
+     */
+    public static void clearUp(){
+        CACHE_OBJECT_MAP.forEach((key, soft) -> isThere(key));
     }
 
     /**
