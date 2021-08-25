@@ -79,7 +79,7 @@ public class LoginController {
     }
 
     private boolean checkCache(HttpServletRequest httpServletRequest) {
-        return CacheUtil.isThere(httpServletRequest.getSession().getId());
+        return CacheUtil.isThere(SessionUtil.getKeyBySessionId(httpServletRequest));
     }
 
     /**
@@ -90,8 +90,7 @@ public class LoginController {
      */
     public void saveBySession(LoginVo loginVo, HttpServletRequest httpServletRequest){
         CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(loginVo);
-        // FIXME: minmin 需要验证是否为checked
-        if ("checked".equalsIgnoreCase(loginVo.getRememberMe())){
+        if (Boolean.TRUE.toString().equalsIgnoreCase(loginVo.getRememberMe())){
             cacheObject.setTime(24, CacheUtil.CacheObject.TimeUnit.HOUR);
         }
         CacheUtil.pull(SessionUtil.getKeyBySessionId(httpServletRequest), cacheObject);

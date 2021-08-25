@@ -5,7 +5,7 @@ import com.gugu.upload.task.CacheTask;
 import lombok.Data;
 
 import java.lang.ref.SoftReference;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -134,7 +134,7 @@ public class CacheUtil {
 
 
     private static boolean checkTime(CacheObject cacheObject) {
-        return LocalTime.now().isAfter(cacheObject.getExpireDate());
+        return LocalDateTime.now().isAfter(cacheObject.getExpireDate());
     }
 
     /**
@@ -156,7 +156,7 @@ public class CacheUtil {
      */
     @Data
     public static class CacheObject {
-        private LocalTime expireDate;
+        private LocalDateTime expireDate;
         private Object object;
 
         /**
@@ -190,16 +190,16 @@ public class CacheUtil {
             this.expireDate = handler(time, timeUnit);
         }
 
-        private LocalTime handler(long time, TimeUnit timeUnit) {
+        private LocalDateTime handler(long time, TimeUnit timeUnit) {
             switch (timeUnit) {
                 case SECOND: {
-                    return LocalTime.now().plusSeconds(time);
+                    return LocalDateTime.now().plusSeconds(time);
                 }
                 case MINUTE: {
-                    return LocalTime.now().plusMinutes(time);
+                    return LocalDateTime.now().plusMinutes(time);
                 }
                 case HOUR: {
-                    return LocalTime.now().plusHours(time);
+                    return LocalDateTime.now().plusHours(time);
                 }
                 default: {
                     throw new ParamsException("com.gugu.upload.utils.CacheUtil.CacheObject.TimeUnit 参数异常");
