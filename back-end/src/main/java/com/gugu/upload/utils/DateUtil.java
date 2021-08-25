@@ -1,5 +1,7 @@
 package com.gugu.upload.utils;
 
+import com.gugu.upload.common.Constant;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,7 +13,6 @@ import java.util.Date;
  * @since 1.8
  */
 public class DateUtil {
-    private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private DateUtil(){}
 
@@ -20,7 +21,7 @@ public class DateUtil {
      *
      * @return the string
      */
-    public static synchronized String getStrByDateNow(){
-        return SIMPLE_DATE_FORMAT.format(new Date());
+    public static String getStrByDateNow(){
+        return new SimpleDateFormat(Constant.FORMAT_DATE_STR).format(new Date());
     }
 }

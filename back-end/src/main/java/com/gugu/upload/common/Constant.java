@@ -26,4 +26,9 @@ public class Constant {
      * The constant IO_INTENSIVE.
      */
     public static final int IO_INTENSIVE = Runtime.getRuntime().availableProcessors() * 2;
+
+    /**
+     * The constant FORMAT_DATE_STR.
+     */
+    public static final String FORMAT_DATE_STR = "yyyy-MM-dd HH:mm:ss";
 }
