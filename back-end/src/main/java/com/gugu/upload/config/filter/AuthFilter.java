@@ -27,7 +27,7 @@ import java.io.IOException;
 public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("Request path : {}", ((HttpServletRequest)servletRequest).getRequestURI());
+        log.info("Request path : {}, method : {}", ((HttpServletRequest)servletRequest).getRequestURI(), ((HttpServletRequest) servletRequest).getMethod());
         if (isSecurity(servletRequest)){
             log.info("pass requests...");
             pass(servletRequest, servletResponse, filterChain);
