@@ -1,11 +1,10 @@
 package com.gugu.upload.common;
 
+import com.gugu.upload.utils.DateUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 /**
  * The type Result.
@@ -32,7 +31,7 @@ public class Result<T> {
     private Integer code;
     private String message;
     private T data;
-    private Date dateTime = new Date();
+    private String dateTime = DateUtil.getStrByDateNow();
 
     /**
      * Fast success result.
@@ -171,7 +170,7 @@ public class Result<T> {
          * @return the result
          */
         public Result<B> build() {
-            return new Result<>(code, message, data, new Date());
+            return new Result<>(code, message, data, DateUtil.getStrByDateNow());
         }
     }
 }
