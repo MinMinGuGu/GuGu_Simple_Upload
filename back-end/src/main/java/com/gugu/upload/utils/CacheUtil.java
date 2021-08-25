@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The type Cache util.
+ * <p>If a large amount of data is written and read only once, there will be a risk of overflow</p>
  *
  * @author minmin
  * @version 1.0

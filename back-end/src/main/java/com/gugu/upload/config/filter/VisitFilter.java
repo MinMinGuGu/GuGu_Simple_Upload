@@ -31,6 +31,7 @@ public class VisitFilter implements Filter {
         log.info("visit : {}", visit);
         CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(visit, 10, CacheUtil.CacheObject.TimeUnit.MINUTE);
         CacheUtil.pull(generateCacheName(), cacheObject);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     private Visit getVisit(ServletRequest servletRequest) {
