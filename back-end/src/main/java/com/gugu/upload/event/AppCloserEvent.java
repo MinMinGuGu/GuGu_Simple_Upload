@@ -28,7 +28,7 @@ public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
     public void onApplicationEvent(@NotNull ContextClosedEvent event) {
         saveVisit();
     }
-    
+
     private void saveVisit(){
         log.info("Write Visit to the database before the application is closed...");
         visitTask.saveVisit();
