@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 /**
  * The type File info.
+ * todo 需要对status进行优化成boolean
  *
  * @author minmin
  * @version 1.0

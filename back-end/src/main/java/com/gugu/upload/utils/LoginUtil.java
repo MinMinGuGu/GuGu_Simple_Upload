@@ -1,5 +1,7 @@
 package com.gugu.upload.utils;
 
+import com.gugu.upload.common.entity.Account;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -20,5 +22,15 @@ public class LoginUtil {
      */
     public static boolean isLogged(HttpServletRequest request){
         return CacheUtil.isThere(SessionUtil.getKeyBySessionId(request));
+    }
+
+    /**
+     * Get current account account.
+     *
+     * @param request the request
+     * @return the account
+     */
+    public static Account getCurrentAccount(HttpServletRequest request){
+        return CacheUtil.get(SessionUtil.getKeyBySessionId(request), Account.class);
     }
 }

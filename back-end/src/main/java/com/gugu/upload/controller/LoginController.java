@@ -73,7 +73,7 @@ public class LoginController {
             return Result.fastFail("username or password is error");
         }
         log.info("query result : {}", account);
-        saveBySession(loginVo, httpServletRequest);
+        saveBySession(loginVo, account, httpServletRequest);
         log.info("User logged in successfully...");
         return Result.fastSuccess();
     }
@@ -88,8 +88,8 @@ public class LoginController {
      * @param loginVo            the login vo
      * @param httpServletRequest the http servlet request
      */
-    public void saveBySession(LoginVo loginVo, HttpServletRequest httpServletRequest){
-        CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(loginVo);
+    public void saveBySession(LoginVo loginVo, Account account, HttpServletRequest httpServletRequest){
+        CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(account);
         if (Boolean.TRUE.toString().equalsIgnoreCase(loginVo.getRememberMe())){
             cacheObject.setTime(24, CacheUtil.CacheObject.TimeUnit.HOUR);
         }

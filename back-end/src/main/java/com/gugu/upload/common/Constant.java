@@ -31,4 +31,14 @@ public class Constant {
      * The constant FORMAT_DATE_STR.
      */
     public static final String FORMAT_DATE_STR = "yyyy-MM-dd HH:mm:ss";
+
+    /**
+     * The constant ALL_PERMISSION.
+     */
+    public static final String ALL_PERMISSION = "all";
+
+    /**
+     * The constant NON_PERMISSION.
+     */
+    public static final String NON_PERMISSION = "null";
 }

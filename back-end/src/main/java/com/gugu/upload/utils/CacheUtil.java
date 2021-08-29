@@ -121,7 +121,8 @@ public class CacheUtil {
      * @return the t
      */
     public static <T> T get(String key, Class<T> tClass) {
-        return tClass.cast(get(key));
+        CacheObject cacheObject = get(key);
+        return cacheObject == null ? null : tClass.cast(cacheObject.getObject());
     }
 
     private static boolean checkCacheObject(SoftReference<CacheObject> softReference) {
