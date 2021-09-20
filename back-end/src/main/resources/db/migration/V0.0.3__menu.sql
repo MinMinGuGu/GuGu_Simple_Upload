@@ -1,4 +1,4 @@
-# TODO: 2021/9/4 22:20 minmin 可以考虑如何再数据库中定义菜单栏样式
+-- TODO: 2021/9/4 22:20 minmin 可以考虑如何再数据库中定义菜单栏样式
 create table if not exists `menu`
 (
     `id`             int          not null auto_increment,
