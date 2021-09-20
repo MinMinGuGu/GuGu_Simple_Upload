@@ -20,4 +20,5 @@ public class ApplicationConfig {
     private String dir;
     private String tmpDir;
     private String logDir;
+    private String dbServer;
 }
