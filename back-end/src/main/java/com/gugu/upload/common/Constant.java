@@ -41,4 +41,9 @@ public class Constant {
      * The constant NON_PERMISSION.
      */
     public static final String NON_PERMISSION = "null";
+
+    /**
+     * The constant NOT_LOGIN_HTTP_STATUS.
+     */
+    public static final int NOT_LOGIN_HTTP_STATUS = 409;
 }

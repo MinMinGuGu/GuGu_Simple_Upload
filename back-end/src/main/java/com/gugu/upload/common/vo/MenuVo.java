@@ -19,6 +19,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class MenuVo {
+    @JsonProperty("id")
+    private Integer id;
     @JsonProperty("path")
     private String path;
     @JsonProperty("name")

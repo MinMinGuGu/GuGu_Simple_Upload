@@ -1,5 +1,6 @@
 package com.gugu.upload.config.filter;
 
+import com.gugu.upload.common.Constant;
 import com.gugu.upload.common.Result;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.JsonUtil;
@@ -46,8 +47,14 @@ public class AuthFilter implements Filter {
 
     private void refuse(ServletResponse servletResponse) throws IOException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        response.setStatus(Constant.NOT_LOGIN_HTTP_STATUS);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().print(JsonUtil.obj2JsonStr(Result.fastFail("Please login before operation")));
+        response.getWriter().print(JsonUtil.obj2JsonStr(
+                new Result.Builder<String>()
+                        .code(Constant.NOT_LOGIN_HTTP_STATUS)
+                        .message("Please login before operation")
+                        .build()
+        ));
     }
 
     private boolean isSecurity(ServletRequest servletRequest) {
