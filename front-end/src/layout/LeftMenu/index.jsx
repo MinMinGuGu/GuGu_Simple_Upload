@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Menu } from 'antd'
 import { doGet } from '../../utils/requestUtil'
 import { notLogin, requestError } from '../../utils/constant'
-import Link from '../../components/Link'
 
 const { SubMenu } = Menu
 
@@ -12,7 +11,7 @@ export default class LeftMenu extends Component {
         menuData: []
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.loadMenu()
     }
 
@@ -32,12 +31,14 @@ export default class LeftMenu extends Component {
     genreateMenu = (menuData) => {
         let count = 1
         const outMenu = menuData.map(item => {
-            const { id, path, name, children } = item
+            const { path, name, children } = item
             if (children.length > 1) {
                 return (
                     <SubMenu key={'sub' + (count++)} title={name}>
                         {
-                            children.map(child => <Menu.Item key={(count++)} path={path}>{child.name}</Menu.Item>)
+                            children.map(child => <Menu.Item key={(count++)} path={child.path}>
+                                {child.name}
+                            </Menu.Item>)
                         }
                     </SubMenu>
                 )
@@ -53,7 +54,9 @@ export default class LeftMenu extends Component {
     }
 
     menuItemClick = (object) => {
-        console.log('click', object.item.props)
+        const newLocal = object.item.props
+        // 手动路由跳转
+        this.props.history.push(newLocal.path)
     }
 
     render() {

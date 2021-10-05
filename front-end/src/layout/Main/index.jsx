@@ -23,7 +23,7 @@ export default class Main extends Component {
             <Layout style={{ minHeight: '100vh' }}>
                 <Layout.Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
                     <div className="logo" />
-                    <LeftMenu />
+                    <LeftMenu history={this.props.history} />
                 </Layout.Sider>
                 <Layout className="site-layout">
                     <Header />
