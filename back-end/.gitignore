@@ -31,7 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### project ###
-src/test/java/com/gugu/upload/utils/JasyptUtilTest.java
-src/test/java/com/gugu/upload/utils/MD5UtilTest.java
