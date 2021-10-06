@@ -27,7 +27,7 @@ export default class Main extends Component {
                 </Layout.Sider>
                 <Layout className="site-layout">
                     <Header />
-                    <Content content={this.props.content} />
+                    <Content view={this.props.view} />
                     <Footer />
                 </Layout>
             </Layout>
