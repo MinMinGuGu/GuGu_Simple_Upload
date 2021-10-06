@@ -54,9 +54,9 @@ export default class LeftMenu extends Component {
     }
 
     menuItemClick = (object) => {
-        const newLocal = object.item.props
+        const menuItem = object.item.props
         // 手动路由跳转
-        this.props.history.push(newLocal.path)
+        this.props.history.push(menuItem.path)
     }
 
     render() {
