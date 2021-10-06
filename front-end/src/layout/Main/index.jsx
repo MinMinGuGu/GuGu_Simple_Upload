@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Breadcrumb } from 'antd'
+import { Layout } from 'antd'
 import "antd/dist/antd.css"
 import Header from '../Header'
 import LeftMenu from '../LeftMenu'
@@ -10,25 +10,11 @@ export default class Main extends Component {
 
     state = {
         collapsed: false,
-        test: 'start'
     }
 
     onCollapse = collapsed => {
         console.log(collapsed)
         this.setState({ collapsed })
-    }
-
-    content = () => {
-        return (
-            <Layout.Content style={{ margin: '0 16px' }}>
-                <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                </Breadcrumb>
-                <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                    概览待施工...
-                </div>
-            </Layout.Content>
-        )
     }
 
     render() {
@@ -41,7 +27,7 @@ export default class Main extends Component {
                 </Layout.Sider>
                 <Layout className="site-layout">
                     <Header />
-                    <Content content={this.content()} />
+                    <Content content={this.props.content} />
                     <Footer />
                 </Layout>
             </Layout>
