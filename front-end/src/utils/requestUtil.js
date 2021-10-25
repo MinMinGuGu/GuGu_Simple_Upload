@@ -1,4 +1,3 @@
-const apiPrefix = "/api"
 export const requestErrorCode = 499
 
 function cleanArray(actual) {
@@ -22,7 +21,7 @@ function handlerParams(json) {
 
 function generateUrl(uri, params) {
     const paramsQueryStr = handlerParams(params)
-    return apiPrefix + uri + paramsQueryStr
+    return uri + paramsQueryStr
 }
 
 function generateError(msg) {
