@@ -27,7 +27,9 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2021 /08/28
  * @since 1.8
+ * @deprecated 菜单在前端写死
  */
+@Deprecated
 @Slf4j
 @RestController
 @RequestMapping("/menu")
