@@ -3,6 +3,7 @@ package com.gugu.upload.task;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.service.IFileService;
+import com.gugu.upload.utils.SpringContextUtil;
 import com.gugu.upload.utils.StatusUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -97,7 +98,7 @@ public class FileTask {
         @Override
         public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
             String path = dataMap.get(dir.toString());
-            if (StringUtils.isEmpty(path)){
+            if (checkPath(path)){
                 log.info("Irrelevant files will be deleted : {}", dir);
                 try {
                     Files.delete(dir);
@@ -107,6 +108,23 @@ public class FileTask {
                 }
             }
             return FileVisitResult.CONTINUE;
+        }
+
+        private boolean checkPath(String path) {
+            if (StringUtils.isEmpty(path)){
+                return false;
+            }
+            ApplicationConfig config = SpringContextUtil.getApplicationContext().getBean(ApplicationConfig.class);
+            if (config.getTmpDir().equals(path)){
+                return false;
+            }
+            if (config.getDir().equals(path)){
+                return false;
+            }
+            if (config.getLogDir().equals(path)){
+                return false;
+            }
+            return true;
         }
     }
 }

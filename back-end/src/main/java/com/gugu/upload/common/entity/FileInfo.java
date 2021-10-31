@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gugu.upload.utils.StatusUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 
 /**
  * The type File info.
- * todo 需要对status进行优化成boolean
  *
  * @author minmin
  * @version 1.0
@@ -35,8 +35,10 @@ public class FileInfo {
     @TableLogic
     private Integer deleted;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
 
     /**
