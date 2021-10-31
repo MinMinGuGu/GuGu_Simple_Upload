@@ -8,7 +8,7 @@ import { InboxOutlined } from '@ant-design/icons'
 const uploadProps = {
     name: 'file',
     multiple: true,
-    action: apis.uploadApi,
+    action: apis.fileApi,
     onChange(info) {
         const { status } = info.file;
         if (status !== 'uploading') {
