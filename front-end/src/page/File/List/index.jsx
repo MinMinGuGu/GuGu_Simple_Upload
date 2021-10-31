@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Main from '../../../layout/Main'
 import { Table, Button } from 'antd'
 import apis from '../../../config/setting'
 import { doGet } from '../../../utils/requestUtil'
+import CheckComponent from '../../../components/CheckLogin'
 
-export default class FileList extends Component {
+export default class FileList extends CheckComponent {
 
     state = {
         selectedRowKeys: [],
@@ -28,6 +29,7 @@ export default class FileList extends Component {
     }
 
     UNSAFE_componentWillMount = () => {
+        this.checkLogin()
         const response = doGet(apis.fileApi)
         response.then(result => {
             this.setState({ tableData: result.data })
