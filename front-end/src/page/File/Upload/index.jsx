@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Main from '../../../layout/Main'
 import apis from '../../../config/setting'
+import CheckComponent from '../../../components/CheckLogin'
 
 import { Upload, message } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
@@ -25,7 +26,7 @@ const uploadProps = {
     },
 }
 
-export default class FileUpload extends Component {
+export default class FileUpload extends CheckComponent {
 
     generateComponent = () => {
         return (
