@@ -2,7 +2,7 @@ import React from 'react'
 import Main from '../../../layout/Main'
 import { Table, Button } from 'antd'
 import apis from '../../../config/setting'
-import { doGet } from '../../../utils/requestUtil'
+import { doGet, doPost, doMethod } from '../../../utils/requestUtil'
 import CheckComponent from '../../../components/CheckLogin'
 
 export default class FileList extends CheckComponent {
@@ -13,53 +13,85 @@ export default class FileList extends CheckComponent {
         tableData: [],
     }
 
-    start = () => {
+    downloadFile = () => {
         this.setState({ loading: true });
         setTimeout(() => {
             this.setState({
                 selectedRowKeys: [],
                 loading: false,
             });
+            this.loadFileListData()
         }, 1000);
+        const { selectedRowKeys } = this.state
+        for (const index in selectedRowKeys) {
+            const fileId = selectedRowKeys[index]
+            doPost(apis.fileApi + '/' + fileId)
+        }
+    }
+
+    deleteFile = () => {
+        this.setState({ loading: true });
+        setTimeout(() => {
+            this.setState({
+                selectedRowKeys: [],
+                loading: false,
+            });
+            this.loadFileListData()
+        }, 1000);
+        const { selectedRowKeys } = this.state
+        for (const index in selectedRowKeys) {
+            const fileId = selectedRowKeys[index]
+            doMethod(apis.fileApi + '/' + fileId, 'delete')
+        }
     }
 
     onSelectChange = selectedRowKeys => {
-        console.log('selectedRowKeys changed: ', selectedRowKeys);
         this.setState({ selectedRowKeys });
     }
 
     UNSAFE_componentWillMount = () => {
         this.checkLogin()
+        this.loadFileListData()
+    }
+
+    loadFileListData = () => {
         const response = doGet(apis.fileApi)
         response.then(result => {
-            this.setState({ tableData: result.data })
+            const data = result.data
+            const resultData = []
+            for (const index in data) {
+                const item = data[index]
+                resultData.push({ ...item, key: item.id })
+            }
+            this.setState({ tableData: resultData })
         })
     }
 
     columns = [
         {
-            title: 'id',
+            title: '编号',
             dataIndex: 'id',
+            key: 'id'
         },
         {
             title: '文件名',
             dataIndex: 'fileOriginal',
+            key: 'fileOriginal'
         },
         {
             title: '文件大小',
             dataIndex: 'fileSize',
+            key: 'fileSize',
         },
         {
             title: '上传者',
             dataIndex: 'uploader',
+            key: 'uploader',
         },
         {
             title: '上传日期',
             dataIndex: 'createTime',
-        },
-        {
-            title: '操作',
-            dataIndex: 'id',
+            key: 'createTime',
         },
     ]
 
@@ -73,8 +105,11 @@ export default class FileList extends CheckComponent {
         return (
             <div>
                 <div style={{ marginBottom: 16 }}>
-                    <Button type="primary" onClick={this.start} disabled={!hasSelected} loading={loading}>
+                    <Button type="primary" onClick={this.downloadFile} disabled={!hasSelected} loading={loading}>
                         下载
+                    </Button>
+                    <Button style={{ marginLeft: 8 }} type="primary" onClick={this.deleteFile} disabled={!hasSelected} loading={loading}>
+                        删除
                     </Button>
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected ? `已选择 ${selectedRowKeys.length} 个文件` : ''}

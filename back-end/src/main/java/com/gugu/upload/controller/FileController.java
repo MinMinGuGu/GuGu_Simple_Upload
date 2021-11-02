@@ -44,7 +44,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/file")
-public class UploadController {
+public class FileController {
 
     @Resource
     private IFileService fileService;
