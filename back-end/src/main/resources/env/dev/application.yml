@@ -1,6 +1,6 @@
 spring:
   application:
-    name: GuGu_Simple_Upload
+    name: GuGu_Simple_Upload_Dev
   profiles:
     active: dev
   servlet:

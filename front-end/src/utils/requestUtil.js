@@ -74,3 +74,20 @@ export async function doMethod(uri, method, params, header) {
         return generateError('发起请求失败')
     }
 }
+
+export async function doMethodByDownload(uri, method, params, header) {
+    const requestUrl = generateUrl(uri)
+    try {
+        const response = await fetch(requestUrl, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                headers: JSON.stringify(header)
+            },
+            body: JSON.stringify(params)
+        })
+        return response
+    } catch (error) {
+        return generateError('发起请求失败')
+    }
+}

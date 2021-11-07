@@ -30,8 +30,10 @@ export default class LeftMenu extends Component {
                 return ['7']
             case '/system/appKey':
                 return ['8']
-            case '/about':
+            case '/system/log':
                 return ['9']
+            case '/about':
+                return ['10']
             default:
                 return ['1']
         }
@@ -63,8 +65,9 @@ export default class LeftMenu extends Component {
                     <Menu.Item key="6" path='/system/permission'>权限管理</Menu.Item>
                     <Menu.Item key="7" path='/system/manage'>系统设置</Menu.Item>
                     <Menu.Item key="8" path='/system/appKey'>AppKey设置</Menu.Item>
+                    <Menu.Item key="9" path='/system/log'>系统日志</Menu.Item>
                 </SubMenu>
-                <Menu.Item key="9" icon={<AppstoreAddOutlined />} path='/about'>
+                <Menu.Item key="10" icon={<AppstoreAddOutlined />} path='/about'>
                     关于
                 </Menu.Item>
             </Menu>

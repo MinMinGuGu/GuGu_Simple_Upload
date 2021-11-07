@@ -1,8 +1,8 @@
 import React from 'react'
 import Main from '../../../layout/Main'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import apis from '../../../config/setting'
-import { doGet, doPost, doMethod } from '../../../utils/requestUtil'
+import { doGet, doMethod, doMethodByDownload } from '../../../utils/requestUtil'
 import CheckComponent from '../../../components/CheckLogin'
 
 export default class FileList extends CheckComponent {
@@ -14,19 +14,36 @@ export default class FileList extends CheckComponent {
     }
 
     downloadFile = () => {
-        this.setState({ loading: true });
-        setTimeout(() => {
-            this.setState({
-                selectedRowKeys: [],
-                loading: false,
-            });
-            this.loadFileListData()
-        }, 1000);
         const { selectedRowKeys } = this.state
         for (const index in selectedRowKeys) {
             const fileId = selectedRowKeys[index]
-            doPost(apis.fileApi + '/' + fileId)
+            this.setState({ loading: true });
+            const response = doMethodByDownload(apis.fileApi + '/' + fileId, 'GET')
+            this.processDownloadResponse(response, index)
         }
+    }
+
+    processDownloadResponse = (response, index) => {
+        response.then(
+            res => res.blob().then(blob => {
+                const alink = document.createElement('a')
+                alink.style.display = 'none'
+                alink.href = window.URL.createObjectURL(blob)
+                // 后端因为SpringBoot的Filter的处理 导致无法将文件信息通过响应头返回 交给前端处理
+                alink.download = this.generateDisposition(index)
+                document.body.appendChild(alink)
+                alink.click()
+                URL.revokeObjectURL(alink.href)
+                document.body.removeChild(alink)
+                this.setState({ loading: false })
+            })
+        )
+    }
+
+    generateDisposition = (index) => {
+        const { tableData } = this.state
+        const fileInfo = tableData[index]
+        return encodeURI(fileInfo.fileOriginal)
     }
 
     deleteFile = () => {
@@ -36,6 +53,7 @@ export default class FileList extends CheckComponent {
                 selectedRowKeys: [],
                 loading: false,
             });
+            message.success("删除成功")
             this.loadFileListData()
         }, 1000);
         const { selectedRowKeys } = this.state

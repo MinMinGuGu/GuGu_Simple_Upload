@@ -16,9 +16,9 @@ const uploadProps = {
             console.log(info.file, info.fileList);
         }
         if (status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully.`);
+            message.success(`${info.file.name} 文件上传成功`);
         } else if (status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
+            message.error(`${info.file.name} 文件上传失败`);
         }
     },
     onDrop(e) {
