@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Main from '../../layout/Main'
+import CheckLogin from '../../components/CheckLogin'
 
-export default class Home extends Component {
+export default class Home extends CheckLogin {
 
-    componentWillMount() {
-        console.log('Home componentWillMount...')
+    content = () => {
+        return { navPath: '概览', content: '概览待施工...' }
     }
 
     render() {
-        // todo 验证是否以及登录
         return (
             <div>
-                <Main />
+                <Main history={this.props.history} view={this.content()} />
             </div>
         )
     }

@@ -3,6 +3,7 @@ import { Alert } from 'antd'
 import './index.css'
 import './bootstrap.min.css'
 import { doPost } from '../../utils/requestUtil'
+import apis from "../../config/setting"
 
 export default class Login extends Component {
 
@@ -13,7 +14,8 @@ export default class Login extends Component {
     postHandler = (event) => {
         event.preventDefault()
         const { username: { value: username }, passwrod: { value: password }, rememberMe: { checked: rememberMe } } = this
-        const result = doPost('/login', { username, password, rememberMe })
+        console.log(apis.loginApi)
+        const result = doPost(apis.loginApi, { username, password, rememberMe })
         result.then(data => {
             if (data.code === 200) {
                 this.props.history.push('/')

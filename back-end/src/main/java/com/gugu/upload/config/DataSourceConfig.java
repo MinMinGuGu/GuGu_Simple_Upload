@@ -50,7 +50,7 @@ public class DataSourceConfig {
     @Bean
     @Primary
     public DataSource hikariDataSource(){
-        String envDataBase = "pro".equals(proFile) ? applicationName : applicationName + "_dev";
+        String envDataBase = applicationName;
         url = url.replace(applicationName, envDataBase);
         String jdbcUrl = url;
         String jdbcDataBaseUrl = jdbcUrl.substring(0, jdbcUrl.lastIndexOf("?"));

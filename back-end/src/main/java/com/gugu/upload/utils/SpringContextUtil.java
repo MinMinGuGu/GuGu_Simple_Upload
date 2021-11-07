@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * The type Spring context util.
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContextAware;
  * @version 1.0
  * @since 1.8
  */
+@Component
 public class SpringContextUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 

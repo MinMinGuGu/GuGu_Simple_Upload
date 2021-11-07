@@ -15,7 +15,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,11 +41,11 @@ import java.util.List;
  * @version 1.0
  * @since 1.8
  */
-@Api("文件相关")
+@Api("文件API")
 @Slf4j
 @RestController
 @RequestMapping("/file")
-public class UploadController {
+public class FileController {
 
     @Resource
     private IFileService fileService;
@@ -51,13 +54,42 @@ public class UploadController {
     private ApplicationConfig applicationConfig;
 
     /**
+     * File download.
+     *
+     * @param id       the id
+     * @param response the response
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("文件下载")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文件id", required = true)
+    public void fileDownLoad(@PathVariable Integer id, HttpServletResponse response) {
+        log.info("ID of the file requested to download : {}", id);
+        fileService.downloadFileById(id, response);
+    }
+
+    /**
+     * File delete result.
+     *
+     * @param id the id
+     * @return the result
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("文件删除")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "文件id", required = true)
+    public Result<?> fileDelete(@PathVariable Integer id) {
+        log.info("The ID of the file requested to be deleted : {}", id);
+        fileService.removeById(id);
+        return Result.fastSuccess();
+    }
+
+    /**
      * Find list result.
      *
      * @return the result
      */
-    @ApiOperation("获取管理中的文件列表")
     @GetMapping
-    public Result<List<FileInfo>> findList(){
+    @ApiOperation("获取管理中的文件列表")
+    public Result<List<FileInfo>> findList() {
         List<FileInfo> fileInfos = fileService.list();
         return new Result.Builder<List<FileInfo>>().success(fileInfos).build();
     }
@@ -72,7 +104,7 @@ public class UploadController {
     @ApiOperation("上传文件")
     @ApiImplicitParam(paramType = "body", name = "multipartFiles", value = "文件", required = true)
     @PostMapping
-    public Result<List<FileInfoVo>> upload(@RequestParam("file") MultipartFile[] multipartFiles, HttpServletRequest request){
+    public Result<List<FileInfoVo>> upload(@RequestParam("file") MultipartFile[] multipartFiles, HttpServletRequest request) {
         List<FileInfoVo> fileInfoVos = new LinkedList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             FileInfoBo fileInfoBo = initBo(multipartFile, request);
@@ -95,11 +127,11 @@ public class UploadController {
         return new Result.Builder<List<FileInfoVo>>().success(fileInfoVos).build();
     }
 
-    private FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request){
+    private FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request) {
         FileInfoBo fileInfoBo = new FileInfoBo();
         try {
             String originalFilename = multipartFile.getOriginalFilename();
-            if (originalFilename == null){
+            if (originalFilename == null) {
                 throw new UnknownException("接收过来的文件名异常");
             }
             String fileSuffix = FileUtil.getFileSuffix(originalFilename);
@@ -116,17 +148,17 @@ public class UploadController {
         return fileInfoBo;
     }
 
-    private String getUploader(HttpServletRequest request){
+    private String getUploader(HttpServletRequest request) {
         return IpUtil.getIpAddress(request);
     }
 
-    private Path getSavePath(String filePath){
+    private Path getSavePath(String filePath) {
         return getTmpDir().resolve(filePath);
     }
 
-    private Path getTmpDir(){
+    private Path getTmpDir() {
         Path path = Paths.get(applicationConfig.getTmpDir());
-        if (Files.notExists(path)){
+        if (Files.notExists(path)) {
             try {
                 Files.createDirectories(path);
             } catch (IOException e) {
@@ -137,7 +169,7 @@ public class UploadController {
         return path;
     }
 
-    private String conversionMb(long size){
-        return String.format("%sMB", (float)size / 1024 / 1024);
+    private String conversionMb(long size) {
+        return String.format("%sMB", (float) size / 1024 / 1024);
     }
 }

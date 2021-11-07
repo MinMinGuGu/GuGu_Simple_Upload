@@ -1,5 +1,6 @@
 package com.gugu.upload.event;
 
+import com.gugu.upload.task.FileTask;
 import com.gugu.upload.task.VisitTask;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * The type App closer event.
@@ -24,9 +26,22 @@ public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
     @Resource
     private VisitTask visitTask;
 
+    @Resource
+    private FileTask fileTask;
+
     @Override
     public void onApplicationEvent(@NotNull ContextClosedEvent event) {
         saveVisit();
+        clearFile();
+    }
+
+    private void clearFile() {
+        log.info("Files will be cleaned up before exiting the program...");
+        try {
+            fileTask.cleanFile();
+        } catch (IOException e) {
+            log.error("An exception occurred while cleaning up the file", e);
+        }
     }
 
     private void saveVisit(){

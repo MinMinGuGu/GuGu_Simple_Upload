@@ -28,6 +28,11 @@ public class MenuVo {
     @JsonProperty("children")
     private List<MenuVo> children;
 
+    /**
+     * Instantiates a new Menu vo.
+     *
+     * @param menu the menu
+     */
     public MenuVo(Menu menu){
         BeanUtils.copyProperties(menu, this);
     }

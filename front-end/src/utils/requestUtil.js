@@ -1,4 +1,3 @@
-const apiPrefix = "/api"
 export const requestErrorCode = 499
 
 function cleanArray(actual) {
@@ -22,7 +21,7 @@ function handlerParams(json) {
 
 function generateUrl(uri, params) {
     const paramsQueryStr = handlerParams(params)
-    return apiPrefix + uri + paramsQueryStr
+    return uri + paramsQueryStr
 }
 
 function generateError(msg) {
@@ -54,6 +53,40 @@ export async function doPost(uri, params, header) {
             body: JSON.stringify(params)
         })
         return await response.json()
+    } catch (error) {
+        return generateError('发起请求失败')
+    }
+}
+
+export async function doMethod(uri, method, params, header) {
+    const requestUrl = generateUrl(uri)
+    try {
+        const response = await fetch(requestUrl, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                headers: JSON.stringify(header)
+            },
+            body: JSON.stringify(params)
+        })
+        return await response.json()
+    } catch (error) {
+        return generateError('发起请求失败')
+    }
+}
+
+export async function doMethodByDownload(uri, method, params, header) {
+    const requestUrl = generateUrl(uri)
+    try {
+        const response = await fetch(requestUrl, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                headers: JSON.stringify(header)
+            },
+            body: JSON.stringify(params)
+        })
+        return response
     } catch (error) {
         return generateError('发起请求失败')
     }

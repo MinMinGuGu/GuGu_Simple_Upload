@@ -86,6 +86,7 @@ public class LoginController {
      * Save by session.
      *
      * @param loginVo            the login vo
+     * @param account            the account
      * @param httpServletRequest the http servlet request
      */
     public void saveBySession(LoginVo loginVo, Account account, HttpServletRequest httpServletRequest){

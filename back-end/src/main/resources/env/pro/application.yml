@@ -9,12 +9,13 @@ spring:
       max-request-size: 100GB
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${config.db-server}/${spring.application.name}?serverTimezone=GMT&allowMultiQueries=true
+    url: jdbc:mysql://${config.db-server}/${spring.application.name}?serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: ENC(SOqQqtqr2hBoZOKjBfnyAw==)
     password: ENC(RI8ITLJTJ4ek56gQ7iFzhQ==)
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
 mybatis-plus:
   global-config:
     db-config:
