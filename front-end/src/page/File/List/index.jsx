@@ -73,7 +73,7 @@ export default class FileList extends CheckComponent {
     }
 
     loadFileListData = () => {
-        const response = doGet(apis.fileApi)
+        const response = doGet(apis.fileApi + '/query')
         response.then(result => {
             const data = result.data
             const resultData = []
