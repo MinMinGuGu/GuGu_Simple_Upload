@@ -1,6 +1,6 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.common.Constant;
+import com.gugu.upload.common.constant.Constant;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

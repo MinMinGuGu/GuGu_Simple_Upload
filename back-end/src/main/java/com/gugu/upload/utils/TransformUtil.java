@@ -1,7 +1,11 @@
 package com.gugu.upload.utils;
 
 import com.gugu.upload.exception.TransformException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * The type Transform util.
@@ -10,6 +14,7 @@ import org.springframework.beans.BeanUtils;
  * @version 1.0
  * @since 1.8
  */
+@Slf4j
 public class TransformUtil {
     private TransformUtil(){}
 
@@ -27,8 +32,24 @@ public class TransformUtil {
             BeanUtils.copyProperties(source, targetObj);
             return targetObj;
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            log.error("Error in class conversion", e);
             throw new TransformException(e.getMessage());
         }
+    }
+
+    /**
+     * Transform list list.
+     *
+     * @param <T>    the type parameter
+     * @param source the source
+     * @param target the target
+     * @return the list
+     */
+    public static <T> List<T> transformList(List<?> source, Class<T> target){
+        List<T> resultList = new LinkedList<>();
+        for (Object obj : source) {
+            resultList.add(transform(obj, target));
+        }
+        return resultList;
     }
 }

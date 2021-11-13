@@ -1,6 +1,6 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.common.Constant;
+import com.gugu.upload.common.constant.Constant;
 import com.gugu.upload.common.entity.Visit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

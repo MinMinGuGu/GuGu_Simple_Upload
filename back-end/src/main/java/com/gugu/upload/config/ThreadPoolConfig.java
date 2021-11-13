@@ -1,6 +1,6 @@
 package com.gugu.upload.config;
 
-import com.gugu.upload.common.Constant;
+import com.gugu.upload.common.constant.Constant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

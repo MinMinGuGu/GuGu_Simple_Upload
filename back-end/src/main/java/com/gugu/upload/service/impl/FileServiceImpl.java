@@ -1,11 +1,18 @@
 package com.gugu.upload.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
+import com.gugu.upload.common.query.ISupportQuery;
+import com.gugu.upload.common.vo.FileInfoVo;
+import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.HttpHelper;
 import com.gugu.upload.utils.StreamHelper;
+import com.gugu.upload.utils.TransformUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * The type File service.
@@ -24,6 +32,7 @@ import java.nio.file.Paths;
  * @version 1.0
  * @since 1.8
  */
+@Slf4j
 @Service
 public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> implements IFileService {
     @Override
@@ -55,9 +64,26 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
         }
     }
 
+    @Override
+    public List<FileInfoVo> getFileInfoList(ISupportQuery<FileInfo> iSupportQuery) {
+        QueryWrapper<FileInfo> queryParams = iSupportQuery.toQueryWrapper();
+        List<FileInfo> fileInfos = baseMapper.selectList(queryParams);
+        List<FileInfoVo> fileInfoVoList = TransformUtil.transformList(fileInfos, FileInfoVo.class);
+        fileInfoVoList.forEach(item -> item.setFileSize(FileHelper.convertFileSize(item.getFileSize())));
+        return fileInfoVoList;
+    }
+
+    @Override
+    public FileInfoVo uploadSave(FileInfoBo fileInfoBo) {
+        FileInfo fileInfo = TransformUtil.transform(fileInfoBo, FileInfo.class);
+        this.save(fileInfo);
+        log.info("Complete the database insert. file info : {}", fileInfo);
+        return TransformUtil.transform(fileInfoBo, FileInfoVo.class);
+    }
+
     private void processStream(BufferedInputStream bufferedInputStream, HttpServletResponse response) throws IOException {
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());
-        byte[] bytes = new byte[10240];
+        byte[] bytes = new byte[2048];
         while (bufferedInputStream.read(bytes) != -1) {
             bufferedOutputStream.write(bytes);
         }

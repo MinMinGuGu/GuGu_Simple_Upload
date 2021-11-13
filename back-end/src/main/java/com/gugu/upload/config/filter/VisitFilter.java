@@ -1,6 +1,6 @@
 package com.gugu.upload.config.filter;
 
-import com.gugu.upload.common.Constant;
+import com.gugu.upload.common.constant.Constant;
 import com.gugu.upload.common.entity.Visit;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.IpUtil;

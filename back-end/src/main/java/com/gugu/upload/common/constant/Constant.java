@@ -1,4 +1,4 @@
-package com.gugu.upload.common;
+package com.gugu.upload.common.constant;
 
 /**
  * The type Constant.
@@ -46,4 +46,9 @@ public class Constant {
      * The constant NOT_LOGIN_HTTP_STATUS.
      */
     public static final int NOT_LOGIN_HTTP_STATUS = 409;
+
+    /**
+     * The constant FILE_SIZE_BASIC_UNIT.
+     */
+    public static final int FILE_SIZE_BASIC_UNIT = 1024;
 }
