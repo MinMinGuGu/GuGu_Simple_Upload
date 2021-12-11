@@ -11,5 +11,6 @@ import com.gugu.upload.common.entity.Menu;
  * @date 2021 /08/29
  * @since 1.8
  */
+@Deprecated
 public interface IMenuMapper extends BaseMapper<Menu> {
 }

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @TableName("menu")
+@Deprecated
 public class Menu {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
