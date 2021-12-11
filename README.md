@@ -22,3 +22,5 @@
 
 React
 
+### 日志
+日志默认输出在`${user.home}/GuGu_Simple_Upload/log/`下，详细请查看`logback-spring.xml`文件
