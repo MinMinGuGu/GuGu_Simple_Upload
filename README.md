@@ -24,3 +24,6 @@ React
 
 ### 日志
 日志默认输出在`${user.home}/GuGu_Simple_Upload/log/`下，详细请查看`logback-spring.xml`文件
+
+### 启动
+通过`back-end/src/test/java/com/gugu/upload/utils/JasyptUtilTest.java`测试类生成加密字符串，然后配置在`application.yml`即可
