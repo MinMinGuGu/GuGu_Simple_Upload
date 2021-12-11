@@ -5,7 +5,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Setter;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +27,9 @@ import java.sql.Statement;
 @ConfigurationProperties("spring.datasource")
 @MapperScan("com.gugu.upload.mapper")
 public class DataSourceConfig {
+
+    private static final String URL_SPLIT = "?";
+
     private String url;
 
     private String username;
@@ -35,12 +37,6 @@ public class DataSourceConfig {
     private String password;
 
     private String driverClassName;
-
-    @Value("${spring.application.name}")
-    private String applicationName;
-
-    @Value("${spring.profiles.active}")
-    private String proFile;
 
     /**
      * Hikari data source data source.
@@ -50,13 +46,11 @@ public class DataSourceConfig {
     @Bean
     @Primary
     public DataSource hikariDataSource(){
-        String envDataBase = applicationName;
-        url = url.replace(applicationName, envDataBase);
         String jdbcUrl = url;
         String jdbcDataBaseUrl = jdbcUrl.substring(0, jdbcUrl.lastIndexOf("?"));
         String dataBaseName = jdbcDataBaseUrl.substring(jdbcDataBaseUrl.lastIndexOf("/") + 1);
         String baseJdbcUrl = jdbcDataBaseUrl.substring(0, jdbcDataBaseUrl.lastIndexOf("/"));
-        if (jdbcUrl.contains("?")) {
+        if (jdbcUrl.contains(URL_SPLIT)) {
             baseJdbcUrl += jdbcUrl.substring(jdbcUrl.lastIndexOf("?"));
         }
         try {
