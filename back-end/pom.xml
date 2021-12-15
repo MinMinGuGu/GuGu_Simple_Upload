@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.gugu</groupId>
     <artifactId>GuGu_Simple_Upload</artifactId>
@@ -115,18 +115,18 @@
     </profiles>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${project.artifactId}-${project.version}-${profileActive}</finalName>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/resources/</directory>
                 <excludes>
-                    <exclude>env/**</exclude>
+                    <exclude>env/</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>src/main/resources/env/${profileActive}</directory>
+                <directory>src/main/resources/env/${profileActive}/</directory>
                 <includes>
-                    <include>*.yml</include>
+                    <include>application.yml</include>
                 </includes>
             </resource>
         </resources>
