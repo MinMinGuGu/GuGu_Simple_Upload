@@ -10,8 +10,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://${config.db-server}/${spring.application.name}?serverTimezone=${config.db-timezone}&allowMultiQueries=true
-    username: ENC(MBwbLOJPafjWeQQjMZVpuc4l3Uz2Ynem)
-    password: ENC(ZhV4/8thHCTUYZKcWXw+0ognhJs/BbXF)
+    username: ${config.db-username}
+    password: ${config.db-password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
