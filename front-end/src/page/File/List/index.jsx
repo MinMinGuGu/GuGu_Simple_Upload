@@ -114,6 +114,7 @@ export default class FileList extends CheckComponent {
     ]
 
     generateComponent = () => {
+        // todo 重写 参考 ant 表单
         const { loading, selectedRowKeys, tableData } = this.state;
         const rowSelection = {
             selectedRowKeys,
