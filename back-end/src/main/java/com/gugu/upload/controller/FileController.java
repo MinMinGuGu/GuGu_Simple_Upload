@@ -2,6 +2,7 @@ package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.FileInfoBo;
+import com.gugu.upload.common.dto.UpdateFileDto;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.FileInfoVo;
@@ -11,6 +12,7 @@ import com.gugu.upload.utils.StatusUtil;
 import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,16 +50,22 @@ public class FileController {
     @Resource
     private IFileService fileService;
 
-    @PutMapping
+    /**
+     * Update file desc result.
+     *
+     * @param id       the id
+     * @param fileDesc the file desc
+     * @return the result
+     */
+    @PutMapping("/{id}")
     @ApiOperation("更新文件描述")
-    @ApiImplicitParam(paramType = "body", name = "fileInfoVo", value = "更新的文件信息(只有id，fileDesc有效)")
-    public Result<String> updateFileDesc(@RequestBody FileInfoVo fileInfoVo){
-        Integer id = fileInfoVo.getId();
-        String fileDesc = fileInfoVo.getFileDesc();
-        FileInfoVo newFileInfoVo = new FileInfoVo();
-        newFileInfoVo.setId(id);
-        newFileInfoVo.setFileDesc(fileDesc);
-        fileService.updateById(TransformUtil.transform(newFileInfoVo, FileInfo.class));
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "path", name = "id", value = "文件的id", required = true),
+            @ApiImplicitParam(paramType = "query", name = "fileDesc", value = "文件的描述", required = true)
+    })
+    public Result<String> updateFileDesc(@PathVariable("id") Integer id, @RequestParam String fileDesc){
+        UpdateFileDto updateFileDto = new UpdateFileDto(id, fileDesc);
+        fileService.updateById(TransformUtil.transform(updateFileDto, FileInfo.class));
         return Result.fastSuccess();
     }
 
