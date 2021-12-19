@@ -6,6 +6,7 @@ import com.gugu.upload.common.dto.UpdateFileDto;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.FileInfoVo;
+import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.controller.helper.FileHelper;
 import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.StatusUtil;
@@ -49,6 +50,9 @@ public class FileController {
 
     @Resource
     private IFileService fileService;
+
+    @Resource
+    private ApplicationConfig applicationConfig;
 
     /**
      * Update file desc result.
@@ -129,7 +133,7 @@ public class FileController {
     public Result<List<FileInfoVo>> upload(@RequestParam("file") MultipartFile[] multipartFiles, HttpServletRequest request) {
         List<FileInfoVo> fileInfoVos = new LinkedList<>();
         for (MultipartFile multipartFile : multipartFiles) {
-            FileInfoBo fileInfoBo = FileHelper.initBo(multipartFile, request);
+            FileInfoBo fileInfoBo = FileHelper.initBo(multipartFile, request, applicationConfig);
             log.info("The received file information is : {}", fileInfoBo);
             try {
                 log.info("Save path : {}", fileInfoBo.getFilePath());

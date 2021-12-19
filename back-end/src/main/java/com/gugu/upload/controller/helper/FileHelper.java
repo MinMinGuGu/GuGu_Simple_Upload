@@ -5,7 +5,6 @@ import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.exception.UnknownException;
 import com.gugu.upload.utils.FileUtil;
 import com.gugu.upload.utils.IpUtil;
-import com.gugu.upload.utils.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,11 +30,12 @@ public class FileHelper {
     /**
      * Init bo file info bo.
      *
-     * @param multipartFile the multipart file
-     * @param request       the request
+     * @param multipartFile     the multipart file
+     * @param request           the request
+     * @param applicationConfig the application config
      * @return the file info bo
      */
-    public static FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request) {
+    public static FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request, ApplicationConfig applicationConfig) {
         FileInfoBo fileInfoBo = new FileInfoBo();
         try {
             String originalFilename = multipartFile.getOriginalFilename();
@@ -45,7 +45,7 @@ public class FileHelper {
             String fileSuffix = FileUtil.getFileSuffix(originalFilename);
             fileInfoBo
                     .setFileHash(FileUtil.getFileHashCode(multipartFile.getInputStream()))
-                    .setFilePath(getSavePath(FileUtil.getUniqueFileName() + fileSuffix).toString())
+                    .setFilePath(getSavePath(FileUtil.getUniqueFileName() + fileSuffix, applicationConfig).toString())
                     .setFileOriginal(originalFilename)
                     .setUploader(getUploader(request))
                     .setFileSize(String.valueOf(multipartFile.getSize()));
@@ -60,12 +60,11 @@ public class FileHelper {
         return IpUtil.getIpAddress(request);
     }
 
-    private static Path getSavePath(String filePath) {
-        return getTmpDir().resolve(filePath);
+    private static Path getSavePath(String filePath, ApplicationConfig applicationConfig) {
+        return getTmpDir(applicationConfig).resolve(filePath);
     }
 
-    private static Path getTmpDir() {
-        ApplicationConfig applicationConfig = SpringContextUtil.getApplicationContext().getBean(ApplicationConfig.class);
+    private static Path getTmpDir(ApplicationConfig applicationConfig) {
         Path path = Paths.get(applicationConfig.getTmpDir());
         if (Files.notExists(path)) {
             try {
