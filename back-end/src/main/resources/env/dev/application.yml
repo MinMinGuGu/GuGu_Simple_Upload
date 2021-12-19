@@ -28,6 +28,7 @@ logging:
     com.gugu.upload: debug
 config:
   dir: ${user.home}/${spring.application.name}
+  # tmp-dir 请确保该文件夹空间足够
   tmp-dir: ${config.dir}/tmp/
   log-dir: ${config.dir}/log/
   db-server: rm-wz93d1vexp93w779efo.mysql.rds.aliyuncs.com
