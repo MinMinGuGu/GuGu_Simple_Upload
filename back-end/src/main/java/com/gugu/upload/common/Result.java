@@ -147,7 +147,7 @@ public class Result<T> {
          * @return the builder
          */
         public Builder<B> fail(){
-            this.code = 400;
+            this.code = 404;
             this.message = FAIL;
             return this;
         }
