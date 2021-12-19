@@ -42,15 +42,6 @@ public class FileInfo {
     private LocalDateTime updateTime;
 
     /**
-     * Is exist boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isExist(){
-        return StatusUtil.Status.SUCCESS.getCode().equals(status);
-    }
-
-    /**
      * Set status.
      *
      * @param status the status
