@@ -58,7 +58,7 @@ public class Result<T> {
      * @return the result
      */
     public static Result<String> fastFail() {
-        return new Result<String>().setCode(400).setMessage(FAIL);
+        return new Result<String>().setCode(404).setMessage(FAIL);
     }
 
     /**
