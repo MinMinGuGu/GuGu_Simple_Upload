@@ -20,6 +20,7 @@ public class FileInfoVo {
     private String fileOriginal;
     private String fileSize;
     private String uploader;
+    private String fileDesc;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 }

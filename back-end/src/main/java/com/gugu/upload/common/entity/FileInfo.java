@@ -27,6 +27,7 @@ public class FileInfo {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String fileHash;
+    private String fileDesc;
     private String filePath;
     private String fileOriginal;
     private String fileSize;

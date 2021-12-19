@@ -1,6 +1,7 @@
 create table if not exists `file_info`(
     `id` int auto_increment not null ,
     `file_hash` varchar(255) not null comment '文件哈希值',
+    `file_desc` varchar(255) comment '文件描述',
     `file_path` varchar(255) not null comment '存放于临时路径的文件名(绝对路径)',
     `file_original` varchar(255) not null comment '上传时的文件原名',
     `file_size` varchar(100) not null comment '文件大小',
