@@ -9,7 +9,7 @@ import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IFileService;
-import com.gugu.upload.utils.HttpHelper;
+import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.utils.StreamHelper;
 import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;

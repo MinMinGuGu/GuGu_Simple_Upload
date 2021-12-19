@@ -5,11 +5,8 @@ import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.FileInfoVo;
-import com.gugu.upload.config.ApplicationConfig;
-import com.gugu.upload.exception.UnknownException;
+import com.gugu.upload.controller.helper.FileHelper;
 import com.gugu.upload.service.IFileService;
-import com.gugu.upload.utils.FileUtil;
-import com.gugu.upload.utils.IpUtil;
 import com.gugu.upload.utils.StatusUtil;
 import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
@@ -31,8 +28,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,9 +47,6 @@ public class FileController {
 
     @Resource
     private IFileService fileService;
-
-    @Resource
-    private ApplicationConfig applicationConfig;
 
     @PutMapping
     @ApiOperation("更新文件描述")
@@ -128,7 +120,7 @@ public class FileController {
     public Result<List<FileInfoVo>> upload(@RequestParam("file") MultipartFile[] multipartFiles, HttpServletRequest request) {
         List<FileInfoVo> fileInfoVos = new LinkedList<>();
         for (MultipartFile multipartFile : multipartFiles) {
-            FileInfoBo fileInfoBo = initBo(multipartFile, request);
+            FileInfoBo fileInfoBo = FileHelper.initBo(multipartFile, request);
             log.info("The received file information is : {}", fileInfoBo);
             try {
                 log.info("Save path : {}", fileInfoBo.getFilePath());
@@ -143,47 +135,5 @@ public class FileController {
             fileInfoVos.add(fileInfoVo);
         }
         return new Result.Builder<List<FileInfoVo>>().success(fileInfoVos).build();
-    }
-
-    private FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request) {
-        FileInfoBo fileInfoBo = new FileInfoBo();
-        try {
-            String originalFilename = multipartFile.getOriginalFilename();
-            if (originalFilename == null) {
-                throw new UnknownException("Received file name exception");
-            }
-            String fileSuffix = FileUtil.getFileSuffix(originalFilename);
-            fileInfoBo
-                    .setFileHash(FileUtil.getFileHashCode(multipartFile.getInputStream()))
-                    .setFilePath(getSavePath(FileUtil.getUniqueFileName() + fileSuffix).toString())
-                    .setFileOriginal(originalFilename)
-                    .setUploader(this.getUploader(request))
-                    .setFileSize(String.valueOf(multipartFile.getSize()));
-        } catch (IOException e) {
-            log.error("Failed to initialize file Bo object", e);
-            throw new UnknownException(e.getMessage(), e);
-        }
-        return fileInfoBo;
-    }
-
-    private String getUploader(HttpServletRequest request) {
-        return IpUtil.getIpAddress(request);
-    }
-
-    private Path getSavePath(String filePath) {
-        return getTmpDir().resolve(filePath);
-    }
-
-    private Path getTmpDir() {
-        Path path = Paths.get(applicationConfig.getTmpDir());
-        if (Files.notExists(path)) {
-            try {
-                Files.createDirectories(path);
-            } catch (IOException e) {
-                log.error("Failed to create folder", e);
-                throw new UnknownException("Failed to create folder", e);
-            }
-        }
-        return path;
     }
 }
