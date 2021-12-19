@@ -60,7 +60,12 @@ public class FileController {
     @ApiOperation("更新文件描述")
     @ApiImplicitParam(paramType = "body", name = "fileInfoVo", value = "更新的文件信息")
     public Result<String> updateFileDesc(@RequestBody FileInfoVo fileInfoVo){
-        fileService.updateById(TransformUtil.transform(fileInfoVo, FileInfo.class));
+        Integer id = fileInfoVo.getId();
+        String fileDesc = fileInfoVo.getFileDesc();
+        FileInfoVo newFileInfoVo = new FileInfoVo();
+        newFileInfoVo.setId(id);
+        newFileInfoVo.setFileDesc(fileDesc);
+        fileService.updateById(TransformUtil.transform(newFileInfoVo, FileInfo.class));
         return Result.fastSuccess();
     }
 
