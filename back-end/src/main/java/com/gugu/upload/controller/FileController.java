@@ -2,6 +2,7 @@ package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.FileInfoBo;
+import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.config.ApplicationConfig;
@@ -10,6 +11,7 @@ import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.FileUtil;
 import com.gugu.upload.utils.IpUtil;
 import com.gugu.upload.utils.StatusUtil;
+import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +55,14 @@ public class FileController {
 
     @Resource
     private ApplicationConfig applicationConfig;
+
+    @PutMapping
+    @ApiOperation("更新文件描述")
+    @ApiImplicitParam(paramType = "body", name = "fileInfoVo", value = "更新的文件信息")
+    public Result<String> updateFileDesc(@RequestBody FileInfoVo fileInfoVo){
+        fileService.updateById(TransformUtil.transform(fileInfoVo, FileInfo.class));
+        return Result.fastSuccess();
+    }
 
     /**
      * File download.

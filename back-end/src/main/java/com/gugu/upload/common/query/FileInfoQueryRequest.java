@@ -24,6 +24,7 @@ public class FileInfoQueryRequest implements ISupportQuery<FileInfo> {
 
     @JsonProperty("fileName")
     private String fileOriginal;
+    private String fileDesc;
     private String uploader;
     private Date startDate;
     private Date endDate;
@@ -33,11 +34,14 @@ public class FileInfoQueryRequest implements ISupportQuery<FileInfo> {
     public QueryWrapper<FileInfo> toQueryWrapper() {
         FileInfo fileInfo = TransformUtil.transform(this, FileInfo.class);
         QueryWrapper<FileInfo> queryWrapper = getQueryWrapper(fileInfo);
-        if (StringUtils.hasText(fileInfo.getFileOriginal())) {
-            queryWrapper.like("file_original", fileInfo.getFileOriginal());
+        if (StringUtils.hasText(fileOriginal)) {
+            queryWrapper.like("file_original", fileOriginal);
         }
-        if (StringUtils.hasText(fileInfo.getUploader())) {
-            queryWrapper.eq("uploader", fileInfo.getUploader());
+        if (StringUtils.hasText(uploader)) {
+            queryWrapper.eq("uploader", uploader);
+        }
+        if (StringUtils.hasText(fileDesc)){
+            queryWrapper.like("file_desc", fileDesc);
         }
         generateDateCondition(queryWrapper);
         generateOrderCondition(order, queryWrapper);
