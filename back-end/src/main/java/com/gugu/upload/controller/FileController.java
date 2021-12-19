@@ -92,7 +92,7 @@ public class FileController {
     @ApiOperation("获取管理中的文件列表")
     @ApiImplicitParam(paramType = "body", name = "fileInfoQueryRequest", value = "文件查询参数")
     public Result<List<FileInfoVo>> findList(@RequestBody(required = false) FileInfoQueryRequest fileInfoQueryRequest) {
-        if (fileInfoQueryRequest == null){
+        if (fileInfoQueryRequest == null) {
             fileInfoQueryRequest = new FileInfoQueryRequest();
         }
         List<FileInfoVo> fileInfos = fileService.getFileInfoList(fileInfoQueryRequest);
@@ -134,7 +134,7 @@ public class FileController {
         try {
             String originalFilename = multipartFile.getOriginalFilename();
             if (originalFilename == null) {
-                throw new UnknownException("接收过来的文件名异常");
+                throw new UnknownException("Received file name exception");
             }
             String fileSuffix = FileUtil.getFileSuffix(originalFilename);
             fileInfoBo
@@ -165,7 +165,7 @@ public class FileController {
                 Files.createDirectories(path);
             } catch (IOException e) {
                 log.error("Failed to create folder", e);
-                throw new UnknownException("创建文件夹失败", e);
+                throw new UnknownException("Failed to create folder", e);
             }
         }
         return path;
