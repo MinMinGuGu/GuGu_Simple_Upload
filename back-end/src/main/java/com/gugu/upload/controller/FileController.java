@@ -58,7 +58,7 @@ public class FileController {
 
     @PutMapping
     @ApiOperation("更新文件描述")
-    @ApiImplicitParam(paramType = "body", name = "fileInfoVo", value = "更新的文件信息")
+    @ApiImplicitParam(paramType = "body", name = "fileInfoVo", value = "更新的文件信息(只有id，fileDesc有效)")
     public Result<String> updateFileDesc(@RequestBody FileInfoVo fileInfoVo){
         Integer id = fileInfoVo.getId();
         String fileDesc = fileInfoVo.getFileDesc();
