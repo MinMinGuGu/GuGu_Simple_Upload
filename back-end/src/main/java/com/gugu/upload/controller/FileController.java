@@ -65,6 +65,7 @@ public class FileController {
     })
     public Result<String> updateFileDesc(@PathVariable("id") Integer id, @RequestParam String fileDesc){
         UpdateFileDto updateFileDto = new UpdateFileDto(id, fileDesc);
+        log.info("File ID to be updated: {}, desc: {}", id, fileDesc);
         fileService.updateById(TransformUtil.transform(updateFileDto, FileInfo.class));
         return Result.fastSuccess();
     }
