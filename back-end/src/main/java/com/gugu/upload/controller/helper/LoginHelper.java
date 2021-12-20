@@ -20,6 +20,20 @@ public class LoginHelper {
     private LoginHelper(){}
 
     /**
+     * Logout boolean.
+     *
+     * @param request the request
+     * @return the boolean
+     */
+    public static boolean logout(HttpServletRequest request){
+        if (isLogged(request)){
+            CacheUtil.remove(SessionUtil.getKeyBySessionId(request));
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Is logged boolean.
      *
      * @param request the request
@@ -39,6 +53,12 @@ public class LoginHelper {
         return CacheUtil.get(SessionUtil.getKeyBySessionId(request), Account.class);
     }
 
+    /**
+     * Check cache boolean.
+     *
+     * @param httpServletRequest the http servlet request
+     * @return the boolean
+     */
     public static boolean checkCache(HttpServletRequest httpServletRequest) {
         return CacheUtil.isThere(SessionUtil.getKeyBySessionId(httpServletRequest));
     }
@@ -61,7 +81,8 @@ public class LoginHelper {
     /**
      * Find account.
      *
-     * @param loginVo the login vo
+     * @param loginVo        the login vo
+     * @param accountService the account service
      * @return the account
      */
     public static Account findAccount(LoginVo loginVo, IAccountService accountService){
