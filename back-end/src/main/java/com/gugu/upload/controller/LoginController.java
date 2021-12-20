@@ -10,9 +10,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,7 +78,7 @@ public class LoginController {
         return Result.fastSuccess();
     }
 
-    @PutMapping
+    @DeleteMapping
     @ApiOperation("注销登录")
     public Result<String> logout(HttpServletRequest request){
         Result.Builder<String> resultBuilder = new Result.Builder<>();
