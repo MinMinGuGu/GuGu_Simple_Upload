@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assembly>
-    <!-- 可自定义，这里指定的是项目环境 -->
-    <id>${profileActive}-${project.version}</id>
+    <id>assembly</id>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
