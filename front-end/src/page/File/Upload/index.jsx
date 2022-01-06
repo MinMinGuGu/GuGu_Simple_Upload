@@ -41,7 +41,7 @@ export default class FileUpload extends CheckComponent {
 
     content = () => {
         return {
-            navPath: "文件管理/文件上传",
+            navPath: "文件管理>文件上传",
             content: this.generateComponent(),
         };
     };

@@ -2,9 +2,12 @@ import React from "react";
 import Main from "../../../layout/Main";
 import CheckLogin from "../../../components/CheckLogin";
 
-export default class SystemUser extends CheckLogin {
+export default class SystemAppLog extends CheckLogin {
     content = () => {
-        return { navPath: "系统管理>用户管理", content: "用户管理待施工..." };
+        return {
+            navPath: "系统管理>系统日志",
+            content: "系统日志待施工...",
+        };
     };
 
     render() {

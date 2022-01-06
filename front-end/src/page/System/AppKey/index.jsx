@@ -1,11 +1,20 @@
-import React, { Component } from 'react'
+import React from "react";
+import Main from "../../../layout/Main";
+import CheckLogin from "../../../components/CheckLogin";
 
-export default class SystemAppKey extends Component {
+export default class SystemAppKey extends CheckLogin {
+    content = () => {
+        return {
+            navPath: "系统管理>AppKey设置",
+            content: "AppKey设置待施工...",
+        };
+    };
+
     render() {
         return (
             <div>
-                SystemAppKey...
+                <Main history={this.props.history} view={this.content()} />
             </div>
-        )
+        );
     }
 }

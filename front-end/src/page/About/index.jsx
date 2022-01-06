@@ -1,11 +1,17 @@
-import React, { Component } from 'react'
+import React from "react";
+import Main from "../../layout/Main";
+import CheckLogin from "../../components/CheckLogin";
 
-export default class About extends Component {
+export default class About extends CheckLogin {
+    content = () => {
+        return { navPath: "关于", content: "关于待施工..." };
+    };
+
     render() {
         return (
             <div>
-                About...
+                <Main history={this.props.history} view={this.content()} />
             </div>
-        )
+        );
     }
 }
