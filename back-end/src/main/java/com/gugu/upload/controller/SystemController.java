@@ -40,9 +40,9 @@ public class SystemController {
     @ApiOperation("获取用户在系统上传的文件概览信息")
     public Result<?> getFileUploadInfo(HttpServletRequest request){
         Account currentAccount = LoginHelper.getCurrentAccount(request);
-        int systemFileNum = fileService.getAllFileCount();
-        int userFileUploadNum = accountService.getUserAllFileCount(currentAccount);
-        FileUploadVo fileUploadVo = new FileUploadVo(systemFileNum, userFileUploadNum);
+        int systemFileCount = fileService.getAllFileCount();
+        int userFileUploadCount = accountService.getUserAllFileCount(currentAccount);
+        FileUploadVo fileUploadVo = new FileUploadVo(systemFileCount, userFileUploadCount);
         log.info("currentAccount: {}, File information uploaded by the user in the system: {}", currentAccount, fileUploadVo);
         return Result.fastSuccess(fileUploadVo);
     }

@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FileUploadVo {
-    private Integer systemFileNum;
-    private Integer userFileUploadNum;
+    private Integer systemFileCount;
+    private Integer userFileUploadCount;
 }
