@@ -1,6 +1,7 @@
 package com.gugu.upload.controller.helper;
 
 import com.gugu.upload.common.bo.FileInfoBo;
+import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.exception.UnknownException;
 import com.gugu.upload.utils.FileUtil;
@@ -43,12 +44,14 @@ public class FileHelper {
                 throw new UnknownException("Received file name exception");
             }
             String fileSuffix = FileUtil.getFileSuffix(originalFilename);
+            Account currentAccount = LoginHelper.getCurrentAccount(request);
             fileInfoBo
                     .setFileHash(FileUtil.getFileHashCode(multipartFile.getInputStream()))
                     .setFilePath(getSavePath(FileUtil.getUniqueFileName() + fileSuffix, applicationConfig).toString())
                     .setFileOriginal(originalFilename)
                     .setUploader(getUploader(request))
-                    .setFileSize(String.valueOf(multipartFile.getSize()));
+                    .setFileSize(String.valueOf(multipartFile.getSize()))
+                    .setAccountId(currentAccount.getId());
         } catch (IOException e) {
             log.error("Failed to initialize file Bo object", e);
             throw new UnknownException(e.getMessage(), e);

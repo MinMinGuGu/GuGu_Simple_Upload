@@ -1,4 +1,4 @@
-package com.gugu.upload.common.vo;
+package com.gugu.upload.common.vo.login;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;

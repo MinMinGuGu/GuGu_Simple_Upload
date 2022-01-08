@@ -11,4 +11,11 @@ import com.gugu.upload.common.entity.Account;
  * @since 1.8
  */
 public interface IAccountService extends IService<Account> {
+    /**
+     * Gets user all file count.
+     *
+     * @param currentAccount the current account
+     * @return the user all file count
+     */
+    Integer getUserAllFileCount(Account currentAccount);
 }

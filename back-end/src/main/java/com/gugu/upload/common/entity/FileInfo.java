@@ -33,6 +33,7 @@ public class FileInfo {
     private String fileSize;
     private Integer status;
     private String uploader;
+    private Integer accountId;
     @TableLogic
     private Integer deleted;
     @TableField(value = "create_time", fill = FieldFill.INSERT)

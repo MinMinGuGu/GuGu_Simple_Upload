@@ -2,7 +2,7 @@ package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.entity.Account;
-import com.gugu.upload.common.vo.LoginVo;
+import com.gugu.upload.common.vo.login.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.utils.SessionUtil;

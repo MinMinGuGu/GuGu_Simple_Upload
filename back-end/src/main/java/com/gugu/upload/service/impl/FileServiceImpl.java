@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.FileInfoVo;
+import com.gugu.upload.common.vo.file.FileInfoVo;
+import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IFileService;
-import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.utils.StreamHelper;
 import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -79,6 +79,16 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
         this.save(fileInfo);
         log.info("Complete the database insert. file info : {}", fileInfo);
         return TransformUtil.transform(fileInfoBo, FileInfoVo.class);
+    }
+
+    @Override
+    public Integer getAllFileCount() {
+        return baseMapper.selectCount(null);
+    }
+
+    @Override
+    public Integer getFileCountByAccountId(Integer accountId) {
+        return query().eq("account_id", accountId).count();
     }
 
     private void processStream(BufferedInputStream bufferedInputStream, HttpServletResponse response) throws IOException {

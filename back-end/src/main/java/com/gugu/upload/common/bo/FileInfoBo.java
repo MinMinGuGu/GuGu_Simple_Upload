@@ -20,6 +20,7 @@ public class FileInfoBo {
     private String fileSize;
     private Integer status;
     private String uploader;
+    private Integer accountId;
 
     /**
      * Set status.

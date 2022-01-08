@@ -1,7 +1,7 @@
 package com.gugu.upload.controller.helper;
 
 import com.gugu.upload.common.entity.Account;
-import com.gugu.upload.common.vo.LoginVo;
+import com.gugu.upload.common.vo.login.LoginVo;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.MD5Util;

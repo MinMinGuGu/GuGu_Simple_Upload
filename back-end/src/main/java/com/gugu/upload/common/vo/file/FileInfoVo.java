@@ -1,4 +1,4 @@
-package com.gugu.upload.common.vo;
+package com.gugu.upload.common.vo.file;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

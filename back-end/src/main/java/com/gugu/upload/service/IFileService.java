@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.FileInfoVo;
+import com.gugu.upload.common.vo.file.FileInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -40,4 +40,19 @@ public interface IFileService extends IService<FileInfo> {
      * @return the file info vo
      */
     FileInfoVo uploadSave(FileInfoBo fileInfoBo);
+
+    /**
+     * Gets all file number.
+     *
+     * @return the all file number
+     */
+    Integer getAllFileCount();
+
+    /**
+     * Gets file count by account id.
+     *
+     * @param accountId the account id
+     * @return the file count by account id
+     */
+    Integer getFileCountByAccountId(Integer accountId);
 }

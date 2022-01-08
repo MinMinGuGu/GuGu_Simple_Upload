@@ -5,7 +5,7 @@ import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.dto.UpdateFileDto;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
-import com.gugu.upload.common.vo.FileInfoVo;
+import com.gugu.upload.common.vo.file.FileInfoVo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.controller.helper.FileHelper;
 import com.gugu.upload.service.IFileService;
