@@ -8,6 +8,7 @@ import com.gugu.upload.common.vo.file.FileInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The interface File service.
@@ -55,4 +56,11 @@ public interface IFileService extends IService<FileInfo> {
      * @return the file count by account id
      */
     Integer getFileCountByAccountId(Integer accountId);
+
+    /**
+     * Gets week file upload data.
+     *
+     * @return the week file upload data
+     */
+    List<Map<String, Object>> getWeekFileUploadData();
 }

@@ -23,7 +23,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The type File service.
@@ -89,6 +92,20 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
     @Override
     public Integer getFileCountByAccountId(Integer accountId) {
         return query().eq("account_id", accountId).count();
+    }
+
+    @Override
+    public List<Map<String, Object>> getWeekFileUploadData() {
+        Calendar weekStart = Calendar.getInstance();
+        weekStart.add(Calendar.DAY_OF_YEAR, -7);
+        Date weekStartTime = weekStart.getTime();
+        String dateField = "create_time";
+        QueryWrapper<FileInfo> wrapper = new QueryWrapper<>();
+        wrapper.select("count(*) as fileUploadCount, create_time as createTime")
+                .groupBy(dateField)
+                .between(dateField, weekStartTime, new Date())
+                .orderByAsc("createTime");
+        return this.listMaps(wrapper);
     }
 
     private void processStream(BufferedInputStream bufferedInputStream, HttpServletResponse response) throws IOException {

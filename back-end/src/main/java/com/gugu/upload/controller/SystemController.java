@@ -2,10 +2,10 @@ package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.entity.Account;
-import com.gugu.upload.common.vo.system.info.FileUploadVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;
+import com.gugu.upload.utils.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The type System controller.
@@ -36,14 +38,25 @@ public class SystemController {
     @Resource
     private IAccountService accountService;
 
-    @GetMapping("/info/fileUpload")
-    @ApiOperation("获取用户在系统上传的文件概览信息")
-    public Result<?> getFileUploadInfo(HttpServletRequest request){
+    @GetMapping("/account/fileUpload/info")
+    @ApiOperation("获取用户在系统上传的文件数量")
+    public Result<?> getAccountFileUploadInfo(HttpServletRequest request) {
         Account currentAccount = LoginHelper.getCurrentAccount(request);
-        int systemFileCount = fileService.getAllFileCount();
         int userFileUploadCount = accountService.getUserAllFileCount(currentAccount);
-        FileUploadVo fileUploadVo = new FileUploadVo(systemFileCount, userFileUploadCount);
-        log.info("currentAccount: {}, File information uploaded by the user in the system: {}", currentAccount, fileUploadVo);
-        return Result.fastSuccess(fileUploadVo);
+        return Result.fastSuccess(MapUtil.toMap("userFileUploadCount", userFileUploadCount));
+    }
+
+    @ApiOperation("获取系统上所有的上传文件数量")
+    @GetMapping("/fileUpload/info")
+    public Result<?> getSystemFileUploadInfo() {
+        int systemFileCount = fileService.getAllFileCount();
+        return Result.fastSuccess(MapUtil.toMap("systemFileCount", systemFileCount));
+    }
+
+    @ApiOperation("获取系统上近七天的文件上传信息")
+    @GetMapping("/fileUpload/week/info")
+    public Result<?> getWeekFileUploadInfo() {
+        List<Map<String, Object>> data = fileService.getWeekFileUploadData();
+        return Result.fastSuccess(data);
     }
 }
