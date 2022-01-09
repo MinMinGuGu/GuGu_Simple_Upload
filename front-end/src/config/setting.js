@@ -8,6 +8,7 @@ let apis = {
     backendUri: 'http://localhost',
     loginApi: apiPrefix + "/login",
     fileApi: apiPrefix + "/file",
+    systemApi: apiPrefix + "/system",
 }
 
 export default apis

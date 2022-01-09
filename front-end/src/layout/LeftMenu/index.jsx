@@ -34,7 +34,7 @@ export default class LeftMenu extends Component {
                 return ["7"];
             case "/system/appKey":
                 return ["8"];
-            case "/system/log":
+            case "/system/appLog":
                 return ["9"];
             case "/about":
                 return ["10"];
