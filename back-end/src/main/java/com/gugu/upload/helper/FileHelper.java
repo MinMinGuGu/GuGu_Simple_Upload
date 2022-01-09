@@ -1,6 +1,5 @@
 package com.gugu.upload.helper;
 
-import com.gugu.upload.common.constant.Constant;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Locale;
@@ -15,7 +14,11 @@ import java.util.Locale;
  */
 @Slf4j
 public class FileHelper {
-    private FileHelper(){}
+
+    private static final int FILE_SIZE_BASIC_UNIT = 1024;
+
+    private FileHelper() {
+    }
 
     /**
      * Convert file size string.
@@ -23,7 +26,7 @@ public class FileHelper {
      * @param fileSizeStr the file size str
      * @return the string
      */
-    public static String convertFileSize(String fileSizeStr){
+    public static String convertFileSize(String fileSizeStr) {
         try {
             int fileSize = Integer.parseInt(fileSizeStr);
             return byteFormat(fileSize, true);
@@ -42,7 +45,7 @@ public class FileHelper {
      */
     public static String byteFormat(long bytes, boolean company) {
         String[] units = new String[]{" B", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"};
-        int unit = Constant.FILE_SIZE_BASIC_UNIT;
+        int unit = FILE_SIZE_BASIC_UNIT;
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         double pre;
         if (bytes > unit) {

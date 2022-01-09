@@ -50,28 +50,48 @@ export default class Home extends CheckLogin {
         this.setState({ fileUploadInfoData, fileUploadInfoLoading: false });
     };
 
-    initWeekUploadData = async () => {
+    getDefaultData = () => {
         let passData = [];
+        let currDate = new Date();
+        for (let i = 6; i >= 0; i--) {
+            let dateSub = 24 * 60 * 60 * 1000 * i;
+            let dateTime = currDate.getTime() - dateSub;
+            let dataFormat = getDateFormat(new Date(dateTime));
+            passData.push({
+                createTime: dataFormat,
+                fileUploadCount: 0,
+            });
+        }
+        return passData;
+    };
+
+    initWeekUploadData = async () => {
+        let handledData = this.getDefaultData();
         const response = doGet(apis.systemApi + "/fileUpload/week/info");
         await response.then((result) => {
             const { data } = result;
-            if (data.length) {
-                passData = data;
-            } else {
-                let currDate = new Date();
-                for (let i = 6; i >= 0; i--) {
-                    let dateSub = 24 * 60 * 60 * 1000 * i;
-                    let dateTime = currDate.getTime() - dateSub;
-                    let dataFormat = getDateFormat(new Date(dateTime));
-                    passData.push({
-                        createTime: dataFormat,
-                        fileUploadCount: 0,
-                    });
-                }
+            if (data && data.length) {
+                data.forEach((item) => {
+                    for (let i = 0; i < handledData.length; i++) {
+                        const { createTime: defaultCreateTime } =
+                            handledData[i];
+                        const {
+                            createTime: responseCreateTime,
+                            fileUploadCount,
+                        } = item;
+                        if (responseCreateTime === defaultCreateTime) {
+                            handledData[i] = {
+                                createTime: responseCreateTime,
+                                fileUploadCount,
+                            };
+                            break;
+                        }
+                    }
+                });
             }
         });
         this.setState({
-            weekUploadData: passData,
+            weekUploadData: handledData,
             weekUploadDataLoading: false,
         });
     };

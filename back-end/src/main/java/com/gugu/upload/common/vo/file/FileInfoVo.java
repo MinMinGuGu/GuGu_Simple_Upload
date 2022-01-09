@@ -22,5 +22,5 @@ public class FileInfoVo {
     private String uploader;
     private String fileDesc;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

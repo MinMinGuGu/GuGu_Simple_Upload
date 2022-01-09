@@ -10,6 +10,7 @@ import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IFileService;
+import com.gugu.upload.utils.DateUtil;
 import com.gugu.upload.utils.StreamHelper;
 import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -98,12 +99,12 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
     public List<Map<String, Object>> getWeekFileUploadData() {
         Calendar weekStart = Calendar.getInstance();
         weekStart.add(Calendar.DAY_OF_YEAR, -7);
-        Date weekStartTime = weekStart.getTime();
+        LocalDateTime weekStartTime = DateUtil.date2LocalDateTime(weekStart.getTime());
         String dateField = "create_time";
         QueryWrapper<FileInfo> wrapper = new QueryWrapper<>();
         wrapper.select("count(*) as fileUploadCount, create_time as createTime")
                 .groupBy(dateField)
-                .between(dateField, weekStartTime, new Date())
+                .between(dateField, DateUtil.getDefaultFormat(weekStartTime), DateUtil.getDefaultFormat())
                 .orderByAsc("createTime");
         return this.listMaps(wrapper);
     }

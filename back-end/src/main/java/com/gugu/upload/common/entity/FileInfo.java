@@ -11,6 +11,7 @@ import com.gugu.upload.utils.StatusUtil;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -36,12 +37,12 @@ public class FileInfo {
     private Integer accountId;
     @TableLogic
     private Integer deleted;
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 
     /**
      * Set status.

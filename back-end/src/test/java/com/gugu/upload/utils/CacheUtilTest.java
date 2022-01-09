@@ -1,6 +1,5 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.common.constant.Constant;
 import com.gugu.upload.common.entity.Visit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +18,13 @@ import java.util.UUID;
  */
 class CacheUtilTest {
 
+    private static final String RECORD_CACHE_PREFIX = "record_cache_key_";
+
     /**
      * Init cache.
      */
     @BeforeEach
-    void initCache(){
+    void initCache() {
         for (int i = 0; i < 10; i++) {
             Visit visit = new Visit();
             visit.setId(i);
@@ -33,7 +34,7 @@ class CacheUtilTest {
     }
 
     private String getCacheKey(){
-        return Constant.RECORD_CACHE_PREFIX + UUID.randomUUID().toString().replace("-", "");
+        return RECORD_CACHE_PREFIX + UUID.randomUUID().toString().replace("-", "");
     }
 
     /**

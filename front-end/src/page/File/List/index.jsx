@@ -113,9 +113,9 @@ export default class FileList extends CheckComponent {
             key: "uploader",
         },
         {
-            title: "上传日期",
-            dataIndex: "createTime",
-            key: "createTime",
+            title: "更新日期",
+            dataIndex: "updateTime",
+            key: "updateTime",
         },
     ];
 

@@ -31,7 +31,7 @@ public class Result<T> {
     private Integer code;
     private String message;
     private T data;
-    private String dateTime = DateUtil.getStrByDateNow();
+    private String dateTime = DateUtil.getDefaultFormat();
 
     /**
      * Fast success result.
@@ -170,7 +170,7 @@ public class Result<T> {
          * @return the result
          */
         public Result<B> build() {
-            return new Result<>(code, message, data, DateUtil.getStrByDateNow());
+            return new Result<>(code, message, data, DateUtil.getDefaultFormat());
         }
     }
 }
