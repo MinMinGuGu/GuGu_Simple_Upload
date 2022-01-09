@@ -3,6 +3,7 @@ import Main from "../../layout/Main";
 import CheckLogin from "../../components/CheckLogin";
 import { Line } from "@ant-design/plots";
 import { doGet } from "../../utils/requestUtil";
+import { getDateFormat } from "../../utils/dateUtil";
 import apis from "../../config/setting";
 import { Row, Col, Divider, Card, Statistic } from "antd";
 
@@ -24,34 +25,54 @@ export default class Home extends CheckLogin {
     };
 
     initFileUploadInfoData = async () => {
-        const fileUploadInfoData = {};
+        const fileUploadInfoData = {
+            systemFileCount: 0,
+            userFileUploadCount: 0,
+        };
         const systemResponse = doGet(apis.systemApi + "/fileUpload/info");
         await systemResponse.then((result) => {
-            const {
-                data: { systemFileCount },
-            } = result;
-            fileUploadInfoData.systemFileCount = systemFileCount;
+            const { data } = result;
+            if (data) {
+                const { systemFileCount } = data;
+                fileUploadInfoData.systemFileCount = systemFileCount;
+            }
         });
         const accountResponse = doGet(
             apis.systemApi + "/account/fileUpload/info"
         );
         await accountResponse.then((result) => {
-            const {
-                data: { userFileUploadCount },
-            } = result;
-            fileUploadInfoData.userFileUploadCount = userFileUploadCount;
+            const { data } = result;
+            if (data) {
+                const { userFileUploadCount } = data;
+                fileUploadInfoData.userFileUploadCount = userFileUploadCount;
+            }
         });
         this.setState({ fileUploadInfoData, fileUploadInfoLoading: false });
     };
 
-    initWeekUploadData = () => {
+    initWeekUploadData = async () => {
+        let passData = [];
         const response = doGet(apis.systemApi + "/fileUpload/week/info");
-        response.then((result) => {
+        await response.then((result) => {
             const { data } = result;
-            this.setState({
-                weekUploadData: data,
-                weekUploadDataLoading: false,
-            });
+            if (data.length) {
+                passData = data;
+            } else {
+                let currDate = new Date();
+                for (let i = 6; i >= 0; i--) {
+                    let dateSub = 24 * 60 * 60 * 1000 * i;
+                    let dateTime = currDate.getTime() - dateSub;
+                    let dataFormat = getDateFormat(new Date(dateTime));
+                    passData.push({
+                        createTime: dataFormat,
+                        fileUploadCount: 0,
+                    });
+                }
+            }
+        });
+        this.setState({
+            weekUploadData: passData,
+            weekUploadDataLoading: false,
         });
     };
 
