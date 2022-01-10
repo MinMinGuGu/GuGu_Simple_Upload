@@ -30,6 +30,17 @@ public class DateUtil {
     }
 
     /**
+     * Get string by format string.
+     *
+     * @param date   the date
+     * @param format the format
+     * @return the string
+     */
+    public static String getStringByFormat(Date date, String format) {
+        return new SimpleDateFormat(format).format(date);
+    }
+
+    /**
      * Get str by date now string.
      *
      * @return the string
