@@ -25,7 +25,7 @@ export default class FileList extends CheckComponent {
                 apis.fileApi + "/" + fileId,
                 "GET"
             );
-            this.processDownloadResponse(response, index);
+            this.processDownloadResponse(response, fileId);
         }
     };
 
@@ -48,8 +48,14 @@ export default class FileList extends CheckComponent {
 
     generateDisposition = (index) => {
         const { tableData } = this.state;
-        const fileInfo = tableData[index];
-        return encodeURI(fileInfo.fileOriginal);
+        for (const data in tableData) {
+            if (tableData.hasOwnProperty.call(tableData, data)) {
+                const element = tableData[data];
+                if (element.key === index) {
+                    return element.fileOriginal;
+                }
+            }
+        }
     };
 
     deleteFile = () => {
