@@ -1,11 +1,11 @@
 import React from "react";
-import Main from "../../layout/Main";
 import CheckLogin from "../../components/CheckLogin";
 import { Line } from "@ant-design/plots";
 import { doGet } from "../../utils/requestUtil";
 import { getDateFormat } from "../../utils/dateUtil";
 import apis from "../../config/setting";
 import { Row, Col, Divider, Card, Statistic } from "antd";
+import Content from "../../layout/Content";
 
 export default class Home extends CheckLogin {
     state = {
@@ -189,10 +189,6 @@ export default class Home extends CheckLogin {
     };
 
     render() {
-        return (
-            <div>
-                <Main history={this.props.history} view={this.content()} />
-            </div>
-        );
+        return <Content view={this.content()} />;
     }
 }

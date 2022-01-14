@@ -1,10 +1,10 @@
 import React from "react";
-import Main from "../../../layout/Main";
 import apis from "../../../config/setting";
 import CheckComponent from "../../../components/CheckLogin";
 
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
+import Content from "../../../layout/Content";
 
 const uploadProps = {
     name: "file",
@@ -47,6 +47,6 @@ export default class FileUpload extends CheckComponent {
     };
 
     render() {
-        return <Main history={this.props.history} view={this.content()} />;
+        return <Content view={this.content()} />;
     }
 }

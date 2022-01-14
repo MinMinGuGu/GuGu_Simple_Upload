@@ -1,5 +1,5 @@
 import React from "react";
-import Main from "../../../layout/Main";
+import Content from "../../../layout/Content";
 import { Table, Button, message } from "antd";
 import apis from "../../../config/setting";
 import {
@@ -176,6 +176,6 @@ export default class FileList extends CheckComponent {
     };
 
     render() {
-        return <Main history={this.props.history} view={this.content()} />;
+        return <Content view={this.content()} />;
     }
 }

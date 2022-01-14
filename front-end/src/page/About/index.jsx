@@ -1,6 +1,6 @@
 import React from "react";
-import Main from "../../layout/Main";
 import CheckLogin from "../../components/CheckLogin";
+import Content from "../../layout/Content";
 
 export default class About extends CheckLogin {
     content = () => {
@@ -8,10 +8,6 @@ export default class About extends CheckLogin {
     };
 
     render() {
-        return (
-            <div>
-                <Main history={this.props.history} view={this.content()} />
-            </div>
-        );
+        return <Content view={this.content()} />;
     }
 }

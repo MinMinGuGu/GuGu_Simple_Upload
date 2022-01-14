@@ -6,62 +6,19 @@ import {
     FormOutlined,
     AppstoreAddOutlined,
 } from "@ant-design/icons";
+import { withRouter } from "react-router-dom";
 
 const { SubMenu } = Menu;
 
-export default class LeftMenu extends Component {
+class LeftMenu extends Component {
     menuItemClick = (object) => {
         const menuItem = object.item.props;
-        // 手动路由跳转
         this.props.history.push(menuItem.path);
-    };
-
-    getSelectedItem = () => {
-        switch (this.props.history.location.pathname) {
-            case "/":
-                return ["1"];
-            case "/file/upload":
-                return ["2"];
-            case "/file/list":
-                return ["3"];
-            case "/system/user":
-                return ["4"];
-            case "/system/role":
-                return ["5"];
-            case "/system/permission":
-                return ["6"];
-            case "/system/manage":
-                return ["7"];
-            case "/system/appKey":
-                return ["8"];
-            case "/system/appLog":
-                return ["9"];
-            case "/about":
-                return ["10"];
-            default:
-                return ["1"];
-        }
-    };
-
-    getOpenKeys = () => {
-        const pathname = this.props.history.location.pathname;
-        if (pathname.indexOf("file") !== -1) {
-            return ["sub1"];
-        } else if (pathname.indexOf("system") !== -1) {
-            return ["sub2"];
-        }
-        return null;
     };
 
     render() {
         return (
-            <Menu
-                theme="dark"
-                defaultSelectedKeys={this.getSelectedItem()}
-                defaultOpenKeys={this.getOpenKeys()}
-                mode="inline"
-                onClick={this.menuItemClick}
-            >
+            <Menu theme="dark" mode="inline" onClick={this.menuItemClick}>
                 <Menu.Item key="1" icon={<PieChartOutlined />} path="/">
                     概览
                 </Menu.Item>
@@ -104,3 +61,5 @@ export default class LeftMenu extends Component {
         );
     }
 }
+
+export default withRouter(LeftMenu);
