@@ -115,7 +115,7 @@ export default class Home extends CheckLogin {
                     lineWidth: 2,
                 },
             },
-            smooth: true,
+            smooth: false,
             tooltip: {
                 showMarkers: false,
             },
