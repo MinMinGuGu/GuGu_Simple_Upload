@@ -1,13 +1,14 @@
 const proxy = require('http-proxy-middleware')
 
-const env = process.env.APP_ENV;
-const httpArgee = "http://";
+const env = process.env.REACT_APP_ENV;
 const portEnv = {
     "dev": 80,
     "pro": 8848
 };
 const port = portEnv[env];
+const httpArgee = "http://";
 const requestHost = httpArgee + "localhost:" + port;
+console.log("requestHost", requestHost)
 
 module.exports = function (app) {
     app.use(
