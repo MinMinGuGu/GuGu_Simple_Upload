@@ -156,7 +156,7 @@ export default class Home extends CheckLogin {
                     <Col>
                         <Card loading={fileUploadInfoLoading}>
                             <Statistic
-                                title="今日已上传的文件"
+                                title="已上传的文件"
                                 value={userFileUploadCount}
                                 valueStyle={{ color: "#87CEFA" }}
                             />
