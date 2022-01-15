@@ -1,14 +1,16 @@
-console.log('process.env', process.env.REACT_APP_ENV)
-// 接口前缀  不要修改
-const apiPrefix = "/api"
+const env = process.env.APP_ENV
+const apiPrefix = "/api";
+const rootFlag = "//"
+const port = env === 'dev' ? 80 : 8848;
+const requestHost = rootFlag + "localhost" + ":" + port;
 // 接口配置
 let apis = {
     devPort: 80,
     proPort: 8848,
-    backendUri: 'http://localhost',
-    loginApi: apiPrefix + "/login",
-    fileApi: apiPrefix + "/file",
-    systemApi: apiPrefix + "/system",
+    loginApi: requestHost + apiPrefix + "/login",
+    fileApi: requestHost + apiPrefix + "/file",
+    systemApi: requestHost + apiPrefix + "/system",
+    env
 }
 
 export default apis
