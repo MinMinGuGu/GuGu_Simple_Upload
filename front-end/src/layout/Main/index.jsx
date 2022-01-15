@@ -33,9 +33,9 @@ class Main extends Component {
                     <LeftMenu />
                 </Layout.Sider>
                 <Layout className="site-layout">
-                    <Header />
-                    <Routers />
-                    <Footer />
+                    <Header style={{ maxHeight: "10vh" }} />
+                    <Routers style={{ maxHeight: "80vh" }} />
+                    <Footer style={{ maxHeight: "10vh" }} />
                 </Layout>
             </Layout>
         );
