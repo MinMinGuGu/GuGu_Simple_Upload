@@ -1,6 +1,5 @@
 import { Component } from "react";
-import { Layout, Breadcrumb } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
+import { Layout } from "antd";
 
 export default class Content extends Component {
     render() {
