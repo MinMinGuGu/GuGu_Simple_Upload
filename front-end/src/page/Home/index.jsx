@@ -165,11 +165,28 @@ export default class Home extends CheckLogin {
                                 value={systemFileCount}
                                 valueStyle={{ color: "#1E90FF" }}
                             />
+                            <Statistic
+                                title="上传占系统总上传比"
+                                value={this.getPercent(
+                                    userFileUploadCount,
+                                    systemFileCount
+                                )}
+                                precision={0}
+                                valueStyle={{ color: "#40E0D0" }}
+                                suffix="%"
+                            />
                         </Card>
                     </Col>
                 </Row>
             </div>
         );
+    };
+
+    getPercent = (num, total) => {
+        if (num === 0 || total === 0) {
+            return 0;
+        }
+        return Math.round((num / total) * 10000) / 100;
     };
 
     generateComponent = () => {
