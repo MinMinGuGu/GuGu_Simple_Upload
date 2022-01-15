@@ -169,10 +169,7 @@ export default class FileList extends CheckComponent {
     };
 
     content = () => {
-        return {
-            navPath: "文件管理>文件列表",
-            content: this.generateComponent(),
-        };
+        return this.generateComponent();
     };
 
     render() {

@@ -4,7 +4,7 @@ import Content from "../../../layout/Content";
 
 export default class SystemPermission extends CheckLogin {
     content = () => {
-        return { navPath: "系统管理>权限管理", content: "权限管理待施工..." };
+        return "权限管理待施工...";
     };
 
     render() {

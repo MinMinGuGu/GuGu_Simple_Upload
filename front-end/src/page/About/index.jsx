@@ -4,7 +4,7 @@ import Content from "../../layout/Content";
 
 export default class About extends CheckLogin {
     content = () => {
-        return { navPath: "关于", content: "关于待施工..." };
+        return "关于待施工...";
     };
 
     render() {

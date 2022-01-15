@@ -9,7 +9,7 @@ export default class Content extends Component {
                     className="site-layout-background"
                     style={{ padding: 10, minHeight: 300 }}
                 >
-                    {this.props.view.content}
+                    {this.props.view}
                 </div>
             </Layout.Content>
         );

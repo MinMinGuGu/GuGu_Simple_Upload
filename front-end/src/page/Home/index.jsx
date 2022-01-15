@@ -202,7 +202,7 @@ export default class Home extends CheckLogin {
     };
 
     content = () => {
-        return { navPath: "概览", content: this.generateComponent() };
+        return this.generateComponent();
     };
 
     render() {
