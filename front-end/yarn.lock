@@ -4772,6 +4772,13 @@
     "safe-buffer" "^5.0.1"
     "sha.js" "^2.4.8"
 
+"cross-env@^7.0.3":
+  "integrity" "sha1-hlJkspZ33AFbqEGJGJZd0jL8VM8="
+  "resolved" "https://registry.npmmirror.com/cross-env/download/cross-env-7.0.3.tgz?cache=0&sync_timestamp=1632811805906&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fcross-env%2Fdownload%2Fcross-env-7.0.3.tgz"
+  "version" "7.0.3"
+  dependencies:
+    "cross-spawn" "^7.0.1"
+
 "cross-spawn@^6.0.0":
   "integrity" "sha1-Sl7Hxk364iw6FBJNus3uhG2Ay8Q="
   "resolved" "https://registry.npm.taobao.org/cross-spawn/download/cross-spawn-6.0.5.tgz"
@@ -4786,6 +4793,15 @@
 "cross-spawn@^7.0.0":
   "integrity" "sha1-9zqFudXUHQRVUcF34ogtSshXKKY="
   "resolved" "https://registry.npm.taobao.org/cross-spawn/download/cross-spawn-7.0.3.tgz"
+  "version" "7.0.3"
+  dependencies:
+    "path-key" "^3.1.0"
+    "shebang-command" "^2.0.0"
+    "which" "^2.0.1"
+
+"cross-spawn@^7.0.1":
+  "integrity" "sha1-9zqFudXUHQRVUcF34ogtSshXKKY="
+  "resolved" "https://registry.nlark.com/cross-spawn/download/cross-spawn-7.0.3.tgz"
   "version" "7.0.3"
   dependencies:
     "path-key" "^3.1.0"
