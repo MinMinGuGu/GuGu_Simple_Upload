@@ -1,5 +1,4 @@
-console.log('process.env', process.env)
-console.log('process.argv', process.argv)
+console.log('process.env', process.env.REACT_APP_ENV)
 // 接口前缀  不要修改
 const apiPrefix = "/api"
 // 接口配置
