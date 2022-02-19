@@ -4,10 +4,13 @@ import { Layout } from "antd";
 export default class Content extends Component {
     render() {
         return (
-            <Layout.Content style={{ margin: 20 }}>
+            <Layout.Content>
                 <div
                     className="site-layout-background"
-                    style={{ padding: 10, minHeight: 300 }}
+                    style={{
+                        margin: 20,
+                        padding: 10,
+                    }}
                 >
                     {this.props.view}
                 </div>

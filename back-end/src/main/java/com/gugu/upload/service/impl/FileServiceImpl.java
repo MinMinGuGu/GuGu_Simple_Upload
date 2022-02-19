@@ -3,12 +3,14 @@ package com.gugu.upload.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gugu.upload.common.bo.FileInfoBo;
+import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.file.FileInfoVo;
 import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
+import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.DateUtil;
 import com.gugu.upload.utils.StreamHelper;
@@ -16,6 +18,7 @@ import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +43,10 @@ import java.util.Map;
 @Slf4j
 @Service
 public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> implements IFileService {
+
+    @Resource
+    private IAccountService accountService;
+
     @Override
     public void downloadFileById(Integer id, HttpServletResponse response) {
         FileInfo fileInfo = this.getById(id);
@@ -72,7 +80,14 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
     public List<FileInfoVo> getFileInfoList(ISupportQuery<FileInfo> iSupportQuery) {
         QueryWrapper<FileInfo> queryParams = iSupportQuery.toQueryWrapper();
         List<FileInfo> fileInfos = baseMapper.selectList(queryParams);
-        List<FileInfoVo> fileInfoVoList = TransformUtil.transformList(fileInfos, FileInfoVo.class);
+        List<FileInfoVo> fileInfoVoList = new LinkedList<>();
+        fileInfos.forEach(item -> {
+            FileInfoVo fileInfoVo = TransformUtil.transform(item, FileInfoVo.class);
+            Integer accountId = item.getAccountId();
+            Account account = accountService.getById(accountId);
+            fileInfoVo.setUploader(String.format("%s(%s)", account.getUserName(), item.getUploader()));
+            fileInfoVoList.add(fileInfoVo);
+        });
         fileInfoVoList.forEach(item -> item.setFileSize(FileHelper.convertFileSize(item.getFileSize())));
         return fileInfoVoList;
     }

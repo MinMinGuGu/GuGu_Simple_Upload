@@ -99,6 +99,7 @@ export default class Home extends CheckLogin {
     generateWeekUploadInfo() {
         const { weekUploadData, weekUploadDataLoading } = this.state;
         const config = {
+            height: 250,
             data: weekUploadData,
             xField: "createTime",
             yField: "fileUploadCount",
@@ -189,9 +190,9 @@ export default class Home extends CheckLogin {
         return Math.round((num / total) * 10000) / 100;
     };
 
-    generateComponent = () => {
+    content = () => {
         return (
-            <div>
+            <div style={{ clear: "both" }}>
                 <Row gutter={12}>
                     <Col span={24}>{this.generateUserUploadInfo()}</Col>
                     <Divider plain>数据图表</Divider>
@@ -199,10 +200,6 @@ export default class Home extends CheckLogin {
                 </Row>
             </div>
         );
-    };
-
-    content = () => {
-        return this.generateComponent();
     };
 
     render() {

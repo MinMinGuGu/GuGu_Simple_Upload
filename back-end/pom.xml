@@ -120,11 +120,11 @@
             <resource>
                 <directory>src/main/resources/</directory>
                 <excludes>
-                    <exclude>env/</exclude>
+                    <exclude>envs/</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>src/main/resources/env/${profileActive}/</directory>
+                <directory>src/main/resources/envs/${profileActive}/</directory>
                 <includes>
                     <include>application.yml</include>
                 </includes>

@@ -14,6 +14,7 @@ export default class FileList extends CheckComponent {
         selectedRowKeys: [],
         loading: false,
         tableData: [],
+        tableDataLoading: true,
     };
 
     downloadFile = () => {
@@ -85,7 +86,7 @@ export default class FileList extends CheckComponent {
     };
 
     loadFileListData = () => {
-        const response = doGet(apis.fileApi + "/query");
+        const response = doGet(apis.fileApi);
         response.then((result) => {
             const data = result.data;
             const resultData = [];
@@ -93,41 +94,41 @@ export default class FileList extends CheckComponent {
                 const item = data[index];
                 resultData.push({ ...item, key: item.id });
             }
-            this.setState({ tableData: resultData });
+            this.setState({ tableData: resultData, tableDataLoading: false });
         });
     };
 
-    columns = [
-        {
-            title: "编号",
-            dataIndex: "id",
-            key: "id",
-        },
-        {
-            title: "文件名",
-            dataIndex: "fileOriginal",
-            key: "fileOriginal",
-        },
-        {
-            title: "文件大小",
-            dataIndex: "fileSize",
-            key: "fileSize",
-        },
-        {
-            title: "上传者",
-            dataIndex: "uploader",
-            key: "uploader",
-        },
-        {
-            title: "更新日期",
-            dataIndex: "updateTime",
-            key: "updateTime",
-        },
-    ];
-
     generateComponent = () => {
+        const columns = [
+            {
+                title: "编号",
+                dataIndex: "id",
+                key: "id",
+            },
+            {
+                title: "文件名",
+                dataIndex: "fileOriginal",
+                key: "fileOriginal",
+            },
+            {
+                title: "文件大小",
+                dataIndex: "fileSize",
+                key: "fileSize",
+            },
+            {
+                title: "上传者",
+                dataIndex: "uploader",
+                key: "uploader",
+            },
+            {
+                title: "更新日期",
+                dataIndex: "updateTime",
+                key: "updateTime",
+            },
+        ];
         // todo 重写 参考 ant 表单
-        const { loading, selectedRowKeys, tableData } = this.state;
+        const { loading, selectedRowKeys, tableData, tableDataLoading } =
+            this.state;
         const rowSelection = {
             selectedRowKeys,
             onChange: this.onSelectChange,
@@ -161,8 +162,9 @@ export default class FileList extends CheckComponent {
                 </div>
                 <Table
                     rowSelection={rowSelection}
-                    columns={this.columns}
+                    columns={columns}
                     dataSource={tableData}
+                    loading={tableDataLoading}
                 />
             </div>
         );

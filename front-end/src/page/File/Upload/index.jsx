@@ -10,6 +10,7 @@ const uploadProps = {
     name: "file",
     multiple: true,
     action: apis.fileApi,
+    directory: false,
     onChange(info) {
         const { status } = info.file;
         if (status !== "uploading") {

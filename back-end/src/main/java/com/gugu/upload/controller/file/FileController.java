@@ -1,4 +1,4 @@
-package com.gugu.upload.controller;
+package com.gugu.upload.controller.file;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.FileInfoBo;
@@ -18,10 +18,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -109,10 +109,10 @@ public class FileController {
      * @param fileInfoQueryRequest the file info query request
      * @return the result
      */
-    @GetMapping("/query")
+    @GetMapping
     @ApiOperation("获取管理中的文件列表")
-    @ApiImplicitParam(paramType = "body", name = "fileInfoQueryRequest", value = "文件查询参数")
-    public Result<List<FileInfoVo>> findList(@RequestBody(required = false) FileInfoQueryRequest fileInfoQueryRequest) {
+    @ApiImplicitParam(paramType = "query", name = "fileInfoQueryRequest", value = "文件查询参数")
+    public Result<List<FileInfoVo>> findList(@ModelAttribute FileInfoQueryRequest fileInfoQueryRequest) {
         if (fileInfoQueryRequest == null) {
             fileInfoQueryRequest = new FileInfoQueryRequest();
         }

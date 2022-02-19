@@ -21,6 +21,6 @@ public class FileInfoVo {
     private String fileSize;
     private String uploader;
     private String fileDesc;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
 }

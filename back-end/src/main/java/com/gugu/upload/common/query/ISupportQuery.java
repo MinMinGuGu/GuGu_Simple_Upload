@@ -23,11 +23,10 @@ public interface ISupportQuery<T> {
     /**
      * Get query wrapper query wrapper.
      *
-     * @param t the t
      * @return the query wrapper
      */
-    default QueryWrapper<T> getQueryWrapper(T t){
-        QueryWrapper<T> query = Wrappers.query(t);
+    default QueryWrapper<T> getQueryWrapper() {
+        QueryWrapper<T> query = Wrappers.query();
         query.clear();
         return query;
     }

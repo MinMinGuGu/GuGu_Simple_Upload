@@ -1,11 +1,10 @@
 package com.gugu.upload.common.query;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import com.gugu.upload.common.constant.EntityConstant;
 import com.gugu.upload.common.entity.FileInfo;
-import com.gugu.upload.utils.TransformUtil;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -22,18 +21,23 @@ import java.util.Date;
 @Data
 public class FileInfoQueryRequest implements ISupportQuery<FileInfo> {
 
+    private static final String CREATE_TIME = "create_time";
+
+    private static final String UPDATE_TIME = "update_time";
+
     @JsonProperty("fileName")
     private String fileOriginal;
     private String fileDesc;
     private String uploader;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private Order order = Order.DESC;
 
     @Override
     public QueryWrapper<FileInfo> toQueryWrapper() {
-        FileInfo fileInfo = TransformUtil.transform(this, FileInfo.class);
-        QueryWrapper<FileInfo> queryWrapper = getQueryWrapper(fileInfo);
+        QueryWrapper<FileInfo> queryWrapper = getQueryWrapper();
         if (StringUtils.hasText(fileOriginal)) {
             queryWrapper.like("file_original", fileOriginal);
         }
@@ -50,23 +54,23 @@ public class FileInfoQueryRequest implements ISupportQuery<FileInfo> {
 
     private void generateOrderCondition(Order order, QueryWrapper<FileInfo> queryWrapper) {
         if (order == Order.ASC) {
-            queryWrapper.orderByAsc(EntityConstant.FILE_INFO_ORDER);
+            queryWrapper.orderByAsc(UPDATE_TIME);
         } else {
-            queryWrapper.orderByDesc(EntityConstant.FILE_INFO_ORDER);
+            queryWrapper.orderByDesc(UPDATE_TIME);
         }
     }
 
     private void generateDateCondition(QueryWrapper<FileInfo> queryWrapper) {
         if (startDate != null && endDate != null) {
-            queryWrapper.between(EntityConstant.FILE_INFO_ORDER, startDate, endDate);
+            queryWrapper.between(CREATE_TIME, startDate, endDate);
             return;
         }
         if (startDate != null) {
-            queryWrapper.ge(EntityConstant.FILE_INFO_ORDER, startDate);
+            queryWrapper.ge(CREATE_TIME, startDate);
             return;
         }
         if (endDate != null) {
-            queryWrapper.le(EntityConstant.FILE_INFO_ORDER, endDate);
+            queryWrapper.le(CREATE_TIME, endDate);
         }
     }
 

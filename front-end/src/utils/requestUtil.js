@@ -12,7 +12,7 @@ function cleanArray(actual) {
 
 function handlerParams(json) {
     if (!json) return ''
-    return cleanArray(Object.keys(json).map(key => {
+    return "?" + cleanArray(Object.keys(json).map(key => {
         if (json[key] === undefined) return ''
         return encodeURIComponent(key) + '=' +
             encodeURIComponent(json[key])
@@ -35,6 +35,7 @@ export async function doGet(uri, params, header) {
             method: "GET",
             headers: JSON.stringify(header)
         })
+        // todo 优化如果请求登录失效
         return await response.json()
     } catch (error) {
         return generateError('发起请求失败')
@@ -42,16 +43,30 @@ export async function doGet(uri, params, header) {
 }
 
 export async function doPost(uri, params, header) {
+    return dataInBody("POST", uri, params, header)
+}
+
+export async function doPut(uri, params, header) {
+    return dataInBody("PUT", uri, params, header)
+}
+
+export async function doDel(uri, params, header) {
+    return dataInBody("DELETE", uri, params, header)
+}
+
+async function dataInBody(method, uri, params, header) {
     const requestUrl = generateUrl(uri)
+    const requestParams = params || {};
     try {
         const response = await fetch(requestUrl, {
-            method: "POST",
+            method,
             headers: {
                 "Content-Type": "application/json",
                 headers: JSON.stringify(header)
             },
-            body: JSON.stringify(params)
+            body: JSON.stringify(requestParams)
         })
+        // todo 优化如果请求登录失效
         return await response.json()
     } catch (error) {
         return generateError('发起请求失败')

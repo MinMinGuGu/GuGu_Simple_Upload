@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Alert } from "antd";
 import "./index.css";
-import "./bootstrap.min.css";
 import { doPost } from "../../utils/requestUtil";
 import apis from "../../config/setting";
 import { withRouter } from "react-router-dom";
