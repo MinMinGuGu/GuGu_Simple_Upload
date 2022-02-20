@@ -12,7 +12,7 @@ export default class CheckComponent extends Component {
         result.then((data) => {
             if (data.code !== 200) {
                 console.log("check login failed");
-                this.props.history.push("/login");
+                this.props.history.push(`/login?redirect=${window.location}`);
             } else {
                 console.log("login verification passed...");
             }

@@ -7,10 +7,24 @@ import {
     AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
+import { getRoute } from "../../utils/urlUtil";
+import routers from "../../config/router";
 
 const { SubMenu } = Menu;
 
 class LeftMenu extends Component {
+    UNSAFE_componentWillMount = () => {
+        let localRoute = getRoute();
+        for (const pass in routers) {
+            if (pass.hasOwnProperty.call(pass, pass)) {
+                const route = pass[pass];
+                if (route.path === localRoute) {
+                    // todo 根据redirect跳转过来时菜单能够正确显示
+                }
+            }
+        }
+    };
+
     menuItemClick = (object) => {
         const menuItem = object.item.props;
         this.props.history.push(menuItem.path);

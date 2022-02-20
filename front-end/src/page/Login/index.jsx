@@ -1,13 +1,34 @@
 import React, { Component } from "react";
 import { Alert } from "antd";
 import "./index.css";
-import { doPost } from "../../utils/requestUtil";
+import { doGet, doPost } from "../../utils/requestUtil";
+import { getQueryVariable } from "../../utils/urlUtil";
 import apis from "../../config/setting";
 import { withRouter } from "react-router-dom";
 
 class Login extends Component {
+    UNSAFE_componentWillMount = () => {
+        const result = doGet(apis.loginApi);
+        result.then((data) => {
+            if (data.code !== 200) {
+                console.log("check login failed");
+                this.props.history.push(`/login?redirect=${window.location}`);
+            } else {
+                console.log("login verification passed...");
+                this.props.history.push("/home");
+            }
+        });
+    };
+
     state = {
         msg: "",
+    };
+
+    getRedirect = () => {
+        let redirect = getQueryVariable("redirect");
+        return redirect
+            ? redirect.substring(redirect.lastIndexOf("#") + 1)
+            : redirect;
     };
 
     postHandler = (event) => {
@@ -25,7 +46,12 @@ class Login extends Component {
         });
         result.then((data) => {
             if (data.code === 200) {
-                this.props.history.push("/");
+                let redirect = this.getRedirect();
+                if (redirect) {
+                    this.props.history.push(redirect);
+                    return;
+                }
+                this.props.history.push("/home");
                 return;
             }
             this.setState({ msg: data.message });

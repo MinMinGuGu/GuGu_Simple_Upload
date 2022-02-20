@@ -1,5 +1,5 @@
+import Home from '../page/Home';
 import Login from '../page/Login';
-import Home from '../page/Home'
 import FileUpload from '../page/File/Upload'
 import FileList from '../page/File/List'
 import SystemAppKey from '../page/System/AppKey'
@@ -13,58 +13,75 @@ import SystemAppLog from '../page/System/AppLog';
 const routers = [
     {
         path: '/',
+        component: Login,
+        exact: true,
+        title: "根目录"
+    },
+    {
+        path: '/home',
         component: Home,
         exact: true,
+        title: "概览"
     },
     {
         path: '/login',
         component: Login,
         exact: true,
+        title: "登录"
     },
     {
         path: '/file/upload',
         component: FileUpload,
         exact: true,
+        title: "文件上传"
     },
     {
         path: '/file/list',
         component: FileList,
         exact: true,
+        title: "文件列表"
     },
     {
         path: '/system/user',
         component: SystemUser,
         exact: true,
+        title: "用户管理"
     },
     {
         path: '/system/role',
         component: SystemRole,
         exact: true,
+        title: "角色管理"
     },
     {
         path: '/system/permission',
         component: SystemPermission,
         exact: true,
+        title: "权限管理"
     },
     {
         path: '/system/manage',
         component: SystemManage,
         exact: true,
+        title: "系统设置"
     },
     {
         path: '/system/appKey',
         component: SystemAppKey,
         exact: true,
+        title: "AppKey设置"
     },
     {
         path: '/system/appLog',
         component: SystemAppLog,
         exact: true,
+        title: "系统日志"
     },
     {
         path: '/about',
         component: About,
         exact: true,
+        title: "关于"
     },
 ]
 
