@@ -11,5 +11,6 @@ export function getQueryVariable(variable) {
 
 export function getRoute() {
     let location = window.location.toString()
-    return location.substring(location.lastIndexOf('#') + 1)
+    const index = location.lastIndexOf('#')
+    return location.substring(index + 1)
 }

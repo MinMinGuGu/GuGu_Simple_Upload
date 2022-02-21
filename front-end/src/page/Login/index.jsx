@@ -8,20 +8,15 @@ import { withRouter } from "react-router-dom";
 
 class Login extends Component {
     UNSAFE_componentWillMount = () => {
-        const result = doGet(apis.loginApi);
-        result.then((data) => {
-            if (data.code !== 200) {
-                console.log("check login failed");
-                this.props.history.push(`/login?redirect=${window.location}`);
-            } else {
-                console.log("login verification passed...");
-                this.props.history.push("/home");
-            }
-        });
+        const localRoute = this.getRedirect();
+        if (localRoute) {
+            this.setState({ redirect: localRoute });
+        }
     };
 
     state = {
         msg: "",
+        redirect: "",
     };
 
     getRedirect = () => {
@@ -33,6 +28,7 @@ class Login extends Component {
 
     postHandler = (event) => {
         event.preventDefault();
+        const { redirect } = this.state;
         const {
             username: { value: username },
             passwrod: { value: password },
@@ -46,7 +42,6 @@ class Login extends Component {
         });
         result.then((data) => {
             if (data.code === 200) {
-                let redirect = this.getRedirect();
                 if (redirect) {
                     this.props.history.push(redirect);
                     return;

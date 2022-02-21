@@ -13,7 +13,7 @@ import SystemAppLog from '../page/System/AppLog';
 const routers = [
     {
         path: '/',
-        component: Login,
+        component: Home,
         exact: true,
         title: "根目录"
     },
