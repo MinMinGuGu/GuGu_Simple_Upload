@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Alert } from "antd";
 import "./index.css";
-import { doGet, doPost } from "../../utils/requestUtil";
+import { doPost } from "../../utils/requestUtil";
 import { getQueryVariable } from "../../utils/urlUtil";
 import apis from "../../config/setting";
 import { withRouter } from "react-router-dom";
