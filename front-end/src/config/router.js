@@ -8,6 +8,7 @@ import SystemPermission from '../page/System/Permission'
 import SystemRole from '../page/System/Role'
 import SystemUser from '../page/System/User'
 import About from '../page/About'
+import SystemAppLog from '../page/System/AppLog';
 
 const routers = [
     {
@@ -53,6 +54,11 @@ const routers = [
     {
         path: '/system/appKey',
         component: SystemAppKey,
+        exact: true,
+    },
+    {
+        path: '/system/appLog',
+        component: SystemAppLog,
         exact: true,
     },
     {

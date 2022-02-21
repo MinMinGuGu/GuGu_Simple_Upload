@@ -1,13 +1,12 @@
-// 接口前缀  不要修改
-const apiPrefix = "/api"
-// 接口配置
-let apis = {
-    defaultPort: 80,
-    devPort: 80,
-    proPort: 8841,
-    backendUri: 'http://localhost',
+const env = process.env.APP_ENV;
+const apiPrefix = "/api";
+
+const apis = {
     loginApi: apiPrefix + "/login",
     fileApi: apiPrefix + "/file",
+    systemApi: apiPrefix + "/system",
+    userManageApi: apiPrefix + "/system/account",
+    env
 }
 
 export default apis

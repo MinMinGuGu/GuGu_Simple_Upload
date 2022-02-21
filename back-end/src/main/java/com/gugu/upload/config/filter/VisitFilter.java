@@ -1,6 +1,5 @@
 package com.gugu.upload.config.filter;
 
-import com.gugu.upload.common.Constant;
 import com.gugu.upload.common.entity.Visit;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.IpUtil;
@@ -25,6 +24,9 @@ import java.util.UUID;
  */
 @Slf4j
 public class VisitFilter implements Filter {
+
+    private static final String RECORD_CACHE_PREFIX = "record_cache_key_";
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         Visit visit = getVisit(servletRequest);
@@ -46,6 +48,6 @@ public class VisitFilter implements Filter {
     }
 
     private String generateCacheName() {
-        return Constant.RECORD_CACHE_PREFIX + UUID.randomUUID().toString().replace("-", "");
+        return RECORD_CACHE_PREFIX + UUID.randomUUID().toString().replace("-", "");
     }
 }

@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.2.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.gugu</groupId>
     <artifactId>GuGu_Simple_Upload</artifactId>
@@ -115,30 +115,34 @@
     </profiles>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <resources>
             <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/main/resources/</directory>
                 <excludes>
-                    <exclude>env/**</exclude>
+                    <exclude>envs/</exclude>
                 </excludes>
             </resource>
             <resource>
-                <directory>src/main/resources/env/${profileActive}</directory>
+                <directory>src/main/resources/envs/${profileActive}/</directory>
                 <includes>
-                    <include>*.yml</include>
+                    <include>application.yml</include>
                 </includes>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
+                        <exclude>application.yml</exclude>
+                        <exclude>logback-spring.xml</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -146,6 +150,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>${project.build.finalName}_${profileActive}_${project.version}</finalName>
                     <descriptors>
                         <descriptor>${project.basedir}/assembly/assembly.xml</descriptor>
                     </descriptors>

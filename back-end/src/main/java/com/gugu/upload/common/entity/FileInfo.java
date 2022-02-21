@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * The type File info.
@@ -27,28 +28,21 @@ public class FileInfo {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     private String fileHash;
+    private String fileDesc;
     private String filePath;
     private String fileOriginal;
     private String fileSize;
     private Integer status;
     private String uploader;
+    private Integer accountId;
     @TableLogic
     private Integer deleted;
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
-
-    /**
-     * Is exist boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isExist(){
-        return StatusUtil.Status.SUCCESS.getCode().equals(status);
-    }
 
     /**
      * Set status.

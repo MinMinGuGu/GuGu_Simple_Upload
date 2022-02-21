@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React from "react";
+import CheckLogin from "../../../components/CheckLogin";
+import Content from "../../../layout/Content";
 
-export default class SystemAppKey extends Component {
+export default class SystemAppKey extends CheckLogin {
+    content = () => {
+        return "AppKey设置待施工...";
+    };
+
     render() {
-        return (
-            <div>
-                SystemAppKey...
-            </div>
-        )
+        return <Content view={this.content()} />;
     }
 }

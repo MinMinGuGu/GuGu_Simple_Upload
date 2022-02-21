@@ -1,9 +1,12 @@
-import './App.css';
-import Routers from './page/Routers';
+import "./App.css";
+import Main from "./layout/Main";
+import { HashRouter } from "react-router-dom";
 
 function App() {
     return (
-        <Routers />
+        <HashRouter>
+            <Main />
+        </HashRouter>
     );
 }
 

@@ -1,6 +1,5 @@
 package com.gugu.upload.config.filter;
 
-import com.gugu.upload.common.Constant;
 import com.gugu.upload.common.Result;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.JsonUtil;
@@ -26,10 +25,16 @@ import java.io.IOException;
  */
 @Slf4j
 public class AuthFilter implements Filter {
+
+    /**
+     * The constant NOT_LOGIN_HTTP_STATUS.
+     */
+    public static final int NOT_LOGIN_HTTP_STATUS = 409;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        log.info("Request path : {}, method : {}", ((HttpServletRequest)servletRequest).getRequestURI(), ((HttpServletRequest) servletRequest).getMethod());
-        if (isSecurity(servletRequest)){
+        log.info("Request path : {}, method : {}", ((HttpServletRequest) servletRequest).getRequestURI(), ((HttpServletRequest) servletRequest).getMethod());
+        if (isSecurity(servletRequest)) {
             log.info("pass requests...");
             pass(servletRequest, servletResponse, filterChain);
             return;
@@ -47,11 +52,11 @@ public class AuthFilter implements Filter {
 
     private void refuse(ServletResponse servletResponse) throws IOException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setStatus(Constant.NOT_LOGIN_HTTP_STATUS);
+        response.setStatus(NOT_LOGIN_HTTP_STATUS);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().print(JsonUtil.obj2JsonStr(
                 new Result.Builder<String>()
-                        .code(Constant.NOT_LOGIN_HTTP_STATUS)
+                        .code(NOT_LOGIN_HTTP_STATUS)
                         .message("Please login before operation")
                         .build()
         ));

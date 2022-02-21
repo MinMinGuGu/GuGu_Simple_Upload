@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assembly>
-    <!-- 可自定义，这里指定的是项目环境 -->
-    <!-- spring-boot-assembly-local-1.0.RELEASE.tar.gz  -->
-    <id>${profileActive}-${project.version}</id>
-    <!-- 打包的类型，如果有N个，将会打N个类型的包 -->
+    <id>assembly</id>
     <formats>
         <format>tar.gz</format>
         <format>zip</format>
@@ -12,18 +9,14 @@
     <includeBaseDirectory>true</includeBaseDirectory>
 
     <fileSets>
-        <!--
-            0755->即用户具有读/写/执行权限，组用户和其它用户具有读写权限；
-            0644->即用户具有读写权限，组用户和其它用户具有只读权限；
-        -->
         <!-- 将src/bin目录下的所有文件输出到打包后的bin目录中 -->
         <fileSet>
-            <directory>${basedir}/src/bin</directory>
+            <directory>${basedir}/shell</directory>
             <outputDirectory>bin</outputDirectory>
             <fileMode>0755</fileMode>
             <includes>
-                <include>**.sh</include>
-                <include>**.bat</include>
+                <include>**/**.sh</include>
+                <include>**/**.bat</include>
             </includes>
         </fileSet>
 
@@ -31,23 +24,11 @@
         <fileSet>
             <directory>${basedir}/target/classes</directory>
             <outputDirectory>config</outputDirectory>
-            <fileMode>0644</fileMode>
-            <includes>
-                <include>application.yml</include>
-                <include>mapper/**/*.xml</include>
-                <include>public/**</include>
-                <include>static/**</include>
-                <include>templates/**</include>
-                <include>*.xml</include>
-                <include>*.properties</include>
-            </includes>
-        </fileSet>
-
-        <!-- 将第三方依赖打包到lib目录中 -->
-        <fileSet>
-            <directory>${basedir}/target/lib</directory>
-            <outputDirectory>lib</outputDirectory>
             <fileMode>0755</fileMode>
+            <includes>
+                <include>*.yml</include>
+                <include>*.xml</include>
+            </includes>
         </fileSet>
 
         <!-- 将项目启动jar打包到boot目录中 -->
@@ -62,11 +43,21 @@
 
         <!-- 包含根目录下的文件 -->
         <fileSet>
-            <directory>${basedir}</directory>
+            <directory>${basedir}/../</directory>
+            <outputDirectory>help</outputDirectory>
+            <fileMode>0755</fileMode>
             <includes>
-                <include>NOTICE</include>
                 <include>LICENSE</include>
                 <include>*.md</include>
+            </includes>
+        </fileSet>
+
+        <!-- 如果有LICENSE -->
+        <fileSet>
+            <directory>${basedir}/../</directory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>LICENSE</include>
             </includes>
         </fileSet>
     </fileSets>

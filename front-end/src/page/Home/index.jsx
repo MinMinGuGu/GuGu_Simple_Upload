@@ -1,18 +1,208 @@
-import React from 'react'
-import Main from '../../layout/Main'
-import CheckLogin from '../../components/CheckLogin'
+import React from "react";
+import CheckLogin from "../../components/CheckLogin";
+import { Line } from "@ant-design/plots";
+import { doGet } from "../../utils/requestUtil";
+import { getDateFormat } from "../../utils/dateUtil";
+import apis from "../../config/setting";
+import { Row, Col, Divider, Card, Statistic } from "antd";
+import Content from "../../layout/Content";
 
 export default class Home extends CheckLogin {
+    state = {
+        weekUploadData: [],
+        weekUploadDataLoading: true,
+        fileUploadInfoData: {
+            systemFileCount: 0,
+            userFileUploadCount: 0,
+        },
+        fileUploadInfoLoading: true,
+    };
 
-    content = () => {
-        return { navPath: '概览', content: '概览待施工...' }
+    UNSAFE_componentWillMount = () => {
+        this.checkLogin();
+        this.initWeekUploadData();
+        this.initFileUploadInfoData();
+    };
+
+    initFileUploadInfoData = async () => {
+        const fileUploadInfoData = {
+            systemFileCount: 0,
+            userFileUploadCount: 0,
+        };
+        const systemResponse = doGet(apis.systemApi + "/fileUpload/info");
+        await systemResponse.then((result) => {
+            const { data } = result;
+            if (data) {
+                const { systemFileCount } = data;
+                fileUploadInfoData.systemFileCount = systemFileCount;
+            }
+        });
+        const accountResponse = doGet(
+            apis.systemApi + "/account/fileUpload/info"
+        );
+        await accountResponse.then((result) => {
+            const { data } = result;
+            if (data) {
+                const { userFileUploadCount } = data;
+                fileUploadInfoData.userFileUploadCount = userFileUploadCount;
+            }
+        });
+        this.setState({ fileUploadInfoData, fileUploadInfoLoading: false });
+    };
+
+    getDefaultData = () => {
+        let passData = [];
+        let currDate = new Date();
+        for (let i = 6; i >= 0; i--) {
+            let dateSub = 24 * 60 * 60 * 1000 * i;
+            let dateTime = currDate.getTime() - dateSub;
+            let dataFormat = getDateFormat(new Date(dateTime));
+            passData.push({
+                createTime: dataFormat,
+                fileUploadCount: 0,
+            });
+        }
+        return passData;
+    };
+
+    initWeekUploadData = async () => {
+        let handledData = this.getDefaultData();
+        const response = doGet(apis.systemApi + "/fileUpload/week/info");
+        await response.then((result) => {
+            const { data } = result;
+            if (data && data.length) {
+                data.forEach((item) => {
+                    for (let i = 0; i < handledData.length; i++) {
+                        const { createTime: defaultCreateTime } =
+                            handledData[i];
+                        const {
+                            createTime: responseCreateTime,
+                            fileUploadCount,
+                        } = item;
+                        if (responseCreateTime === defaultCreateTime) {
+                            handledData[i] = {
+                                createTime: responseCreateTime,
+                                fileUploadCount,
+                            };
+                            break;
+                        }
+                    }
+                });
+            }
+        });
+        this.setState({
+            weekUploadData: handledData,
+            weekUploadDataLoading: false,
+        });
+    };
+
+    generateWeekUploadInfo() {
+        const { weekUploadData, weekUploadDataLoading } = this.state;
+        const config = {
+            height: 250,
+            data: weekUploadData,
+            xField: "createTime",
+            yField: "fileUploadCount",
+            meta: {
+                fileUploadCount: { alias: "上传文件数" },
+            },
+            label: {},
+            point: {
+                size: 5,
+                shape: "diamond",
+                style: {
+                    fill: "white",
+                    stroke: "#5B8FF9",
+                    lineWidth: 2,
+                },
+            },
+            smooth: false,
+            tooltip: {
+                showMarkers: false,
+            },
+            state: {
+                active: {
+                    style: {
+                        shadowBlur: 4,
+                        stroke: "#000",
+                        fill: "red",
+                    },
+                },
+            },
+            interactions: [
+                {
+                    type: "marker-active",
+                },
+            ],
+        };
+        return (
+            <div style={{ textAlign: "center" }}>
+                <Card
+                    title="系统近7天文件上传数据表"
+                    loading={weekUploadDataLoading}
+                >
+                    <Line {...config} />
+                </Card>
+            </div>
+        );
     }
 
-    render() {
+    generateUserUploadInfo = () => {
+        const { userFileUploadCount, systemFileCount } =
+            this.state.fileUploadInfoData;
+        const { fileUploadInfoLoading } = this.state;
         return (
-            <div>
-                <Main history={this.props.history} view={this.content()} />
+            <div style={{ textAlign: "center" }}>
+                <Row>
+                    <Col>
+                        <Card loading={fileUploadInfoLoading}>
+                            <Statistic
+                                title="已上传的文件"
+                                value={userFileUploadCount}
+                                valueStyle={{ color: "#87CEFA" }}
+                            />
+                            <Statistic
+                                title="系统上传的总文件"
+                                value={systemFileCount}
+                                valueStyle={{ color: "#1E90FF" }}
+                            />
+                            <Statistic
+                                title="上传占系统总上传比"
+                                value={this.getPercent(
+                                    userFileUploadCount,
+                                    systemFileCount
+                                )}
+                                precision={0}
+                                valueStyle={{ color: "#40E0D0" }}
+                                suffix="%"
+                            />
+                        </Card>
+                    </Col>
+                </Row>
             </div>
-        )
+        );
+    };
+
+    getPercent = (num, total) => {
+        if (num === 0 || total === 0) {
+            return 0;
+        }
+        return Math.round((num / total) * 10000) / 100;
+    };
+
+    content = () => {
+        return (
+            <div style={{ clear: "both" }}>
+                <Row gutter={12}>
+                    <Col span={24}>{this.generateUserUploadInfo()}</Col>
+                    <Divider plain>数据图表</Divider>
+                    <Col span={24}>{this.generateWeekUploadInfo()}</Col>
+                </Row>
+            </div>
+        );
+    };
+
+    render() {
+        return <Content view={this.content()} />;
     }
 }

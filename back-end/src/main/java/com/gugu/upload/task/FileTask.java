@@ -3,7 +3,6 @@ package com.gugu.upload.task;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.service.IFileService;
-import com.gugu.upload.utils.SpringContextUtil;
 import com.gugu.upload.utils.StatusUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -79,11 +78,13 @@ public class FileTask {
         Map<String, String> dataMap = fileService.list().stream().collect(Collectors.toMap(FileInfo::getFilePath, FileInfo::getFilePath));
         Path path = Paths.get(applicationConfig.getTmpDir());
         if (Files.exists(path)) {
-            Files.walkFileTree(path, new CleanUpIrrelevantFiles(dataMap));
+            Files.walkFileTree(path, new CleanUpIrrelevantFiles(dataMap, applicationConfig));
         }
     }
 
     private static class CleanUpIrrelevantFiles extends SimpleFileVisitor<Path> {
+
+        private final ApplicationConfig applicationConfig;
 
         private final Map<String, String> dataMap;
 
@@ -92,8 +93,9 @@ public class FileTask {
          *
          * @param dataMap the data map
          */
-        public CleanUpIrrelevantFiles(Map<String, String> dataMap) {
+        public CleanUpIrrelevantFiles(Map<String, String> dataMap, ApplicationConfig applicationConfig) {
             this.dataMap = dataMap;
+            this.applicationConfig = applicationConfig;
         }
 
         @Override
@@ -123,9 +125,8 @@ public class FileTask {
             if (StringUtils.isEmpty(path)) {
                 return false;
             }
-            ApplicationConfig config = SpringContextUtil.getApplicationContext().getBean(ApplicationConfig.class);
             try {
-                if (Files.isSameFile(path, Paths.get(config.getTmpDir()))) {
+                if (Files.isSameFile(path, Paths.get(applicationConfig.getTmpDir()))) {
                     return false;
                 }
             } catch (IOException e) {

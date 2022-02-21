@@ -1,6 +1,6 @@
 spring:
   application:
-    name: GuGu_Simple_Upload
+    name: GuGu_Simple_Upload_Dev
   profiles:
     active: dev
   servlet:
@@ -9,9 +9,9 @@ spring:
       max-request-size: 100GB
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://${config.db-server}/${spring.application.name}?serverTimezone=Asia/Shanghai&allowMultiQueries=true
-    username: ENC(SOqQqtqr2hBoZOKjBfnyAw==)
-    password: ENC(RI8ITLJTJ4ek56gQ7iFzhQ==)
+    url: jdbc:mysql://${config.db-server}/${spring.application.name}?serverTimezone=${config.db-timezone}&allowMultiQueries=true
+    username: ${config.db-username}
+    password: ${config.db-password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -22,12 +22,16 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
-  port: 8841
+  port: 80
 logging:
   level:
     com.gugu.upload: debug
 config:
   dir: ${user.home}/${spring.application.name}
+  # tmp-dir 请确保该文件夹空间足够
   tmp-dir: ${config.dir}/tmp/
   log-dir: ${config.dir}/log/
-  db-server: myserver
+  db-server: rm-wz93d1vexp93w779efo.mysql.rds.aliyuncs.com
+  db-username: ENC(MBwbLOJPafjWeQQjMZVpuc4l3Uz2Ynem)
+  db-password: ENC(ZhV4/8thHCTUYZKcWXw+0ognhJs/BbXF)
+  db-timezone: Asia/Shanghai

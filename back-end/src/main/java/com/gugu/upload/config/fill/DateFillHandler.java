@@ -1,10 +1,12 @@
 package com.gugu.upload.config.fill;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.gugu.upload.exception.UnknownException;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * The type Date fill handler.
@@ -15,17 +17,30 @@ import java.time.LocalDateTime;
  */
 @Component
 public class DateFillHandler implements MetaObjectHandler {
+
     @Override
     public void insertFill(MetaObject metaObject) {
-        // FIXME: 2021/8/25 23:50 minmin 自动填充在数据库上的时间不对 相差了8小时
-        this.strictInsertFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        handleCreateTime(metaObject);
         this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        // FIXME: 2021/8/25 23:50 minmin 自动填充在数据库上的时间不对 相差了8小时
-        this.strictUpdateFill(metaObject, "createTime", LocalDateTime.class, LocalDateTime.now());
+        handleCreateTime(metaObject);
         this.strictUpdateFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+    }
+
+    private void handleCreateTime(MetaObject metaObject) {
+        String createTimeField = "createTime";
+        Class<?> createTimeType = metaObject.getSetterType(createTimeField);
+        if (Date.class.isAssignableFrom(createTimeType)) {
+            this.strictInsertFill(metaObject, createTimeField, Date.class, new Date());
+        } else {
+            if (LocalDateTime.class.isAssignableFrom(createTimeType)) {
+                this.strictInsertFill(metaObject, createTimeField, LocalDateTime.class, LocalDateTime.now());
+            } else {
+                throw new UnknownException("The type of the field createTime is unknown and cannot be auto populated.");
+            }
+        }
     }
 }
