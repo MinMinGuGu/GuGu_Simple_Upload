@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * The type Gu gu simple upload application.
+ * The type GuGu simple upload application.
  *
  * @author minmin
  * @version 1.0
