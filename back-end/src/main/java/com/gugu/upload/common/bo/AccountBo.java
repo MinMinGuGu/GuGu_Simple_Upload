@@ -1,4 +1,4 @@
-package com.gugu.upload.common.dto;
+package com.gugu.upload.common.bo;
 
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.utils.MD5Util;
@@ -14,7 +14,7 @@ import org.springframework.util.StringUtils;
  * @since 1.8
  */
 @Data
-public class AccountDto implements IDto2Entity<Account> {
+public class AccountBo implements IBo2Entity<Account> {
     private Integer id;
     private String username;
     private String password;
@@ -22,7 +22,7 @@ public class AccountDto implements IDto2Entity<Account> {
     private Boolean enable;
 
     @Override
-    public Account dto2Entity() {
+    public Account bo2Entity() {
         Account account = new Account();
         account.setId(id);
         account.setUserName(username);

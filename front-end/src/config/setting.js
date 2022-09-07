@@ -6,6 +6,9 @@ const apis = {
     fileApi: apiPrefix + "/file",
     systemApi: apiPrefix + "/system",
     userManageApi: apiPrefix + "/system/account",
+    roleManageApi: apiPrefix + "/system/role",
+    rolePermissionManageApi: apiPrefix + "/system/role/permission",
+    permissionApi: apiPrefix + "/system/permission",
     env
 }
 

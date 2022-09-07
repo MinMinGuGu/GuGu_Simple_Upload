@@ -1,11 +1,15 @@
 package com.gugu.upload.controller.system;
 
 import com.gugu.upload.common.Result;
-import com.gugu.upload.common.dto.AccountDto;
+import com.gugu.upload.common.bo.AccountBo;
+import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.query.AccountQueryRequest;
 import com.gugu.upload.common.vo.system.account.AccountVo;
+import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
+import com.gugu.upload.utils.MapUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -53,21 +58,29 @@ public class AccountController {
     }
 
     @PostMapping
-    public Result<?> addAccount(@RequestBody AccountDto accountDto) {
+    public Result<?> addAccount(@RequestBody AccountBo accountDto) {
         return accountService.addAccount(accountDto);
     }
 
     @PutMapping
-    public Result<?> updateAccount(@RequestBody AccountDto accountDto) {
+    public Result<?> updateAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
-        boolean updateFlag = accountService.updateById(accountDto.dto2Entity());
+        boolean updateFlag = accountService.updateById(accountDto.bo2Entity());
         return updateFlag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("update fail.").build();
     }
 
     @DeleteMapping
-    public Result<?> deleteAccount(@RequestBody AccountDto accountDto) {
+    public Result<?> deleteAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
         boolean deleteFlag = accountService.removeById(accountDto.getId());
         return deleteFlag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("update fail.").build();
+    }
+
+    @GetMapping("/fileUpload/info")
+    @ApiOperation("获取用户在系统上传的文件数量")
+    public Result<?> getAccountFileUploadInfo(HttpServletRequest request) {
+        Account currentAccount = LoginHelper.getCurrentAccount(request);
+        int userFileUploadCount = accountService.getUserAllFileCount(currentAccount);
+        return Result.fastSuccess(MapUtil.toMap("userFileUploadCount", userFileUploadCount));
     }
 }

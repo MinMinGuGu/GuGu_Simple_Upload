@@ -1,4 +1,4 @@
-package com.gugu.upload.common.dto;
+package com.gugu.upload.common.bo;
 
 /**
  * The interface Dto 2 entity.
@@ -9,11 +9,11 @@ package com.gugu.upload.common.dto;
  * @date 2022 /01/23
  * @since 1.8
  */
-public interface IDto2Entity<T> {
+public interface IBo2Entity<T> {
     /**
      * Dto 2 entity t.
      *
      * @return the t
      */
-    T dto2Entity();
+    T bo2Entity();
 }

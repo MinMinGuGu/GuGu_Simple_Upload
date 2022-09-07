@@ -3,7 +3,7 @@ package com.gugu.upload.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gugu.upload.common.Result;
-import com.gugu.upload.common.dto.IDto2Entity;
+import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.query.ISupportQuery;
@@ -57,8 +57,8 @@ public class AccountServiceImpl extends ServiceImpl<IAccountMapper, Account> imp
     }
 
     @Override
-    public Result<?> addAccount(IDto2Entity<Account> accountDto) {
-        Account account = accountDto.dto2Entity();
+    public Result<?> addAccount(IBo2Entity<Account> accountDto) {
+        Account account = accountDto.bo2Entity();
         return this.save(account) ? Result.fastSuccess() : Result.fastFail("Save account fail.");
     }
 }

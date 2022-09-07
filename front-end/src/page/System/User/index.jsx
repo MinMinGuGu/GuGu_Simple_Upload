@@ -201,7 +201,11 @@ export default class SystemUser extends CheckLogin {
             <div>
                 <Form layout="inline" onFinish={this.onFinish}>
                     <Form.Item name="searchName" label="用户名">
-                        <Input placeholder="input username" allowClear={true} />
+                        <Input
+                            disabled={searchLoading}
+                            placeholder="input username"
+                            allowClear={true}
+                        />
                     </Form.Item>
                     <Form.Item>
                         <Button

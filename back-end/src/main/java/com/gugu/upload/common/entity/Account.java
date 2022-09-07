@@ -28,7 +28,7 @@ public class Account {
     private Integer roleId;
     private Boolean systemDefault;
     private Boolean enable;
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)

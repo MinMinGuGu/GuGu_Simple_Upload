@@ -28,7 +28,7 @@ public class FileHelper {
      */
     public static String convertFileSize(String fileSizeStr) {
         try {
-            int fileSize = Integer.parseInt(fileSizeStr);
+            long fileSize = Long.parseLong(fileSizeStr);
             return byteFormat(fileSize, true);
         } catch (NumberFormatException e) {
             log.error("Error converting file size", e);

@@ -11,12 +11,14 @@ function cleanArray(actual) {
 }
 
 function handlerParams(json) {
-    if (!json) return ''
-    return "?" + cleanArray(Object.keys(json).map(key => {
-        if (json[key] === undefined) return ''
-        return encodeURIComponent(key) + '=' +
-            encodeURIComponent(json[key])
-    })).join('&')
+    if (json) {
+        return "?" + cleanArray(Object.keys(json).map(key => {
+            if (json[key] === undefined) return ''
+            return encodeURIComponent(key) + '=' +
+                encodeURIComponent(json[key])
+        })).join('&')
+    }
+    return '';
 }
 
 function generateUrl(uri, params) {
@@ -33,13 +35,26 @@ export async function doGet(uri, params, header) {
         const requestUrl = generateUrl(uri, params)
         const response = await fetch(requestUrl, {
             method: "GET",
-            headers: JSON.stringify(header)
+            headers: header || {}
         })
         // todo 优化如果请求登录失效
         return await response.json()
     } catch (error) {
+        console.error(error)
         return generateError('发起请求失败')
     }
+}
+
+export async function doGetResultful(uri, header, ...params) {
+    let url = uri;
+    for (const key in params) {
+        if (Object.hasOwnProperty.call(params, key)) {
+            const element = params[key];
+            url += `/${element}`;
+        }
+    }
+    url = url.replace('//', '');
+    return doGet(url, null, header)
 }
 
 export async function doPost(uri, params, header) {
@@ -62,7 +77,7 @@ async function dataInBody(method, uri, params, header) {
             method,
             headers: {
                 "Content-Type": "application/json",
-                headers: JSON.stringify(header)
+                headers: header || {}
             },
             body: JSON.stringify(requestParams)
         })

@@ -2,7 +2,7 @@ package com.gugu.upload.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.Result;
-import com.gugu.upload.common.dto.IDto2Entity;
+import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.system.account.AccountVo;
@@ -39,5 +39,5 @@ public interface IAccountService extends IService<Account> {
      * @param accountDto the account dto
      * @return the result
      */
-    Result<?> addAccount(IDto2Entity<Account> accountDto);
+    Result<?> addAccount(IBo2Entity<Account> accountDto);
 }

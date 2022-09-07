@@ -37,7 +37,7 @@ public class FileInfo {
     private Integer accountId;
     @TableLogic
     private Integer deleted;
-    @TableField(value = "create_time", fill = FieldFill.INSERT_UPDATE)
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createTime;
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
