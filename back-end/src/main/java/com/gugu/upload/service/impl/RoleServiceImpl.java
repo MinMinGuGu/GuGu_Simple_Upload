@@ -35,6 +35,8 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
 
     private static final String FIELD_ROLE_ID = "role_id";
 
+    private static final String FIELD_ROLE_NAME = "name";
+
     private static final String MODIFY_SYSTEM_DEFAULT_FIELD_WARNING = "It is not allowed to modify the system default role.";
 
     @Resource
@@ -61,7 +63,7 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
         QueryWrapper<Role> roleQueryWrapper = null;
         if (StringUtils.hasText(name)) {
             roleQueryWrapper = Wrappers.query();
-            roleQueryWrapper.like("name", name);
+            roleQueryWrapper.like(FIELD_ROLE_NAME, name);
         }
         Page<Role> page = new Page<>(currPage, pageSize);
         return getBaseMapper().selectPage(page, roleQueryWrapper);
