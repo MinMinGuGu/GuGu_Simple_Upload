@@ -32,6 +32,6 @@ config:
   tmp-dir: ${config.dir}/tmp/
   log-dir: ${config.dir}/log/
   db-server: rm-wz93d1vexp93w779efo.mysql.rds.aliyuncs.com
-  db-username: ENC(MBwbLOJPafjWeQQjMZVpuc4l3Uz2Ynem)
-  db-password: ENC(ZhV4/8thHCTUYZKcWXw+0ognhJs/BbXF)
+  db-username: ENC(ICBX0wOJVd/X3jfr1wFvkifHbkil8pAv)
+  db-password: ENC(Hm9BC3TwV5eAGtAtYBeGHGdStXVwgwmU)
   db-timezone: Asia/Shanghai
