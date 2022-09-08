@@ -1,6 +1,6 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.exception.ParamsException;
+import com.gugu.upload.common.exception.ParamsException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

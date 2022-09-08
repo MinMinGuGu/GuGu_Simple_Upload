@@ -1,7 +1,7 @@
 package com.gugu.upload.config.fill;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.gugu.upload.exception.UnknownException;
+import com.gugu.upload.common.exception.UnknownException;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

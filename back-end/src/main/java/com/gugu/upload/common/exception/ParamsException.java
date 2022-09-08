@@ -1,4 +1,4 @@
-package com.gugu.upload.exception;
+package com.gugu.upload.common.exception;
 
 /**
  * The type Params exception.
@@ -7,7 +7,9 @@ package com.gugu.upload.exception;
  * @version 1.0
  * @since 1.8
  */
-public class ParamsException extends RuntimeException{
+public class ParamsException extends RuntimeException {
+    private static final long serialVersionUID = -792196130188541295L;
+
     /**
      * Instantiates a new Params exception.
      *

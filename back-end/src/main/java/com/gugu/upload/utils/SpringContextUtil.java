@@ -1,7 +1,7 @@
 package com.gugu.upload.utils;
 
 import com.gugu.upload.GuGuSimpleUploadApplication;
-import com.gugu.upload.exception.FunctionException;
+import com.gugu.upload.common.exception.FunctionException;
 import org.springframework.context.ApplicationContext;
 
 /**

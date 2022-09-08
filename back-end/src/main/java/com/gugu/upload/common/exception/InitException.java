@@ -1,4 +1,4 @@
-package com.gugu.upload.exception;
+package com.gugu.upload.common.exception;
 
 /**
  * The type Init exception.
@@ -8,6 +8,7 @@ package com.gugu.upload.exception;
  * @since 1.8
  */
 public class InitException extends RuntimeException{
+    private static final long serialVersionUID = -5925907222526038857L;
 
     /**
      * Instantiates a new Init exception.

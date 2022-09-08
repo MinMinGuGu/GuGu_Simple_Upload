@@ -2,8 +2,8 @@ package com.gugu.upload.controller.helper;
 
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.Account;
+import com.gugu.upload.common.exception.UnknownException;
 import com.gugu.upload.config.ApplicationConfig;
-import com.gugu.upload.exception.UnknownException;
 import com.gugu.upload.utils.FileUtil;
 import com.gugu.upload.utils.IpUtil;
 import lombok.extern.slf4j.Slf4j;

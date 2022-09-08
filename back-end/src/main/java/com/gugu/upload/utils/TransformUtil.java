@@ -1,9 +1,11 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.exception.TransformException;
+import com.gugu.upload.common.exception.TransformException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,10 +30,11 @@ public class TransformUtil {
      */
     public static <T> T transform(Object source, Class<T> target){
         try {
-            T targetObj = target.newInstance();
+            Constructor<T> constructor = target.getConstructor();
+            T targetObj = constructor.newInstance();
             BeanUtils.copyProperties(source, targetObj);
             return targetObj;
-        } catch (InstantiationException | IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             log.error("Error in class conversion", e);
             throw new TransformException(e.getMessage());
         }

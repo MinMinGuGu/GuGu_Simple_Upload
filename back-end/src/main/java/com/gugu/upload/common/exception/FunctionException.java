@@ -1,4 +1,4 @@
-package com.gugu.upload.exception;
+package com.gugu.upload.common.exception;
 
 /**
  * The type Function exception.
@@ -7,7 +7,9 @@ package com.gugu.upload.exception;
  * @version 1.0
  * @since 1.8
  */
-public class FunctionException extends RuntimeException{
+public class FunctionException extends RuntimeException {
+    private static final long serialVersionUID = -7110031378463837328L;
+
     /**
      * Instantiates a new Function exception.
      *

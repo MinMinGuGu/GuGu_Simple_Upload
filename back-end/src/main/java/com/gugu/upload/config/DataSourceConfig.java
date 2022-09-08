@@ -1,6 +1,6 @@
 package com.gugu.upload.config;
 
-import com.gugu.upload.exception.InitException;
+import com.gugu.upload.common.exception.InitException;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import lombok.Setter;
