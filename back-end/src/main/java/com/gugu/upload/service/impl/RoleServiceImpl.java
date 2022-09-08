@@ -37,7 +37,7 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
 
     private static final String FIELD_ROLE_NAME = "name";
 
-    private static final String MODIFY_SYSTEM_DEFAULT_FIELD_WARNING = "It is not allowed to modify the system default role.";
+    private static final String MODIFY_SYSTEM_DEFAULT_FIELD_WARNING = "It is not allowed to modify the superAdmin role.";
 
     @Resource
     private IRolePermissionMapper rolePermissionMapper;
@@ -113,7 +113,7 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
     @Transactional(rollbackFor = Exception.class)
     public void updateRolePermission(Integer roleId, List<Integer> permissionIdList) {
         Role role = getBaseMapper().selectById(roleId);
-        if (Boolean.TRUE.equals(role.getSystemDefault())) {
+        if (Role.DefaultRoleEnum.SUPER_ADMIN.getName().equals(role.getName())) {
             throw new ServiceException(MODIFY_SYSTEM_DEFAULT_FIELD_WARNING);
         }
         QueryWrapper<RolePermission> rolePermissionQuery = Wrappers.query();

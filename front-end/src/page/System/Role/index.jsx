@@ -162,7 +162,7 @@ export default class SystemRole extends CheckLogin {
             <Space size="middle">
                 <Button
                     type="primary"
-                    disabled={record.systemDefault}
+                    disabled={record.name === "超级管理员"}
                     onClick={() => this.getRolePermission(record)}
                 >
                     授权
