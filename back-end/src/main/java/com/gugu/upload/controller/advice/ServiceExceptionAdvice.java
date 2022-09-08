@@ -2,6 +2,7 @@ package com.gugu.upload.controller.advice;
 
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.exception.ServiceException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @date 2022 /03/12
  * @since 1.8
  */
+@Slf4j
 @RestControllerAdvice
 public class ServiceExceptionAdvice {
     /**
@@ -23,6 +25,7 @@ public class ServiceExceptionAdvice {
      */
     @ExceptionHandler(ServiceException.class)
     public Result<?> handlerServiceException(ServiceException serviceException) {
+        log.error("Service层抛出异常", serviceException);
         return Result.fastFail(serviceException.getMessage());
     }
 }
