@@ -30,7 +30,7 @@ config:
   dir: ${user.home}/${spring.application.name}
   # tmp-dir 请确保该文件夹空间足够
   tmp-dir: ${config.dir}/tmp/
-  log-dir: ${config.dir}/log/
+  log-dir: ${config.dir}/logs/
   db-server: rm-wz93d1vexp93w779efo.mysql.rds.aliyuncs.com
   db-username: ENC(ICBX0wOJVd/X3jfr1wFvkifHbkil8pAv)
   db-password: ENC(Hm9BC3TwV5eAGtAtYBeGHGdStXVwgwmU)
