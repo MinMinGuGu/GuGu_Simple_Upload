@@ -1,4 +1,4 @@
-package com.gugu.upload.helper;
+package com.gugu.upload.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,11 +13,11 @@ import java.util.Locale;
  * @since 1.8
  */
 @Slf4j
-public class FileHelper {
+public class FileSizeUtil {
 
     private static final int FILE_SIZE_BASIC_UNIT = 1024;
 
-    private FileHelper() {
+    private FileSizeUtil() {
     }
 
     /**

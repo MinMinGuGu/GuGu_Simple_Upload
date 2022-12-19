@@ -8,11 +8,11 @@ import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.controller.helper.HttpHelper;
-import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.DateUtil;
+import com.gugu.upload.utils.FileSizeUtil;
 import com.gugu.upload.utils.StreamHelper;
 import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -89,7 +89,7 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
             fileInfoVo.setUploader(String.format("%s(%s)", account.getUserName(), item.getUploader()));
             fileInfoVoList.add(fileInfoVo);
         });
-        fileInfoVoList.forEach(item -> item.setFileSize(FileHelper.convertFileSize(item.getFileSize())));
+        fileInfoVoList.forEach(item -> item.setFileSize(FileSizeUtil.convertFileSize(item.getFileSize())));
         return fileInfoVoList;
     }
 
