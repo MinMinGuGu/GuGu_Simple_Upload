@@ -4,7 +4,6 @@ import FileUpload from '../page/File/Upload'
 import FileList from '../page/File/List'
 import SystemAppKey from '../page/System/AppKey'
 import SystemManage from '../page/System/Manage'
-import SystemPermission from '../page/System/Permission'
 import SystemRole from '../page/System/Role'
 import SystemUser from '../page/System/User'
 import About from '../page/About'
@@ -52,12 +51,6 @@ const routers = [
         component: SystemRole,
         exact: true,
         title: "角色管理"
-    },
-    {
-        path: '/system/permission',
-        component: SystemPermission,
-        exact: true,
-        title: "权限管理"
     },
     {
         path: '/system/manage',

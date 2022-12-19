@@ -51,16 +51,13 @@ class LeftMenu extends Component {
                     <Menu.Item key="5" path="/system/role">
                         角色管理
                     </Menu.Item>
-                    <Menu.Item key="6" path="/system/permission">
-                        权限管理
-                    </Menu.Item>
-                    <Menu.Item key="7" path="/system/manage">
+                    <Menu.Item key="6" path="/system/manage">
                         系统设置
                     </Menu.Item>
-                    <Menu.Item key="8" path="/system/appKey">
+                    <Menu.Item key="7" path="/system/appKey">
                         AppKey设置
                     </Menu.Item>
-                    <Menu.Item key="9" path="/system/appLog">
+                    <Menu.Item key="8" path="/system/appLog">
                         系统日志
                     </Menu.Item>
                 </SubMenu>
