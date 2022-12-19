@@ -80,7 +80,7 @@ public class LoginController {
         log.info("query result : {}", account);
         LoginHelper.saveBySession(loginVo, account, httpServletRequest);
         log.info("User logged in successfully...");
-        operationLogService.recordLog(OperationLog.OperationType.LOGIN, null);
+        operationLogService.recordLog(OperationLog.OperationType.LOGIN, OperationLog.OperationType.LOGIN.getDescription());
         return Result.fastSuccess();
     }
 
