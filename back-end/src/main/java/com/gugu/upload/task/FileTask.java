@@ -4,7 +4,9 @@ import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.service.IFileService;
 import com.gugu.upload.utils.StatusUtil;
+import com.gugu.upload.utils.ThreadPoolUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -29,7 +33,14 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
-public class FileTask {
+public class FileTask implements DisposableBean {
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor(runnable -> {
+        Thread thread = new Thread(runnable);
+        thread.setName("FileTask_Thread");
+        return thread;
+    });
+
     @Resource
     private IFileService fileService;
 
@@ -41,13 +52,13 @@ public class FileTask {
      */
     @Scheduled(cron = "0 0/5 * * * ? ")
     public void checkDocumentValidity() {
-        fileService.list().forEach(f -> {
+        executorService.execute(() -> fileService.list().forEach(f -> {
             Path path = Paths.get(f.getFilePath());
             if (Files.notExists(path)) {
                 log.info("That a file record in the database does not exist on the disk. File info : {}", f);
                 flagFileInvalid(f);
             }
-        });
+        }));
     }
 
     private void flagFileInvalid(FileInfo fileInfo) {
@@ -60,12 +71,12 @@ public class FileTask {
      */
     @Scheduled(cron = "0 0/10 * * * ? ")
     public void cleanUpRecords() {
-        fileService.list().forEach(f -> {
+        executorService.execute(() -> fileService.list().forEach(f -> {
             if (StatusUtil.Status.FAIL == f.getStatusDescription()) {
                 log.info("The updated value is logic delete : {}", f);
                 fileService.removeById(f.getId());
             }
-        });
+        }));
     }
 
     /**
@@ -75,11 +86,23 @@ public class FileTask {
      */
     @Scheduled(cron = "0 0/20 * * * ? ")
     public void cleanFile() throws IOException {
-        Map<String, String> dataMap = fileService.list().stream().collect(Collectors.toMap(FileInfo::getFilePath, FileInfo::getFilePath));
-        Path path = Paths.get(applicationConfig.getTmpDir());
-        if (Files.exists(path)) {
-            Files.walkFileTree(path, new CleanUpIrrelevantFiles(dataMap, applicationConfig));
-        }
+        executorService.execute(() -> {
+            Map<String, String> dataMap = fileService.list().stream().collect(Collectors.toMap(FileInfo::getFilePath, FileInfo::getFilePath));
+            Path path = Paths.get(applicationConfig.getTmpDir());
+            if (Files.exists(path)) {
+                try {
+                    Files.walkFileTree(path, new CleanUpIrrelevantFiles(dataMap, applicationConfig));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                    log.error("com.gugu.upload.task.FileTask.cleanFile error", ioException);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void destroy() {
+        ThreadPoolUtil.closeThreadPool(executorService);
     }
 
     private static class CleanUpIrrelevantFiles extends SimpleFileVisitor<Path> {
