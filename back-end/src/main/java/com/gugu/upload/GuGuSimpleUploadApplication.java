@@ -15,6 +15,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class GuGuSimpleUploadApplication {
 
+    /**
+     * The constant applicationContext.
+     */
     public static ConfigurableApplicationContext applicationContext;
 
     /**

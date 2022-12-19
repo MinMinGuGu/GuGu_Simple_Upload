@@ -3,7 +3,7 @@ package com.gugu.upload.controller;
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
-import com.gugu.upload.common.vo.login.LoginVo;
+import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IOperationLogService;
@@ -74,7 +74,7 @@ public class LoginController {
             return Result.fastFail("params is error");
         }
         Account account = LoginHelper.findAccount(loginVo, accountService);
-        if (LoginHelper.checkDto(account)){
+        if (LoginHelper.checkDto(account)) {
             return Result.fastFail("username or password is error");
         }
         log.info("query result : {}", account);
@@ -84,9 +84,15 @@ public class LoginController {
         return Result.fastSuccess();
     }
 
+    /**
+     * Logout result.
+     *
+     * @param request the request
+     * @return the result
+     */
     @DeleteMapping
     @ApiOperation("注销登录")
-    public Result<String> logout(HttpServletRequest request){
+    public Result<String> logout(HttpServletRequest request) {
         Result.Builder<String> resultBuilder = new Result.Builder<>();
         return LoginHelper.logout(request) ? resultBuilder.success().build() : resultBuilder.code(404).message("Do not repeat the request.").build();
     }

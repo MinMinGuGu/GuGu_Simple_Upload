@@ -31,6 +31,11 @@ public class SystemController {
     @Resource
     private IFileService fileService;
 
+    /**
+     * Gets system file upload info.
+     *
+     * @return the system file upload info
+     */
     @ApiOperation("获取系统上所有的上传文件数量")
     @GetMapping("/fileUpload/info")
     public Result<?> getSystemFileUploadInfo() {
@@ -38,6 +43,11 @@ public class SystemController {
         return Result.fastSuccess(MapUtil.toMap("systemFileCount", systemFileCount));
     }
 
+    /**
+     * Gets week file upload info.
+     *
+     * @return the week file upload info
+     */
     @ApiOperation("获取系统上近七天的文件上传信息")
     @GetMapping("/fileUpload/week/info")
     public Result<?> getWeekFileUploadInfo() {

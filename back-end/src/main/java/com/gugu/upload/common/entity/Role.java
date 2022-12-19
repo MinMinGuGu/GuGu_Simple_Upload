@@ -31,6 +31,13 @@ public class Role {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
+    /**
+     * The enum Default role enum.
+     *
+     * @author minmin
+     * @version 1.0
+     * @since 1.8
+     */
     @Getter
     public enum DefaultRoleEnum {
         /**

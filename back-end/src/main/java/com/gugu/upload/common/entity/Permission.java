@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
@@ -44,5 +45,37 @@ public class Permission {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    /**
+     * The enum Permission enum.
+     *
+     * @author minmin
+     * @version 1.0
+     * @since 1.8
+     */
+    @Getter
+    public enum PermissionEnum {
+        /**
+         * 全部权限
+         */
+        ALL(3, "all"),
+        /**
+         * 管理权限
+         */
+        MANAGE(2, "manage"),
+        /**
+         * 上传权限
+         */
+        UPLOAD(1, "upload");
+
+        private final Integer score;
+
+        private final String name;
+
+        PermissionEnum(Integer score, String name) {
+            this.score = score;
+            this.name = name;
+        }
     }
 }

@@ -5,7 +5,7 @@ import com.gugu.upload.common.bo.AccountBo;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.query.AccountQueryRequest;
-import com.gugu.upload.common.vo.system.account.AccountVo;
+import com.gugu.upload.common.vo.AccountVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IOperationLogService;
@@ -62,6 +62,12 @@ public class AccountController {
         return Result.fastSuccess(accountList);
     }
 
+    /**
+     * Add account result.
+     *
+     * @param accountDto the account dto
+     * @return the result
+     */
     @PostMapping
     public Result<?> addAccount(@RequestBody AccountBo accountDto) {
         Boolean result = accountService.addAccount(accountDto);
@@ -72,6 +78,12 @@ public class AccountController {
         return Result.fastFail("Save account fail.");
     }
 
+    /**
+     * Update account result.
+     *
+     * @param accountDto the account dto
+     * @return the result
+     */
     @PutMapping
     public Result<?> updateAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
@@ -83,6 +95,12 @@ public class AccountController {
         return new Result.Builder<String>().code(500).message("update fail.").build();
     }
 
+    /**
+     * Delete account result.
+     *
+     * @param accountDto the account dto
+     * @return the result
+     */
     @DeleteMapping
     public Result<?> deleteAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
@@ -91,6 +109,12 @@ public class AccountController {
         return Result.fastSuccess();
     }
 
+    /**
+     * Gets account file upload info.
+     *
+     * @param request the request
+     * @return the account file upload info
+     */
     @GetMapping("/fileUpload/info")
     @ApiOperation("获取用户在系统上传的文件数量")
     public Result<?> getAccountFileUploadInfo(HttpServletRequest request) {

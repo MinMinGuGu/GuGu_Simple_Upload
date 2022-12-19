@@ -14,8 +14,12 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
+ * The type Permission controller.
+ *
  * @author minmin
- * @date 2022/03/12
+ * @version 1.0
+ * @date 2022 /03/12
+ * @since 1.8
  */
 @Api("系统权限相关")
 @Slf4j
@@ -26,6 +30,11 @@ public class PermissionController {
     @Resource
     private IPermissionService permissionService;
 
+    /**
+     * Gets system permissions.
+     *
+     * @return the system permissions
+     */
     @GetMapping("/permissions")
     @ApiOperation("获取系统所有权限列表")
     public Result<?> getSystemPermissions() {

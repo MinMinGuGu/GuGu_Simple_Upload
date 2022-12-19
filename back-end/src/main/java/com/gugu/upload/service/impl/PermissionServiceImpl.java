@@ -7,8 +7,12 @@ import com.gugu.upload.service.IPermissionService;
 import org.springframework.stereotype.Service;
 
 /**
+ * The type Permission service.
+ *
  * @author minmin
- * @date 2022/03/12
+ * @version 1.0
+ * @date 2022 /03/12
+ * @since 1.8
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<IPermissionMapper, Permission> implements IPermissionService {

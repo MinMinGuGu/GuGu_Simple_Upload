@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.system.account.AccountVo;
+import com.gugu.upload.common.vo.AccountVo;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public interface IAccountService extends IService<Account> {
      * 删除用户时返回删除数据
      *
      * @param id id
-     * @return 用户
+     * @return 用户 account
      */
     Account deleteAccountReturnEntity(Integer id);
 }

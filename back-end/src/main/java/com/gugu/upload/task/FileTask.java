@@ -114,7 +114,8 @@ public class FileTask implements DisposableBean {
         /**
          * Instantiates a new Clean up irrelevant files.
          *
-         * @param dataMap the data map
+         * @param dataMap           the data map
+         * @param applicationConfig the application config
          */
         public CleanUpIrrelevantFiles(Map<String, String> dataMap, ApplicationConfig applicationConfig) {
             this.dataMap = dataMap;

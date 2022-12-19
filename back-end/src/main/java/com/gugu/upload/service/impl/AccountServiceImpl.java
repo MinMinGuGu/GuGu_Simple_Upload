@@ -6,7 +6,7 @@ import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.system.account.AccountVo;
+import com.gugu.upload.common.vo.AccountVo;
 import com.gugu.upload.mapper.IAccountMapper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;

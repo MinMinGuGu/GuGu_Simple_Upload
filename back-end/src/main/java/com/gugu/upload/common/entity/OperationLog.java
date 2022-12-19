@@ -32,6 +32,13 @@ public class OperationLog {
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+    /**
+     * The enum Operation type.
+     *
+     * @author minmin
+     * @version 1.0
+     * @since 1.8
+     */
     @Getter
     public enum OperationType {
         /**

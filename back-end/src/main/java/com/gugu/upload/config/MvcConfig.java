@@ -17,6 +17,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class MvcConfig {
 
+    /**
+     * Cors mvc config cors mvc config.
+     *
+     * @return the cors mvc config
+     */
     @Bean
     public CorsMvcConfig corsMvcConfig() {
         return new CorsMvcConfig();

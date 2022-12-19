@@ -68,8 +68,13 @@ public class SwaggerConfig {
                 .build();
     }
 
+    /**
+     * System docket.
+     *
+     * @return the docket
+     */
     @Bean
-    public Docket system(){
+    public Docket system() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("system")
                 .apiInfo(getSystemApiInfo())

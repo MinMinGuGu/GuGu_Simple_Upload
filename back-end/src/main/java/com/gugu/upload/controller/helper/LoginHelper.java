@@ -1,11 +1,12 @@
 package com.gugu.upload.controller.helper;
 
 import com.gugu.upload.common.entity.Account;
-import com.gugu.upload.common.vo.login.LoginVo;
+import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.MD5Util;
 import com.gugu.upload.utils.SessionUtil;
+import com.gugu.upload.utils.TomcatUtil;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,8 +40,17 @@ public class LoginHelper {
      * @param request the request
      * @return the boolean
      */
-    public static boolean isLogged(HttpServletRequest request){
+    public static boolean isLogged(HttpServletRequest request) {
         return CacheUtil.isThere(SessionUtil.getKeyBySessionId(request));
+    }
+
+    /**
+     * Get current account account.
+     *
+     * @return the account
+     */
+    public static Account getCurrentAccount() {
+        return getCurrentAccount(TomcatUtil.getHttpRequestFroCurrThread());
     }
 
     /**
@@ -49,7 +59,7 @@ public class LoginHelper {
      * @param request the request
      * @return the account
      */
-    public static Account getCurrentAccount(HttpServletRequest request){
+    public static Account getCurrentAccount(HttpServletRequest request) {
         return CacheUtil.get(SessionUtil.getKeyBySessionId(request), Account.class);
     }
 

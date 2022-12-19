@@ -1,0 +1,88 @@
+package com.gugu.upload.controller.system;
+
+import com.gugu.upload.common.Result;
+import com.gugu.upload.common.annotation.PermissionCheck;
+import com.gugu.upload.common.bo.AppKeyBo;
+import com.gugu.upload.common.entity.AppKey;
+import com.gugu.upload.common.entity.OperationLog;
+import com.gugu.upload.common.vo.AppKeyVo;
+import com.gugu.upload.service.IAppKeyService;
+import com.gugu.upload.service.IOperationLogService;
+import com.gugu.upload.utils.TransformUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.Objects;
+
+/**
+ * The type App key controller.
+ *
+ * @author minmin
+ * @version 1.0
+ * @date 2022 /12/20
+ * @since 1.8
+ */
+@Api("系统AppKey相关")
+@Slf4j
+@RestController
+@RequestMapping("/system/appKey")
+@PermissionCheck
+public class AppKeyController {
+
+    @Resource
+    private IAppKeyService appKeyService;
+
+    @Resource
+    private IOperationLogService operationLogService;
+
+    /**
+     * Get all app key result.
+     *
+     * @return the result
+     */
+    @GetMapping
+    @ApiOperation("获取所有AppKey")
+    public Result<?> getAllAppKey() {
+        return Result.fastSuccess(appKeyService.list());
+    }
+
+    /**
+     * Create app key result.
+     *
+     * @param appKeyBo the app key bo
+     * @return the result
+     */
+    @PostMapping
+    @ApiOperation("创建AppKey")
+    public Result<?> createAppKey(@RequestBody AppKeyBo appKeyBo) {
+        AppKey appKeyForAccount = appKeyService.createAppKeyForAccount(appKeyBo);
+        operationLogService.recordLog(OperationLog.OperationType.APP_KEY_ADD, appKeyBo.getUserId().toString());
+        return Result.fastSuccess(TransformUtil.transform(appKeyForAccount, AppKeyVo.class));
+    }
+
+    /**
+     * Delete app key result.
+     *
+     * @param id the id
+     * @return the result
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除AppKey")
+    public Result<?> deleteAppKey(@PathVariable Integer id) {
+        AppKey appKey = appKeyService.deleteAppKeyReturnEntity(id);
+        if (Objects.nonNull(appKey)) {
+            operationLogService.recordLog(OperationLog.OperationType.APP_KEY_DELETE, appKey.getUserId().toString());
+            return Result.fastSuccess();
+        }
+        return Result.fastFail("不存在此AppKey");
+    }
+}

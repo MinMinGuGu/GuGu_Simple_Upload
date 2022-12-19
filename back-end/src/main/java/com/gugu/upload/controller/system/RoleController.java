@@ -56,6 +56,14 @@ public class RoleController {
         return Result.fastSuccess(roleList);
     }
 
+    /**
+     * Gets system roles by page.
+     *
+     * @param name     the name
+     * @param currPage the curr page
+     * @param pageSize the page size
+     * @return the system roles by page
+     */
     @GetMapping("/role")
     @ApiOperation("分页获取系统角色")
     public Result<?> getSystemRolesByPage(String name, Integer currPage, Integer pageSize) {
@@ -127,6 +135,12 @@ public class RoleController {
         return new Result.Builder<String>().code(500).message("update fail.").build();
     }
 
+    /**
+     * Gets role all permission.
+     *
+     * @param roleId the role id
+     * @return the role all permission
+     */
     @GetMapping("/role/permission/{roleId}")
     @ApiOperation("获取角色的权限关系")
     public Result<?> getRoleAllPermission(@PathVariable Long roleId) {
@@ -134,6 +148,12 @@ public class RoleController {
         return Result.fastSuccess(rolePermissionList);
     }
 
+    /**
+     * Add role permission result.
+     *
+     * @param rolePermission the role permission
+     * @return the result
+     */
     @PostMapping("/role/permission")
     @ApiOperation("添加角色权限")
     public Result<?> addRolePermission(@RequestBody RolePermission rolePermission) {
@@ -141,6 +161,12 @@ public class RoleController {
         return Result.fastSuccess();
     }
 
+    /**
+     * Delete role permission result.
+     *
+     * @param id the id
+     * @return the result
+     */
     @DeleteMapping("/role/permission/{id}")
     @ApiOperation("删除角色权限")
     public Result<?> deleteRolePermission(@PathVariable Long id) {
@@ -148,6 +174,13 @@ public class RoleController {
         return Result.fastSuccess();
     }
 
+    /**
+     * Modify role permission result.
+     *
+     * @param roleId           the role id
+     * @param permissionIdList the permission id list
+     * @return the result
+     */
     @PostMapping("/role/permission/{roleId}")
     @ApiOperation("修改角色的权限")
     public Result<?> modifyRolePermission(@PathVariable Integer roleId, @RequestBody List<Integer> permissionIdList) {

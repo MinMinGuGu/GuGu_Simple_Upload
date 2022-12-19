@@ -6,7 +6,7 @@ import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.file.FileInfoVo;
+import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.helper.FileHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;

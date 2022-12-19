@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.query.ISupportQuery;
-import com.gugu.upload.common.vo.file.FileInfoVo;
+import com.gugu.upload.common.vo.FileInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -68,7 +68,7 @@ public interface IFileService extends IService<FileInfo> {
      * 删除文件的同时返回原数据
      *
      * @param id id
-     * @return 已删除的数据
+     * @return 已删除的数据 file info
      */
     FileInfo deleteFileReturnEntity(Integer id);
 }
