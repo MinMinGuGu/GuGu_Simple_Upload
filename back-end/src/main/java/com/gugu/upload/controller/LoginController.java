@@ -1,12 +1,12 @@
 package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
-import com.gugu.upload.common.annotation.LogAnnotation;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.vo.login.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
+import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.SessionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -38,6 +38,9 @@ public class LoginController {
     @Resource
     private IAccountService accountService;
 
+    @Resource
+    private IOperationLogService operationLogService;
+
     /**
      * Verify result.
      *
@@ -46,7 +49,7 @@ public class LoginController {
      */
     @GetMapping
     @ApiOperation("验证是否登录")
-    public Result<String> verify(HttpServletRequest request){
+    public Result<String> verify(HttpServletRequest request) {
         Result.Builder<String> resultBuilder = new Result.Builder<>();
         return LoginHelper.isLogged(request) ? resultBuilder.success().build() : resultBuilder.code(401).message("Login required.").build();
     }
@@ -61,7 +64,6 @@ public class LoginController {
     @PostMapping
     @ApiOperation("进行登录")
     @ApiImplicitParam(paramType = "body", name = "loginVo", value = "登录信息", required = true, dataType = "LoginVo")
-    @LogAnnotation(OperationLog.OperationType.LOGIN)
     public Result<String> login(@RequestBody LoginVo loginVo, HttpServletRequest httpServletRequest) {
         if (LoginHelper.checkCache(httpServletRequest)){
             log.info("User is already logged in. session id :{}", SessionUtil.getKeyBySessionId(httpServletRequest));
@@ -78,6 +80,7 @@ public class LoginController {
         log.info("query result : {}", account);
         LoginHelper.saveBySession(loginVo, account, httpServletRequest);
         log.info("User logged in successfully...");
+        operationLogService.recordLog(OperationLog.OperationType.LOGIN, null);
         return Result.fastSuccess();
     }
 
