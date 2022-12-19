@@ -4,11 +4,13 @@ import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.dto.UpdateFileDto;
 import com.gugu.upload.common.entity.FileInfo;
+import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.file.FileInfoVo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.controller.helper.FileHelper;
 import com.gugu.upload.service.IFileService;
+import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.StatusUtil;
 import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
@@ -53,6 +55,9 @@ public class FileController {
 
     @Resource
     private ApplicationConfig applicationConfig;
+
+    @Resource
+    private IOperationLogService operationLogService;
 
     /**
      * Update file desc result.
@@ -99,7 +104,8 @@ public class FileController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "文件id", required = true)
     public Result<?> fileDelete(@PathVariable Integer id) {
         log.info("The ID of the file requested to be deleted : {}", id);
-        fileService.removeById(id);
+        FileInfo fileInfo = fileService.deleteFileReturnEntity(id);
+        operationLogService.recordLog(OperationLog.OperationType.FILE_DELETE, fileInfo.getFilePath());
         return Result.fastSuccess();
     }
 
@@ -145,6 +151,7 @@ public class FileController {
                 log.error("Failed to write file to disk", e);
             }
             FileInfoVo fileInfoVo = fileService.uploadSave(fileInfoBo);
+            operationLogService.recordLog(OperationLog.OperationType.FILE_UPLOAD, fileInfoBo.getFilePath());
             fileInfoVos.add(fileInfoVo);
         }
         return new Result.Builder<List<FileInfoVo>>().success(fileInfoVos).build();

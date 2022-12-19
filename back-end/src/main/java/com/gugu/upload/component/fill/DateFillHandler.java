@@ -1,4 +1,4 @@
-package com.gugu.upload.config.fill;
+package com.gugu.upload.component.fill;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.gugu.upload.common.exception.UnknownException;

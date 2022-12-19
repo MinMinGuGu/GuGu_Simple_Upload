@@ -1,6 +1,6 @@
 package com.gugu.upload.utils;
 
-import com.gugu.upload.common.entity.Visit;
+import com.gugu.upload.common.entity.OperationLog;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,9 @@ class CacheUtilTest {
     @BeforeEach
     void initCache() {
         for (int i = 0; i < 10; i++) {
-            Visit visit = new Visit();
-            visit.setId(i);
-            CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(visit, 5, CacheUtil.CacheObject.TimeUnit.MINUTE);
+            OperationLog operationLog = new OperationLog();
+            operationLog.setId(i);
+            CacheUtil.CacheObject cacheObject = new CacheUtil.CacheObject(operationLog, 5, CacheUtil.CacheObject.TimeUnit.MINUTE);
             CacheUtil.pull(getCacheKey(), cacheObject);
         }
     }
@@ -42,17 +42,17 @@ class CacheUtilTest {
      */
     @Test
     void get() {
-        List<Visit> visits = CacheUtil.get(Visit.class);
-        Assertions.assertNotEquals(0, visits.size());
-        System.out.println("visits = " + visits);
+        List<OperationLog> operationLogs = CacheUtil.get(OperationLog.class);
+        Assertions.assertNotEquals(0, operationLogs.size());
+        System.out.println("visits = " + operationLogs);
     }
 
     /**
      * Remove.
      */
     @Test
-    void remove(){
-        CacheUtil.remove(Visit.class);
-        Assertions.assertEquals(0, CacheUtil.get(Visit.class).size());
+    void remove() {
+        CacheUtil.remove(OperationLog.class);
+        Assertions.assertEquals(0, CacheUtil.get(OperationLog.class).size());
     }
 }

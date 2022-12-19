@@ -7,14 +7,14 @@ create table if not exists `file_info`
     `file_path`     varchar(255)       not null comment '存放于临时路径的文件名(绝对路径)',
     `file_original` varchar(255)       not null comment '上传时的文件原名',
     `file_size`     varchar(100)       not null comment '文件大小',
-    `status`        int(1)             not null comment '文件状态 0:删除 1:存在',
+    `status`        int                not null comment '文件状态 0:删除 1:存在',
     `uploader`      varchar(255)       not null comment '上传者ip',
-    `deleted`       int(1) default 0 comment '逻辑删除',
+    `deleted`       int default 0 comment '逻辑删除',
     `create_time`   date               not null comment '创建时间',
     `update_time`   datetime comment '修改时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset = utf8;
+  default charset = utf8mb4;
 
 create table if not exists `account`
 (
@@ -22,37 +22,38 @@ create table if not exists `account`
     `role_id`        int comment '角色id',
     `user_name`      varchar(255)       not null,
     `user_password`  varchar(255)       not null,
-    `system_default` tinyint(1) default 0 comment '系统默认账户',
-    `enable`         tinyint(1) default 1 comment '启用状态',
+    `system_default` tinyint default 0 comment '系统默认账户',
+    `enable`         tinyint default 1 comment '启用状态',
     `create_time`    date               not null comment '创建时间',
     `update_time`    datetime comment '修改时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset = utf8;
+  default charset = utf8mb4;
 insert into `account`(`role_id`, `user_name`, `user_password`, `system_default`, `enable`, `create_time`)
 values (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 1, 1, sysdate());
 
-create table if not exists `visit`
+create table if not exists `operation_log`
 (
-    `id`          int auto_increment not null,
-    `ip_address`  varchar(100)       not null comment 'ip地址',
-    `path`        varchar(255)       not null comment '访问路径',
-    `method`      varchar(100)       not null comment '请求方式',
-    `create_time` datetime           not null comment '创建时间',
+    `id`             int auto_increment not null,
+    `ip_address`     varchar(100)       not null comment 'ip地址',
+    `operation_type` tinyint            not null comment '操作类型',
+    `user_name`      varchar(255)       not null comment '用户名',
+    `context`        varchar(255) comment '内容',
+    `create_time`    datetime           not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset = utf8;
+  default charset = utf8mb4;
 
 create table if not exists `role`
 (
     `id`             int          not null auto_increment,
     `name`           varchar(255) not null comment '角色名',
     `enable`         boolean      not null comment '已启用(非零即真)',
-    `system_default` tinyint(1) default 0 comment '系统默认角色',
+    `system_default` tinyint default 0 comment '系统默认角色',
     `create_time`    datetime     not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 insert into `role`(`id`, `name`, `enable`, `system_default`, `create_time`)
 values (1, '超级管理员', 1, 1, sysdate());
 insert into `role`(`id`, `name`, `enable`, `create_time`)
@@ -68,7 +69,7 @@ create table if not exists `permission`
     `create_time` datetime            not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 insert into `permission`
 values (1, 'all', '所有权限', sysdate());
 insert into `permission`
@@ -84,7 +85,7 @@ create table if not exists `role_permission`
     `create_time`   datetime not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 insert into `role_permission`
 values (1, 1, 1, sysdate());
 insert into `role_permission`
@@ -102,7 +103,7 @@ create table if not exists `app_key`
     primary key (`id`),
     index `index_value` (`value`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 
 create table if not exists `menu`
 (
@@ -111,7 +112,7 @@ create table if not exists `menu`
     `create_time` datetime    not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 insert into menu(`name`, `create_time`)
 values ('概览', sysdate());
 insert into menu(`name`, `create_time`)
@@ -135,7 +136,7 @@ create table if not exists `menu_permission`
     `create_time`   datetime not null comment '创建时间',
     primary key (`id`)
 ) engine = InnoDB
-  default charset utf8;
+  default charset utf8mb4;
 insert into `menu_permission`
 values (1, 1, 2, sysdate());
 insert into `menu_permission`

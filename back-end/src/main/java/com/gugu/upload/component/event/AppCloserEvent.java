@@ -1,7 +1,7 @@
-package com.gugu.upload.event;
+package com.gugu.upload.component.event;
 
 import com.gugu.upload.task.FileTask;
-import com.gugu.upload.task.VisitTask;
+import com.gugu.upload.task.LogTask;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
 
     @Resource
-    private VisitTask visitTask;
+    private LogTask logTask;
 
     @Resource
     private FileTask fileTask;
@@ -46,6 +46,6 @@ public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
 
     private void saveVisit(){
         log.info("Write Visit to the database before the application is closed...");
-        visitTask.saveVisit();
+        logTask.saveVisit();
     }
 }

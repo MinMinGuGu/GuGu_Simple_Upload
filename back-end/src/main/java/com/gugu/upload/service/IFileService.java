@@ -63,4 +63,12 @@ public interface IFileService extends IService<FileInfo> {
      * @return the week file upload data
      */
     List<Map<String, Object>> getWeekFileUploadData();
+
+    /**
+     * 删除文件的同时返回原数据
+     *
+     * @param id id
+     * @return 已删除的数据
+     */
+    FileInfo deleteFileReturnEntity(Integer id);
 }

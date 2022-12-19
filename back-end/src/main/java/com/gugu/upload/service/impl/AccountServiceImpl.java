@@ -2,7 +2,6 @@ package com.gugu.upload.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Account service.
@@ -57,8 +57,18 @@ public class AccountServiceImpl extends ServiceImpl<IAccountMapper, Account> imp
     }
 
     @Override
-    public Result<?> addAccount(IBo2Entity<Account> accountDto) {
+    public Boolean addAccount(IBo2Entity<Account> accountDto) {
         Account account = accountDto.bo2Entity();
-        return this.save(account) ? Result.fastSuccess() : Result.fastFail("Save account fail.");
+        return this.save(account);
+    }
+
+    @Override
+    public Account deleteAccountReturnEntity(Integer id) {
+        Account account = this.getById(id);
+        if (Objects.isNull(account)) {
+            return null;
+        }
+        this.removeById(id);
+        return account;
     }
 }

@@ -1,7 +1,9 @@
 package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
+import com.gugu.upload.common.annotation.LogAnnotation;
 import com.gugu.upload.common.entity.Account;
+import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.vo.login.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
@@ -59,6 +61,7 @@ public class LoginController {
     @PostMapping
     @ApiOperation("进行登录")
     @ApiImplicitParam(paramType = "body", name = "loginVo", value = "登录信息", required = true, dataType = "LoginVo")
+    @LogAnnotation(OperationLog.OperationType.LOGIN)
     public Result<String> login(@RequestBody LoginVo loginVo, HttpServletRequest httpServletRequest) {
         if (LoginHelper.checkCache(httpServletRequest)){
             log.info("User is already logged in. session id :{}", SessionUtil.getKeyBySessionId(httpServletRequest));

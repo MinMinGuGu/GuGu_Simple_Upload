@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type File service.
@@ -123,6 +124,16 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
                 .between(dateField, DateUtil.getStringByFormat(weekStartTime, dateFormat), DateUtil.getStringByFormat(new Date(), dateFormat))
                 .orderByAsc("createTime");
         return this.listMaps(wrapper);
+    }
+
+    @Override
+    public FileInfo deleteFileReturnEntity(Integer id) {
+        FileInfo fileInfo = this.getById(id);
+        if (Objects.isNull(fileInfo)) {
+            return null;
+        }
+        this.removeById(id);
+        return fileInfo;
     }
 
     private void processStream(BufferedInputStream bufferedInputStream, HttpServletResponse response) throws IOException {

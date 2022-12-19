@@ -3,8 +3,10 @@ package com.gugu.upload.controller.system;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.RoleBo;
+import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.entity.RolePermission;
+import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.service.IRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Role controller.
@@ -37,6 +40,9 @@ public class RoleController {
 
     @Resource
     private IRoleService roleService;
+
+    @Resource
+    private IOperationLogService operationLogService;
 
     /**
      * Gets system roles.
@@ -78,8 +84,11 @@ public class RoleController {
      */
     @DeleteMapping("/role/{id}")
     @ApiOperation("根据id删除角色")
-    public Result<?> delRole(@PathVariable("id") Long id) {
-        roleService.removeRoleById(id);
+    public Result<?> delRole(@PathVariable("id") Integer id) {
+        Role role = roleService.deleteRoleReturnEntity(id);
+        if (Objects.nonNull(role)) {
+            operationLogService.recordLog(OperationLog.OperationType.ROLE_DELETE, role.getName());
+        }
         return Result.fastSuccess();
     }
 
@@ -94,7 +103,11 @@ public class RoleController {
     public Result<?> insRole(@RequestBody RoleBo roleBo) {
         roleBo.setId(null);
         boolean flag = roleService.save(roleBo.bo2Entity());
-        return flag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("insert fail.").build();
+        if (flag) {
+            operationLogService.recordLog(OperationLog.OperationType.ROLE_ADD, roleBo.getName());
+            return Result.fastSuccess();
+        }
+        return new Result.Builder<String>().code(500).message("insert fail.").build();
     }
 
     /**
@@ -107,7 +120,11 @@ public class RoleController {
     @ApiOperation("修改角色")
     public Result<?> updateRole(@RequestBody RoleBo roleBo) {
         boolean flag = roleService.updateById(roleBo.bo2Entity());
-        return flag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("update fail.").build();
+        if (flag) {
+            operationLogService.recordLog(OperationLog.OperationType.ROLE_UPDATE, roleBo.getName());
+            return Result.fastSuccess();
+        }
+        return new Result.Builder<String>().code(500).message("update fail.").build();
     }
 
     @GetMapping("/role/permission/{roleId}")

@@ -3,10 +3,12 @@ package com.gugu.upload.controller.system;
 import com.gugu.upload.common.Result;
 import com.gugu.upload.common.bo.AccountBo;
 import com.gugu.upload.common.entity.Account;
+import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.query.AccountQueryRequest;
 import com.gugu.upload.common.vo.system.account.AccountVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
+import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.MapUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +44,9 @@ public class AccountController {
     @Resource
     private IAccountService accountService;
 
+    @Resource
+    private IOperationLogService operationLogService;
+
     /**
      * Find user list result.
      *
@@ -59,21 +64,31 @@ public class AccountController {
 
     @PostMapping
     public Result<?> addAccount(@RequestBody AccountBo accountDto) {
-        return accountService.addAccount(accountDto);
+        Boolean result = accountService.addAccount(accountDto);
+        if (result) {
+            operationLogService.recordLog(OperationLog.OperationType.USER_ADD, accountDto.getUsername());
+            return Result.fastSuccess();
+        }
+        return Result.fastFail("Save account fail.");
     }
 
     @PutMapping
     public Result<?> updateAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
         boolean updateFlag = accountService.updateById(accountDto.bo2Entity());
-        return updateFlag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("update fail.").build();
+        if (updateFlag) {
+            operationLogService.recordLog(OperationLog.OperationType.USER_UPDATE, accountDto.getUsername());
+            return Result.fastSuccess();
+        }
+        return new Result.Builder<String>().code(500).message("update fail.").build();
     }
 
     @DeleteMapping
     public Result<?> deleteAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
-        boolean deleteFlag = accountService.removeById(accountDto.getId());
-        return deleteFlag ? Result.fastSuccess() : new Result.Builder<String>().code(500).message("update fail.").build();
+        Account account = accountService.deleteAccountReturnEntity(accountDto.getId());
+        operationLogService.recordLog(OperationLog.OperationType.FILE_DELETE, account.getUserName());
+        return Result.fastSuccess();
     }
 
     @GetMapping("/fileUpload/info")

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.gugu.upload.common.entity.Permission;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.entity.RolePermission;
 import com.gugu.upload.common.exception.ServiceException;
@@ -20,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -47,16 +47,6 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
 
     @Resource
     private IRolePermissionService rolePermissionService;
-
-    @Override
-    public Permission getPermissionByRoleId(Integer roleId) {
-        RolePermission entityWrappers = new RolePermission();
-        entityWrappers.setRoleId(roleId);
-        QueryWrapper<RolePermission> rolePermissionQueryChainWrapper = Wrappers.query(entityWrappers);
-        RolePermission rolePermission = rolePermissionMapper.selectOne(rolePermissionQueryChainWrapper);
-        Integer permissionId = rolePermission.getPermissionId();
-        return permissionMapper.selectById(permissionId);
-    }
 
     @Override
     public Page<Role> listByPage(String name, Integer currPage, Integer pageSize) {
@@ -94,15 +84,6 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void removeRoleById(Long id) {
-        getBaseMapper().deleteById(id);
-        QueryWrapper<RolePermission> wrapper = Wrappers.query();
-        wrapper.eq(FIELD_ROLE_ID, id);
-        rolePermissionMapper.delete(wrapper);
-    }
-
-    @Override
     public List<RolePermission> getRolePermission(Long roleId) {
         QueryWrapper<RolePermission> query = Wrappers.query();
         query.eq(FIELD_ROLE_ID, roleId);
@@ -129,5 +110,15 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
             }).collect(Collectors.toList());
             rolePermissionService.saveBatch(rolePermissionList);
         }
+    }
+
+    @Override
+    public Role deleteRoleReturnEntity(Integer id) {
+        Role role = this.getById(id);
+        if (Objects.isNull(role)) {
+            return null;
+        }
+        this.removeById(id);
+        return role;
     }
 }

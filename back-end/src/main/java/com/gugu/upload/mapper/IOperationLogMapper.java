@@ -1,7 +1,7 @@
 package com.gugu.upload.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.gugu.upload.common.entity.Visit;
+import com.gugu.upload.common.entity.OperationLog;
 
 /**
  * The interface Visit mapper.
@@ -11,5 +11,5 @@ import com.gugu.upload.common.entity.Visit;
  * @date 2021 /08/24
  * @since 1.8
  */
-public interface IVisitMapper extends BaseMapper<Visit> {
+public interface IOperationLogMapper extends BaseMapper<OperationLog> {
 }

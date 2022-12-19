@@ -1,7 +1,6 @@
 package com.gugu.upload.config;
 
 import com.gugu.upload.config.filter.AuthFilter;
-import com.gugu.upload.config.filter.VisitFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,18 +26,5 @@ public class FilterConfig {
         authFilterFilterRegistrationBean.setFilter(new AuthFilter());
         authFilterFilterRegistrationBean.addUrlPatterns("/*");
         return authFilterFilterRegistrationBean;
-    }
-
-    /**
-     * Record filter filter registration bean filter registration bean.
-     *
-     * @return the filter registration bean
-     */
-    @Bean
-    public FilterRegistrationBean<VisitFilter> visitFilterFilterRegistrationBean(){
-        FilterRegistrationBean<VisitFilter> visitFilterFilterRegistrationBean = new FilterRegistrationBean<>();
-        visitFilterFilterRegistrationBean.setFilter(new VisitFilter());
-        visitFilterFilterRegistrationBean.addUrlPatterns("/*");
-        return visitFilterFilterRegistrationBean;
     }
 }

@@ -1,7 +1,7 @@
 package com.gugu.upload.task;
 
-import com.gugu.upload.common.entity.Visit;
-import com.gugu.upload.service.IVisitService;
+import com.gugu.upload.common.entity.OperationLog;
+import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.ThreadPoolUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +24,16 @@ import java.util.concurrent.Executors;
  */
 @Slf4j
 @Component
-public class VisitTask implements DisposableBean {
+public class LogTask implements DisposableBean {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor(runnable -> {
         Thread thread = new Thread(runnable);
-        thread.setName("VisitTask_Thread");
+        thread.setName("LogTask_Thread");
         return thread;
     });
 
     @Resource
-    private IVisitService iVisitService;
+    private IOperationLogService iOperationLogService;
 
     /**
      * Save visit.
@@ -41,8 +41,8 @@ public class VisitTask implements DisposableBean {
     @Scheduled(cron = "0 0/3 * * * ? ")
     public void saveVisit() {
         executorService.execute(() -> {
-            List<Visit> visits = CacheUtil.get(Visit.class);
-            visits.forEach(iVisitService::save);
+            List<OperationLog> operationLogs = CacheUtil.get(OperationLog.class);
+            operationLogs.forEach(iOperationLogService::save);
         });
     }
 
