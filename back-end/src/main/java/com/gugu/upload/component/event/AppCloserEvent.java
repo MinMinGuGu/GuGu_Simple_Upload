@@ -1,7 +1,6 @@
 package com.gugu.upload.component.event;
 
 import com.gugu.upload.task.FileTask;
-import com.gugu.upload.task.LogTask;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationListener;
@@ -24,14 +23,10 @@ import java.io.IOException;
 public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
 
     @Resource
-    private LogTask logTask;
-
-    @Resource
     private FileTask fileTask;
 
     @Override
     public void onApplicationEvent(@NotNull ContextClosedEvent event) {
-        saveVisit();
         clearFile();
     }
 
@@ -42,10 +37,5 @@ public class AppCloserEvent implements ApplicationListener<ContextClosedEvent> {
         } catch (IOException e) {
             log.error("An exception occurred while cleaning up the file", e);
         }
-    }
-
-    private void saveVisit(){
-        log.info("Write Visit to the database before the application is closed...");
-        logTask.saveVisit();
     }
 }

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -42,9 +43,9 @@ class CacheUtilTest {
      */
     @Test
     void get() {
-        List<OperationLog> operationLogs = CacheUtil.get(OperationLog.class);
-        Assertions.assertNotEquals(0, operationLogs.size());
-        System.out.println("visits = " + operationLogs);
+        List<Map<String, OperationLog>> maps = CacheUtil.get(OperationLog.class);
+        Assertions.assertNotEquals(0, maps.size());
+        System.out.println("OperationLogs = " + maps);
     }
 
     /**

@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.lang.ref.SoftReference;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class CacheUtil {
     /**
      * Clear up.
      */
-    public static void clearUp(){
+    public static void clearUp() {
         CACHE_OBJECT_MAP.forEach((key, soft) -> isThere(key));
     }
 
@@ -77,16 +78,17 @@ public class CacheUtil {
      * @param source the source
      * @return if found return list otherwise null
      */
-    public static <T> List<T> get(Class<T> source) {
-        List<T> cacheObjects = new LinkedList<>();
+    public static <T> List<Map<String, T>> get(Class<T> source) {
+        List<Map<String, T>> list = new LinkedList<>();
         CACHE_OBJECT_MAP.forEach((key, object) -> {
             CacheObject cacheObject = get(key);
             if (checkIsSource(cacheObject, source)) {
-                Object cacheObjectObject = cacheObject.getObject();
-                cacheObjects.add(source.cast(cacheObjectObject));
+                Map<String, T> map = new LinkedHashMap<>();
+                map.put(key, (T) cacheObject.getObject());
+                list.add(map);
             }
         });
-        return cacheObjects;
+        return list;
     }
 
     private static <T> boolean checkIsSource(CacheObject cacheObject, Class<T> source) {
