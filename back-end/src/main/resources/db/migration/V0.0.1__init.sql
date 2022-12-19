@@ -97,6 +97,7 @@ create table if not exists `app_key`
     `id`          int          not null auto_increment,
     `user_id`     int          not null comment '用户id',
     `value`       varchar(255) not null comment 'appKey',
+    `description` varchar(100),
     `create_time` datetime     not null comment '创建时间',
     primary key (`id`),
     index `index_value` (`value`)
