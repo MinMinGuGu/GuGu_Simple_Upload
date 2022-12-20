@@ -23,15 +23,19 @@ public class MapUtil {
      * @param keyAndValues the key and values
      * @return the map
      */
-    public static Map<?, ?> toMap(Object... keyAndValues) {
+    public static Map<String, Object> toMap(Object... keyAndValues) {
         if (keyAndValues.length % 2 != 0) {
             throw new ParamsException("The passed in parameter does not constitute a key value pair.");
         }
-        Map<Object, Object> map = new LinkedHashMap<>();
+        Map<String, Object> map = new LinkedHashMap<>();
         for (int i = 0; i < keyAndValues.length - 1; i++) {
             Object key = keyAndValues[i];
-            Object value = keyAndValues[i + 1];
-            map.put(key, value);
+            if (key instanceof String) {
+                Object value = keyAndValues[i + 1];
+                map.put(key.toString(), value);
+            } else {
+                throw new ParamsException("key只支持String");
+            }
         }
         return map;
     }

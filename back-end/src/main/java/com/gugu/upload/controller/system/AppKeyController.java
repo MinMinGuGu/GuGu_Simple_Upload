@@ -8,7 +8,6 @@ import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.vo.AppKeyVo;
 import com.gugu.upload.service.IAppKeyService;
 import com.gugu.upload.service.IOperationLogService;
-import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +50,8 @@ public class AppKeyController {
      */
     @GetMapping
     @ApiOperation("获取所有AppKey")
-    public Result<?> getAllAppKey() {
-        return Result.fastSuccess(appKeyService.list());
+    public Result<?> getAllAppKey(AppKeyBo appKeyBo) {
+        return Result.fastSuccess(appKeyService.selectForUserName(appKeyBo.getUserName()));
     }
 
     /**
@@ -64,9 +63,9 @@ public class AppKeyController {
     @PostMapping
     @ApiOperation("创建AppKey")
     public Result<?> createAppKey(@RequestBody AppKeyBo appKeyBo) {
-        AppKey appKeyForAccount = appKeyService.createAppKeyForAccount(appKeyBo);
-        operationLogService.recordLog(OperationLog.OperationType.APP_KEY_ADD, appKeyBo.getUserId().toString());
-        return Result.fastSuccess(TransformUtil.transform(appKeyForAccount, AppKeyVo.class));
+        AppKeyVo appKeyVo = appKeyService.createAppKeyForAccount(appKeyBo);
+        operationLogService.recordLog(OperationLog.OperationType.APP_KEY_ADD, appKeyBo.getUserName());
+        return Result.fastSuccess(appKeyVo);
     }
 
     /**

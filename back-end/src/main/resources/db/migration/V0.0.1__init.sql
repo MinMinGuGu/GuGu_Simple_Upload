@@ -26,7 +26,8 @@ create table if not exists `account`
     `enable`         tinyint default 1 comment '启用状态',
     `create_time`    date               not null comment '创建时间',
     `update_time`    datetime comment '修改时间',
-    primary key (`id`)
+    primary key (`id`),
+    unique key (`user_name`)
 ) engine = InnoDB
   default charset = utf8mb4;
 insert into `account`(`role_id`, `user_name`, `user_password`, `system_default`, `enable`, `create_time`)

@@ -3,6 +3,9 @@ package com.gugu.upload.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.AppKeyBo;
 import com.gugu.upload.common.entity.AppKey;
+import com.gugu.upload.common.vo.AppKeyVo;
+
+import java.util.List;
 
 /**
  * The interface App key service.
@@ -17,9 +20,9 @@ public interface IAppKeyService extends IService<AppKey> {
      * 根据创建appKey
      *
      * @param appKeyBo 参数
-     * @return appKey app key
+     * @return appKeyVo app key vo
      */
-    AppKey createAppKeyForAccount(AppKeyBo appKeyBo);
+    AppKeyVo createAppKeyForAccount(AppKeyBo appKeyBo);
 
 
     /**
@@ -29,4 +32,12 @@ public interface IAppKeyService extends IService<AppKey> {
      * @return 删除数据 app key
      */
     AppKey deleteAppKeyReturnEntity(Integer id);
+
+    /**
+     * 根据userName查询
+     *
+     * @param userName userName
+     * @return appKeyVo
+     */
+    List<AppKeyVo> selectForUserName(String userName);
 }
