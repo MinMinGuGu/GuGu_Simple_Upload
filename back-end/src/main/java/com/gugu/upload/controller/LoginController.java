@@ -48,8 +48,9 @@ public class LoginController {
      */
     @GetMapping
     @ApiOperation("验证是否登录")
-    public Result<String> verify() {
-        return Result.fastSuccess();
+    public Result<String> verify(HttpServletRequest request) {
+        Result.Builder<String> resultBuilder = new Result.Builder<>();
+        return LoginHelper.isLogged(request) ? resultBuilder.success().build() : resultBuilder.code(401).message("Login required.").build();
     }
 
     /**
