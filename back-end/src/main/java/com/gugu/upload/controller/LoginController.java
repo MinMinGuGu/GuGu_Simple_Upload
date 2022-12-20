@@ -44,14 +44,12 @@ public class LoginController {
     /**
      * Verify result.
      *
-     * @param request the request
      * @return the result
      */
     @GetMapping
     @ApiOperation("验证是否登录")
-    public Result<String> verify(HttpServletRequest request) {
-        Result.Builder<String> resultBuilder = new Result.Builder<>();
-        return LoginHelper.isLogged(request) ? resultBuilder.success().build() : resultBuilder.code(401).message("Login required.").build();
+    public Result<String> verify() {
+        return Result.fastSuccess();
     }
 
     /**

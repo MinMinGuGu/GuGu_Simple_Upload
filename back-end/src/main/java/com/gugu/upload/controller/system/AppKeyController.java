@@ -46,6 +46,7 @@ public class AppKeyController {
     /**
      * Get all app key result.
      *
+     * @param appKeyBo the app key bo
      * @return the result
      */
     @GetMapping

@@ -1,11 +1,8 @@
 package com.gugu.upload.config.filter;
 
-import com.gugu.upload.common.Result;
 import com.gugu.upload.utils.CacheUtil;
-import com.gugu.upload.utils.JsonUtil;
 import com.gugu.upload.utils.SessionUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -13,8 +10,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The type Auth filter.
@@ -24,12 +22,12 @@ import java.io.IOException;
  * @since 1.8
  */
 @Slf4j
-public class AuthFilter implements Filter {
+public class AuthFilter extends BaseFilter implements Filter {
 
     /**
-     * The constant NOT_LOGIN_HTTP_STATUS.
+     * The constant URL_PATTERN_LIST.
      */
-    public static final int NOT_LOGIN_HTTP_STATUS = 409;
+    public static final List<String> URL_PATTERN_LIST = Collections.singletonList("/*");
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -50,18 +48,6 @@ public class AuthFilter implements Filter {
         refuse(servletResponse);
     }
 
-    private void refuse(ServletResponse servletResponse) throws IOException {
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setStatus(NOT_LOGIN_HTTP_STATUS);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().print(JsonUtil.obj2JsonStr(
-                new Result.Builder<String>()
-                        .code(NOT_LOGIN_HTTP_STATUS)
-                        .message("Please login before operation")
-                        .build()
-        ));
-    }
-
     private boolean isSecurity(ServletRequest servletRequest) {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String requestUri = request.getRequestURI();
@@ -74,9 +60,5 @@ public class AuthFilter implements Filter {
                 || requestUri.contains("/csrf")
                 || requestUri.contains("/api-docs")
                 ;
-    }
-
-    private void pass(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
-        filterChain.doFilter(servletRequest, servletResponse);
     }
 }

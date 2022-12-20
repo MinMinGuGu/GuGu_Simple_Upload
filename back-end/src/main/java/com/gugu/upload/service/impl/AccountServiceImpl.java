@@ -7,6 +7,7 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.AccountVo;
+import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.mapper.IAccountMapper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;
@@ -68,6 +69,7 @@ public class AccountServiceImpl extends ServiceImpl<IAccountMapper, Account> imp
         if (Objects.isNull(account)) {
             return null;
         }
+        LoginHelper.logout(account);
         this.removeById(id);
         return account;
     }

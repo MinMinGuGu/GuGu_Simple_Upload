@@ -37,7 +37,7 @@ public interface IAppKeyService extends IService<AppKey> {
      * 根据userName查询
      *
      * @param userName userName
-     * @return appKeyVo
+     * @return appKeyVo list
      */
     List<AppKeyVo> selectForUserName(String userName);
 }
