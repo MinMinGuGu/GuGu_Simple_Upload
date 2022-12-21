@@ -5,7 +5,6 @@ import com.gugu.upload.common.annotation.PermissionCheck;
 import com.gugu.upload.common.bo.AppKeyBo;
 import com.gugu.upload.common.entity.AppKey;
 import com.gugu.upload.common.entity.OperationLog;
-import com.gugu.upload.common.vo.AppKeyVo;
 import com.gugu.upload.service.IAppKeyService;
 import com.gugu.upload.service.IOperationLogService;
 import io.swagger.annotations.Api;
@@ -50,9 +49,13 @@ public class AppKeyController {
      * @return the result
      */
     @GetMapping
-    @ApiOperation("获取所有AppKey")
+    @ApiOperation("获取AppKey")
     public Result<?> getAllAppKey(AppKeyBo appKeyBo) {
-        return Result.fastSuccess(appKeyService.selectForUserName(appKeyBo.getUserName()));
+        // 是否需要分页
+        if (appKeyBo.getCurrPage() == null || appKeyBo.getPageSize() == null) {
+            return Result.fastSuccess(appKeyService.selectByUserName(appKeyBo));
+        }
+        return Result.fastSuccess(appKeyService.selectByPage(appKeyBo));
     }
 
     /**
@@ -64,7 +67,7 @@ public class AppKeyController {
     @PostMapping
     @ApiOperation("创建AppKey")
     public Result<?> createAppKey(@RequestBody AppKeyBo appKeyBo) {
-        AppKeyVo appKeyVo = appKeyService.createAppKeyForAccount(appKeyBo);
+        AppKey appKeyVo = appKeyService.createAppKeyForAccount(appKeyBo);
         operationLogService.recordLog(OperationLog.OperationType.APP_KEY_ADD, appKeyBo.getUserName());
         return Result.fastSuccess(appKeyVo);
     }
@@ -80,7 +83,7 @@ public class AppKeyController {
     public Result<?> deleteAppKey(@PathVariable Integer id) {
         AppKey appKey = appKeyService.deleteAppKeyReturnEntity(id);
         if (Objects.nonNull(appKey)) {
-            operationLogService.recordLog(OperationLog.OperationType.APP_KEY_DELETE, appKey.getUserId().toString());
+            operationLogService.recordLog(OperationLog.OperationType.APP_KEY_DELETE, appKey.getUserName());
             return Result.fastSuccess();
         }
         return Result.fastFail("不存在此AppKey");

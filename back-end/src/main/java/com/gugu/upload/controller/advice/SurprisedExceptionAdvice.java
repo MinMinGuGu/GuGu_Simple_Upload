@@ -40,6 +40,6 @@ public class SurprisedExceptionAdvice {
     @ExceptionHandler(OperationException.class)
     public Result<?> handlerOperationException(OperationException operationException) {
         log.error("出现操作异常", operationException);
-        return Result.fastFail("出现操作异常: " + operationException.getMessage());
+        return Result.fastFail(operationException.getMessage());
     }
 }

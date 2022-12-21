@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 public class AppKey {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    private Integer userId;
+    private String userName;
     private String value;
     private String description;
     @TableField(value = "create_time", fill = FieldFill.INSERT)

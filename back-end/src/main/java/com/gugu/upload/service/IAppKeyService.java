@@ -1,9 +1,9 @@
 package com.gugu.upload.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.AppKeyBo;
 import com.gugu.upload.common.entity.AppKey;
-import com.gugu.upload.common.vo.AppKeyVo;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public interface IAppKeyService extends IService<AppKey> {
      * @param appKeyBo 参数
      * @return appKeyVo app key vo
      */
-    AppKeyVo createAppKeyForAccount(AppKeyBo appKeyBo);
+    AppKey createAppKeyForAccount(AppKeyBo appKeyBo);
 
 
     /**
@@ -34,10 +34,18 @@ public interface IAppKeyService extends IService<AppKey> {
     AppKey deleteAppKeyReturnEntity(Integer id);
 
     /**
-     * 根据userName查询
+     * Select by user name list.
      *
-     * @param userName userName
-     * @return appKeyVo list
+     * @param appKeyBo the app key bo
+     * @return the list
      */
-    List<AppKeyVo> selectForUserName(String userName);
+    List<AppKey> selectByUserName(AppKeyBo appKeyBo);
+
+    /**
+     * Select by page page.
+     *
+     * @param appKeyBo the app key bo
+     * @return the page
+     */
+    Page<AppKey> selectByPage(AppKeyBo appKeyBo);
 }

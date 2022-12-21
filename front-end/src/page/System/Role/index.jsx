@@ -44,7 +44,6 @@ export default class SystemRole extends CheckLogin {
         this.setState({ loading: true });
         let currPage = this.state.current || 1;
         let pageSize = this.state.pageSize || 10;
-        this.setState({ loading: true });
         const roleDataResponse = doGet(`${apis.roleManageApi}`, {
             ...params,
             currPage,
@@ -83,7 +82,6 @@ export default class SystemRole extends CheckLogin {
         this.setState({ loading: true });
         let currPage = page || this.state.current;
         pageSize = pageSize || this.state.pageSize;
-        this.setState({ loading: true });
         const response = doGet(`${apis.roleManageApi}`, {
             currPage,
             pageSize,
@@ -96,6 +94,7 @@ export default class SystemRole extends CheckLogin {
                     total: data.total,
                     pageSize: data.size,
                     current: data.current,
+                    loading: false,
                 });
             }
         });
@@ -171,7 +170,6 @@ export default class SystemRole extends CheckLogin {
                     title={`是否删除 ${record.name} 角色`}
                     onConfirm={() => this.postDeleteRole(record)}
                     okButtonProps={{ loading: loading }}
-                    onCancel={this.closerDeletePopconfirm}
                     disabled={record.systemDefault}
                 >
                     <Button

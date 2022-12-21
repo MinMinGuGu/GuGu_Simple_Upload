@@ -14,4 +14,6 @@ import lombok.Data;
 public class AppKeyBo {
     private String userName;
     private String description;
+    private Integer currPage;
+    private Integer pageSize;
 }

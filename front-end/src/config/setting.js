@@ -9,6 +9,7 @@ const apis = {
     roleManageApi: apiPrefix + "/system/role",
     rolePermissionManageApi: apiPrefix + "/system/role/permission",
     permissionApi: apiPrefix + "/system/permission",
+    appKeyApi: apiPrefix + "/system/appKey",
     env
 }
 

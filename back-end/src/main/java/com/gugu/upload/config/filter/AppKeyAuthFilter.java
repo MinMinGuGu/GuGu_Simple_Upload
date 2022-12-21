@@ -1,5 +1,7 @@
 package com.gugu.upload.config.filter;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.AppKey;
 import com.gugu.upload.mapper.IAccountMapper;
@@ -94,7 +96,9 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
             return null;
         }
         AppKey appKey = appKeyList.get(0);
-        return accountMapper.selectById(appKey.getUserId());
+        QueryWrapper<Account> query = Wrappers.query();
+        query.eq("user_name", appKey.getUserName());
+        return accountMapper.selectOne(query);
     }
 
     @Override

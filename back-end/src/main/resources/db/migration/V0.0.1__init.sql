@@ -97,7 +97,7 @@ values (3, 3, 3, sysdate());
 create table if not exists `app_key`
 (
     `id`          int          not null auto_increment,
-    `user_id`     int          not null comment '用户id',
+    `user_name`   varchar(255) not null comment '用户名',
     `value`       varchar(255) not null comment 'appKey',
     `description` varchar(100),
     `create_time` datetime     not null comment '创建时间',
