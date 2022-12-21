@@ -26,6 +26,7 @@ import java.util.Arrays;
 
 /**
  * 解析权限注解AOP
+ * 负责解析注解{@link PermissionCheck}
  *
  * @author minmin
  * @version 1.0

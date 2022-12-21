@@ -11,6 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * 权限校验注解
+ * 负责解析的类为{@link com.gugu.upload.component.aop.PermissionAopComponent}
  *
  * @author minmin
  * @version 1.0
