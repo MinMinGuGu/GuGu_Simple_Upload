@@ -81,7 +81,6 @@ async function dataInBody(method, uri, params, header) {
             },
             body: JSON.stringify(requestParams)
         })
-        // todo 优化如果请求登录失效
         return await response.json()
     } catch (error) {
         return generateError('发起请求失败')
