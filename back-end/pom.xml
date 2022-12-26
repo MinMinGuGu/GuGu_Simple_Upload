@@ -18,6 +18,7 @@
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
         <jasypt.version>2.1.2</jasypt.version>
         <swagger.version>2.9.2</swagger.version>
+        <easyexcel.version>3.1.4</easyexcel.version>
     </properties>
 
     <dependencies>
@@ -89,6 +90,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+        </dependency>
+
 
     </dependencies>
 

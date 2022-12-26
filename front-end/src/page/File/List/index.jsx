@@ -7,6 +7,7 @@ import {
     doMethod,
     doMethodByDownload,
 } from "../../../utils/requestUtil";
+import { creteALinkDownload } from "../../../utils/downloadUtil";
 import CheckComponent from "../../../components/CheckLogin";
 
 export default class FileList extends CheckComponent {
@@ -17,45 +18,18 @@ export default class FileList extends CheckComponent {
         tableDataLoading: true,
     };
 
-    downloadFile = () => {
+    downloadFile = async () => {
         const { selectedRowKeys } = this.state;
         for (const index in selectedRowKeys) {
             const fileId = selectedRowKeys[index];
-            this.setState({ loading: true });
             const response = doMethodByDownload(
                 apis.fileApi + "/" + fileId,
                 "GET"
             );
-            this.processDownloadResponse(response, fileId);
-        }
-    };
-
-    processDownloadResponse = (response, index) => {
-        response.then((res) =>
-            res.blob().then((blob) => {
-                const alink = document.createElement("a");
-                alink.style.display = "none";
-                alink.href = window.URL.createObjectURL(blob);
-                // 后端因为SpringBoot的Filter的处理 导致无法将文件信息通过响应头返回 交给前端处理
-                alink.download = this.generateDisposition(index);
-                document.body.appendChild(alink);
-                alink.click();
-                URL.revokeObjectURL(alink.href);
-                document.body.removeChild(alink);
-                this.setState({ loading: false });
-            })
-        );
-    };
-
-    generateDisposition = (index) => {
-        const { tableData } = this.state;
-        for (const data in tableData) {
-            if (tableData.hasOwnProperty.call(tableData, data)) {
-                const element = tableData[data];
-                if (element.key === index) {
-                    return element.fileOriginal;
-                }
-            }
+            this.setState({ loading: true });
+            creteALinkDownload(response, () =>
+                this.setState({ loading: false })
+            );
         }
     };
 

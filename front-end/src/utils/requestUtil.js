@@ -13,9 +13,11 @@ function cleanArray(actual) {
 function handlerParams(json) {
     if (json) {
         return "?" + cleanArray(Object.keys(json).map(key => {
-            if (json[key] === undefined) return ''
-            return encodeURIComponent(key) + '=' +
-                encodeURIComponent(json[key])
+            if (json[key]) {
+                return encodeURIComponent(key) + '=' +
+                    encodeURIComponent(json[key])
+            }
+            return ''
         })).join('&')
     }
     return '';

@@ -1,12 +1,12 @@
 package com.gugu.upload.common.entity;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.gugu.upload.common.converter.DateConverter;
 import lombok.Data;
 import lombok.Getter;
 
@@ -24,12 +24,18 @@ import java.time.LocalDateTime;
 @TableName("operation_log")
 public class OperationLog {
     @TableId(value = "id", type = IdType.AUTO)
+    @ExcelProperty("id")
     private Integer id;
+    @ExcelProperty("ip地址")
     private String ipAddress;
-    private OperationType operationType;
+    @ExcelProperty("操作名")
+    private String operationName;
+    @ExcelProperty("用户名")
     private String userName;
+    @ExcelProperty("内容")
     private String context;
     @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @ExcelProperty(value = "操作日期", converter = DateConverter.class)
     private LocalDateTime createTime;
 
     /**
@@ -40,64 +46,59 @@ public class OperationLog {
      * @since 1.8
      */
     @Getter
-    public enum OperationType {
+    public enum OperationName {
         /**
          * 未知操作
          */
-        UNKNOWN(0, "未知操作"),
+        UNKNOWN("未知操作"),
         /**
          * 用户登录操作
          */
-        LOGIN(1, "用户登录"),
+        LOGIN("用户登录"),
         /**
          * 文件上传操作
          */
-        FILE_UPLOAD(2, "文件上传"),
+        FILE_UPLOAD("文件上传"),
         /**
          * 文件删除操作
          */
-        FILE_DELETE(3, "文件删除"),
+        FILE_DELETE("文件删除"),
         /**
          * 新增用户操作
          */
-        USER_ADD(4, "新增用户"),
+        USER_ADD("新增用户"),
         /**
          * 修改用户操作
          */
-        USER_UPDATE(5, "修改用户"),
+        USER_UPDATE("修改用户"),
         /**
          * 删除用户操作
          */
-        USER_DELETE(6, "删除用户"),
+        USER_DELETE("删除用户"),
         /**
          * 新增角色操作
          */
-        ROLE_ADD(7, "新增角色"),
+        ROLE_ADD("新增角色"),
         /**
          * 修改角色操作
          */
-        ROLE_UPDATE(8, "修改角色"),
+        ROLE_UPDATE("修改角色"),
         /**
          * 删除角色操作
          */
-        ROLE_DELETE(9, "删除角色"),
+        ROLE_DELETE("删除角色"),
         /**
          * 新增app key操作
          */
-        APP_KEY_ADD(10, "新增app_key"),
+        APP_KEY_ADD("新增AppKey"),
         /**
          * 删除app key操作
          */
-        APP_KEY_DELETE(11, "删除app_key");
+        APP_KEY_DELETE("删除AppKey");
 
-        @EnumValue
-        private final Integer code;
-
-        @JsonValue
         private final String description;
 
-        OperationType(Integer code, String description) {
-            this.code = code;
+        OperationName(String description) {
             this.description = description;
         }
     }

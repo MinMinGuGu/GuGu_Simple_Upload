@@ -37,7 +37,7 @@ create table if not exists `operation_log`
 (
     `id`             int auto_increment not null,
     `ip_address`     varchar(100)       not null comment 'ip地址',
-    `operation_type` tinyint            not null comment '操作类型',
+    `operation_name` varchar(100)       not null comment '操作名',
     `user_name`      varchar(255)       not null comment '用户名',
     `context`        varchar(255) comment '内容',
     `create_time`    datetime           not null comment '创建时间',

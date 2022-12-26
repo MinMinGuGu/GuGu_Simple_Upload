@@ -44,6 +44,7 @@ public class LoginController {
     /**
      * Verify result.
      *
+     * @param request the request
      * @return the result
      */
     @GetMapping
@@ -79,7 +80,7 @@ public class LoginController {
         log.info("query result : {}", account);
         LoginHelper.saveBySession(loginVo, account, httpServletRequest);
         log.info("User logged in successfully...");
-        operationLogService.recordLog(OperationLog.OperationType.LOGIN, OperationLog.OperationType.LOGIN.getDescription());
+        operationLogService.recordLog(OperationLog.OperationName.LOGIN, null);
         return Result.fastSuccess();
     }
 

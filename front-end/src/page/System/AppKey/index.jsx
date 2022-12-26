@@ -95,9 +95,7 @@ export default class SystemAppKey extends CheckLogin {
         let allUserName = [];
         await response.then((result) => {
             if (result.code === 200) {
-                result.data.map((item) => {
-                    allUserName.push(item.userName);
-                });
+                allUserName = result.data.map((item) => item.userName);
             }
         });
         this.setState({ allUserName });

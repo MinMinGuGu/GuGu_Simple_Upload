@@ -1,7 +1,11 @@
 package com.gugu.upload.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gugu.upload.common.bo.OperationLogBo;
 import com.gugu.upload.common.entity.OperationLog;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * The interface Visit service.
@@ -15,8 +19,28 @@ public interface IOperationLogService extends IService<OperationLog> {
     /**
      * 记录操作日志
      *
-     * @param operationType 操作类型
+     * @param operationName 操作类型
      * @param context       内容
      */
-    void recordLog(OperationLog.OperationType operationType, String context);
+    void recordLog(OperationLog.OperationName operationName, String context);
+
+    /**
+     * Select by page page.
+     *
+     * @param operationLogBo the operation log bo
+     * @return the page
+     */
+    Page<OperationLog> selectByPage(OperationLogBo operationLogBo);
+
+    /**
+     * Clear log.
+     */
+    void clearLog();
+
+    /**
+     * Export 2 http response.
+     *
+     * @param httpServletResponse the http servlet response
+     */
+    void export2HttpResponse(HttpServletResponse httpServletResponse);
 }

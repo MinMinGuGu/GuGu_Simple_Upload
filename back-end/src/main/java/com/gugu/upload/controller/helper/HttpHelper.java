@@ -2,11 +2,13 @@ package com.gugu.upload.controller.helper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Optional;
 
 /**
  * The type Http helper.
@@ -31,7 +33,12 @@ public class HttpHelper {
      * @param fileName the file name
      */
     public static void settingFileStreamHeader(HttpServletResponse response, String fileName) {
-        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        Optional<MediaType> optionalMediaType = MediaTypeFactory.getMediaType(fileName);
+        if (optionalMediaType.isPresent()) {
+            response.setContentType(optionalMediaType.get().toString());
+        } else {
+            response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        }
         response.setHeader("Content-Disposition", generateDisposition(fileName));
 
     }

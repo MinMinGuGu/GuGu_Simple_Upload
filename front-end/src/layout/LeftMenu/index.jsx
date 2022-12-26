@@ -55,7 +55,7 @@ class LeftMenu extends Component {
                         AppKey设置
                     </Menu.Item>
                     <Menu.Item key="7" path="/system/appLog">
-                        系统日志
+                        操作日志
                     </Menu.Item>
                 </SubMenu>
                 <Menu.Item

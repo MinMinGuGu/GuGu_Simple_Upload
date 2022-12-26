@@ -105,7 +105,7 @@ public class FileController {
     public Result<?> fileDelete(@PathVariable Integer id) {
         log.info("The ID of the file requested to be deleted : {}", id);
         FileInfo fileInfo = fileService.deleteFileReturnEntity(id);
-        operationLogService.recordLog(OperationLog.OperationType.FILE_DELETE, fileInfo.getFilePath());
+        operationLogService.recordLog(OperationLog.OperationName.FILE_DELETE, fileInfo.getFilePath());
         return Result.fastSuccess();
     }
 
@@ -151,7 +151,7 @@ public class FileController {
                 log.error("Failed to write file to disk", e);
             }
             FileInfoVo fileInfoVo = fileService.uploadSave(fileInfoBo);
-            operationLogService.recordLog(OperationLog.OperationType.FILE_UPLOAD, fileInfoBo.getFilePath());
+            operationLogService.recordLog(OperationLog.OperationName.FILE_UPLOAD, fileInfoBo.getFileOriginal());
             fileInfoVos.add(fileInfoVo);
         }
         return new Result.Builder<List<FileInfoVo>>().success(fileInfoVos).build();

@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 出乎意料的异常
  *
@@ -23,10 +25,11 @@ public class SurprisedExceptionAdvice {
      * Handler exception result.
      *
      * @param exception the exception
+     * @param response  the response
      * @return the result
      */
     @ExceptionHandler(Exception.class)
-    public Result<?> handlerException(Exception exception) {
+    public Result<?> handlerException(Exception exception, HttpServletResponse response) {
         log.error("出现意料之外的异常", exception);
         return Result.fastFail(DEFAULT_MESSAGE);
     }

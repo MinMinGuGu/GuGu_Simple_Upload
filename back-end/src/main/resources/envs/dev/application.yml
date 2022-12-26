@@ -21,8 +21,6 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1
       logic-not-delete-value: 0
-  configuration:
-    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
 server:
   port: 80
 logging:

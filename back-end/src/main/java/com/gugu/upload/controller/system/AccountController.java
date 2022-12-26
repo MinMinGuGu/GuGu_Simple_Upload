@@ -72,7 +72,7 @@ public class AccountController {
     public Result<?> addAccount(@RequestBody AccountBo accountDto) {
         Boolean result = accountService.addAccount(accountDto);
         if (result) {
-            operationLogService.recordLog(OperationLog.OperationType.USER_ADD, accountDto.getUsername());
+            operationLogService.recordLog(OperationLog.OperationName.USER_ADD, accountDto.getUsername());
             return Result.fastSuccess();
         }
         return Result.fastFail("Save account fail.");
@@ -89,7 +89,7 @@ public class AccountController {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
         boolean updateFlag = accountService.updateById(accountDto.bo2Entity());
         if (updateFlag) {
-            operationLogService.recordLog(OperationLog.OperationType.USER_UPDATE, accountDto.getUsername());
+            operationLogService.recordLog(OperationLog.OperationName.USER_UPDATE, accountDto.getUsername());
             return Result.fastSuccess();
         }
         return new Result.Builder<String>().code(500).message("update fail.").build();
@@ -105,7 +105,7 @@ public class AccountController {
     public Result<?> deleteAccount(@RequestBody AccountBo accountDto) {
         // todo 有缺陷 万一直接调API修改系统默认角色呢
         Account account = accountService.deleteAccountReturnEntity(accountDto.getId());
-        operationLogService.recordLog(OperationLog.OperationType.FILE_DELETE, account.getUserName());
+        operationLogService.recordLog(OperationLog.OperationName.FILE_DELETE, account.getUserName());
         return Result.fastSuccess();
     }
 

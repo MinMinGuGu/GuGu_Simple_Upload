@@ -95,7 +95,7 @@ public class RoleController {
     public Result<?> delRole(@PathVariable("id") Integer id) {
         Role role = roleService.deleteRoleReturnEntity(id);
         if (Objects.nonNull(role)) {
-            operationLogService.recordLog(OperationLog.OperationType.ROLE_DELETE, role.getName());
+            operationLogService.recordLog(OperationLog.OperationName.ROLE_DELETE, role.getName());
         }
         return Result.fastSuccess();
     }
@@ -112,7 +112,7 @@ public class RoleController {
         roleBo.setId(null);
         boolean flag = roleService.save(roleBo.bo2Entity());
         if (flag) {
-            operationLogService.recordLog(OperationLog.OperationType.ROLE_ADD, roleBo.getName());
+            operationLogService.recordLog(OperationLog.OperationName.ROLE_ADD, roleBo.getName());
             return Result.fastSuccess();
         }
         return new Result.Builder<String>().code(500).message("insert fail.").build();
@@ -129,7 +129,7 @@ public class RoleController {
     public Result<?> updateRole(@RequestBody RoleBo roleBo) {
         boolean flag = roleService.updateById(roleBo.bo2Entity());
         if (flag) {
-            operationLogService.recordLog(OperationLog.OperationType.ROLE_UPDATE, roleBo.getName());
+            operationLogService.recordLog(OperationLog.OperationName.ROLE_UPDATE, roleBo.getName());
             return Result.fastSuccess();
         }
         return new Result.Builder<String>().code(500).message("update fail.").build();

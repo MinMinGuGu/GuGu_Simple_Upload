@@ -68,7 +68,7 @@ public class AppKeyController {
     @ApiOperation("创建AppKey")
     public Result<?> createAppKey(@RequestBody AppKeyBo appKeyBo) {
         AppKey appKeyVo = appKeyService.createAppKeyForAccount(appKeyBo);
-        operationLogService.recordLog(OperationLog.OperationType.APP_KEY_ADD, appKeyBo.getUserName());
+        operationLogService.recordLog(OperationLog.OperationName.APP_KEY_ADD, appKeyBo.getUserName());
         return Result.fastSuccess(appKeyVo);
     }
 
@@ -83,7 +83,7 @@ public class AppKeyController {
     public Result<?> deleteAppKey(@PathVariable Integer id) {
         AppKey appKey = appKeyService.deleteAppKeyReturnEntity(id);
         if (Objects.nonNull(appKey)) {
-            operationLogService.recordLog(OperationLog.OperationType.APP_KEY_DELETE, appKey.getUserName());
+            operationLogService.recordLog(OperationLog.OperationName.APP_KEY_DELETE, appKey.getUserName());
             return Result.fastSuccess();
         }
         return Result.fastFail("不存在此AppKey");
