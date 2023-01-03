@@ -2,6 +2,7 @@ package com.gugu.upload.controller.system;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.gugu.upload.common.Result;
+import com.gugu.upload.common.annotation.PermissionCheck;
 import com.gugu.upload.common.bo.RoleBo;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.entity.Role;
@@ -36,6 +37,7 @@ import java.util.Objects;
 @Api("系统角色相关")
 @RestController
 @RequestMapping("/system")
+@PermissionCheck
 public class RoleController {
 
     @Resource
@@ -146,19 +148,6 @@ public class RoleController {
     public Result<?> getRoleAllPermission(@PathVariable Long roleId) {
         List<RolePermission> rolePermissionList = roleService.getRolePermission(roleId);
         return Result.fastSuccess(rolePermissionList);
-    }
-
-    /**
-     * Add role permission result.
-     *
-     * @param rolePermission the role permission
-     * @return the result
-     */
-    @PostMapping("/role/permission")
-    @ApiOperation("添加角色权限")
-    public Result<?> addRolePermission(@RequestBody RolePermission rolePermission) {
-        roleService.addRolePermission(rolePermission);
-        return Result.fastSuccess();
     }
 
     /**

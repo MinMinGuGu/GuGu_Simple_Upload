@@ -27,13 +27,6 @@ public interface IRoleService extends IService<Role> {
     Page<Role> listByPage(String name, Integer currPage, Integer pageSize);
 
     /**
-     * Add role permission.
-     *
-     * @param rolePermission the role permission
-     */
-    void addRolePermission(RolePermission rolePermission);
-
-    /**
      * Remove role permission.
      *
      * @param id the id

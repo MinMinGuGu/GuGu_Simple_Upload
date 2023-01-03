@@ -1,11 +1,11 @@
 package com.gugu.upload.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.FileInfo;
-import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.controller.helper.HttpHelper;
 import com.gugu.upload.mapper.IFileInfoMapper;
@@ -78,9 +78,10 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
     }
 
     @Override
-    public List<FileInfoVo> getFileInfoList(ISupportQuery<FileInfo> iSupportQuery) {
-        QueryWrapper<FileInfo> queryParams = iSupportQuery.toQueryWrapper();
-        List<FileInfo> fileInfos = baseMapper.selectList(queryParams);
+    public List<FileInfoVo> getFileInfoList(FileInfoBo fileInfoBo) {
+        FileInfo fileInfo = TransformUtil.transform(fileInfoBo, FileInfo.class);
+        QueryWrapper<FileInfo> query = Wrappers.query(fileInfo);
+        List<FileInfo> fileInfos = baseMapper.selectList(query);
         List<FileInfoVo> fileInfoVoList = new LinkedList<>();
         fileInfos.forEach(item -> {
             FileInfoVo fileInfoVo = TransformUtil.transform(item, FileInfoVo.class);

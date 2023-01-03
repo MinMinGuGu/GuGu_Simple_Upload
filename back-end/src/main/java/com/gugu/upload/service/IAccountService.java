@@ -1,9 +1,9 @@
 package com.gugu.upload.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.gugu.upload.common.bo.AccountBo;
 import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
-import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.AccountVo;
 
 import java.util.List;
@@ -27,10 +27,10 @@ public interface IAccountService extends IService<Account> {
     /**
      * Find by request list.
      *
-     * @param accountQueryRequest the account query request
+     * @param accountBo the account bo
      * @return the list
      */
-    List<AccountVo> findByRequest(ISupportQuery<Account> accountQueryRequest);
+    List<AccountVo> findByRequest(AccountBo accountBo);
 
     /**
      * Add account result.

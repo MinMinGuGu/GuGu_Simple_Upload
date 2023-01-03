@@ -1,6 +1,7 @@
 package com.gugu.upload.controller.system;
 
 import com.gugu.upload.common.Result;
+import com.gugu.upload.common.annotation.PermissionCheck;
 import com.gugu.upload.common.entity.Permission;
 import com.gugu.upload.service.IPermissionService;
 import io.swagger.annotations.Api;
@@ -25,6 +26,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/system")
+@PermissionCheck
 public class PermissionController {
 
     @Resource

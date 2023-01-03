@@ -1,10 +1,11 @@
 package com.gugu.upload.controller.system;
 
 import com.gugu.upload.common.Result;
+import com.gugu.upload.common.annotation.PermissionCheck;
 import com.gugu.upload.common.bo.AccountBo;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
-import com.gugu.upload.common.query.AccountQueryRequest;
+import com.gugu.upload.common.entity.Permission;
 import com.gugu.upload.common.vo.AccountVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
@@ -15,7 +16,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +28,6 @@ import java.util.List;
 
 /**
  * The type Account controller.
- * fixme 存在删除系统默认账号风险 还需要补充接口文档
  *
  * @author minmin
  * @version 1.0
@@ -50,29 +49,30 @@ public class AccountController {
     /**
      * Find user list result.
      *
-     * @param accountQueryRequest the account query request
+     * @param accountBo the account bo
      * @return the result
      */
     @GetMapping
-    public Result<?> findUserList(@ModelAttribute AccountQueryRequest accountQueryRequest) {
-        if (accountQueryRequest == null) {
-            accountQueryRequest = new AccountQueryRequest();
-        }
-        List<AccountVo> accountList = accountService.findByRequest(accountQueryRequest);
+    @ApiOperation("查询用户")
+    @PermissionCheck
+    public Result<?> findUserList(AccountBo accountBo) {
+        List<AccountVo> accountList = accountService.findByRequest(accountBo);
         return Result.fastSuccess(accountList);
     }
 
     /**
      * Add account result.
      *
-     * @param accountDto the account dto
+     * @param accountBo the account dto
      * @return the result
      */
     @PostMapping
-    public Result<?> addAccount(@RequestBody AccountBo accountDto) {
-        Boolean result = accountService.addAccount(accountDto);
+    @ApiOperation("添加用户")
+    @PermissionCheck
+    public Result<?> addAccount(@RequestBody AccountBo accountBo) {
+        Boolean result = accountService.addAccount(accountBo);
         if (result) {
-            operationLogService.recordLog(OperationLog.OperationName.USER_ADD, accountDto.getUsername());
+            operationLogService.recordLog(OperationLog.OperationName.USER_ADD, accountBo.getUsername());
             return Result.fastSuccess();
         }
         return Result.fastFail("Save account fail.");
@@ -81,15 +81,16 @@ public class AccountController {
     /**
      * Update account result.
      *
-     * @param accountDto the account dto
+     * @param accountBo the account dto
      * @return the result
      */
     @PutMapping
-    public Result<?> updateAccount(@RequestBody AccountBo accountDto) {
-        // todo 有缺陷 万一直接调API修改系统默认角色呢
-        boolean updateFlag = accountService.updateById(accountDto.bo2Entity());
+    @ApiOperation("修改用户")
+    @PermissionCheck
+    public Result<?> updateAccount(@RequestBody AccountBo accountBo) {
+        boolean updateFlag = accountService.updateById(accountBo.bo2Entity());
         if (updateFlag) {
-            operationLogService.recordLog(OperationLog.OperationName.USER_UPDATE, accountDto.getUsername());
+            operationLogService.recordLog(OperationLog.OperationName.USER_UPDATE, accountBo.getUsername());
             return Result.fastSuccess();
         }
         return new Result.Builder<String>().code(500).message("update fail.").build();
@@ -98,13 +99,14 @@ public class AccountController {
     /**
      * Delete account result.
      *
-     * @param accountDto the account dto
+     * @param accountBo the account dto
      * @return the result
      */
     @DeleteMapping
-    public Result<?> deleteAccount(@RequestBody AccountBo accountDto) {
-        // todo 有缺陷 万一直接调API修改系统默认角色呢
-        Account account = accountService.deleteAccountReturnEntity(accountDto.getId());
+    @ApiOperation("删除用户")
+    @PermissionCheck
+    public Result<?> deleteAccount(@RequestBody AccountBo accountBo) {
+        Account account = accountService.deleteAccountReturnEntity(accountBo.getId());
         operationLogService.recordLog(OperationLog.OperationName.FILE_DELETE, account.getUserName());
         return Result.fastSuccess();
     }
@@ -117,6 +119,7 @@ public class AccountController {
      */
     @GetMapping("/fileUpload/info")
     @ApiOperation("获取用户在系统上传的文件数量")
+    @PermissionCheck(Permission.PermissionEnum.UPLOAD)
     public Result<?> getAccountFileUploadInfo(HttpServletRequest request) {
         Account currentAccount = LoginHelper.getCurrentAccount(request);
         int userFileUploadCount = accountService.getUserAllFileCount(currentAccount);

@@ -18,11 +18,13 @@ import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * 解析权限注解AOP
@@ -47,7 +49,11 @@ public class PermissionAopComponent {
     private IRolePermissionMapper rolePermissionMapper;
 
     @Pointcut("@within(com.gugu.upload.common.annotation.PermissionCheck)")
-    private void permissionAopPointCut() {
+    private void withinPermissionAopPointCut() {
+    }
+
+    @Pointcut("@annotation(com.gugu.upload.common.annotation.PermissionCheck)")
+    private void annotationPermissionAopPointCut() {
     }
 
     /**
@@ -55,8 +61,22 @@ public class PermissionAopComponent {
      *
      * @param joinPoint the join point
      */
-    @Before("permissionAopPointCut()")
-    public void checkPermission(JoinPoint joinPoint) {
+    @Before("withinPermissionAopPointCut()")
+    public void checkPermissionByWithin(JoinPoint joinPoint) {
+        Account currentAccount = LoginHelper.getCurrentAccount();
+        PermissionCheck permissionCheck = getPermissionCheck(joinPoint);
+        if (check(currentAccount, permissionCheck)) {
+            throw new PermissionException("Insufficient Permissions.");
+        }
+    }
+
+    /**
+     * Check permission by annotation.
+     *
+     * @param joinPoint the join point
+     */
+    @Before("annotationPermissionAopPointCut()")
+    public void checkPermissionByAnnotation(JoinPoint joinPoint) {
         Account currentAccount = LoginHelper.getCurrentAccount();
         PermissionCheck permissionCheck = getPermissionCheck(joinPoint);
         if (check(currentAccount, permissionCheck)) {
@@ -97,11 +117,17 @@ public class PermissionAopComponent {
 
     private PermissionCheck getPermissionCheck(JoinPoint joinPoint) {
         Signature signature = joinPoint.getSignature();
+        // 在类头上寻找
         Annotation[] declaredAnnotations = signature.getDeclaringType().getDeclaredAnnotations();
-        for (Annotation declaredAnnotation : declaredAnnotations) {
-            if (declaredAnnotation instanceof PermissionCheck) {
-                return (PermissionCheck) declaredAnnotation;
-            }
+        Optional<Annotation> classAnnotation = Arrays.stream(declaredAnnotations).filter(declaredAnnotation -> declaredAnnotation instanceof PermissionCheck).findFirst();
+        if (classAnnotation.isPresent()) {
+            return (PermissionCheck) classAnnotation.get();
+        }
+        // 在方法上寻找
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Optional<Annotation> annotationOptional = Arrays.stream(methodSignature.getMethod().getDeclaredAnnotations()).filter(declaredAnnotation -> declaredAnnotation instanceof PermissionCheck).findFirst();
+        if (annotationOptional.isPresent()) {
+            return (PermissionCheck) annotationOptional.get();
         }
         throw new UnknownException("无法匹配到PermissionCheck注解");
     }

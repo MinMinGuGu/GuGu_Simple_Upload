@@ -3,7 +3,6 @@ package com.gugu.upload.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
-import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.FileInfoVo;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,10 +28,10 @@ public interface IFileService extends IService<FileInfo> {
     /**
      * Gets file info list.
      *
-     * @param iSupportQuery the support query
+     * @param fileInfoBo the file info bo
      * @return the file info list
      */
-    List<FileInfoVo> getFileInfoList(ISupportQuery<FileInfo> iSupportQuery);
+    List<FileInfoVo> getFileInfoList(FileInfoBo fileInfoBo);
 
     /**
      * Upload save file info vo.

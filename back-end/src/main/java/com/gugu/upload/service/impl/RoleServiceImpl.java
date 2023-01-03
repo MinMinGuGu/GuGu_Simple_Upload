@@ -60,18 +60,6 @@ public class RoleServiceImpl extends ServiceImpl<IRoleMapper, Role> implements I
     }
 
     @Override
-    public void addRolePermission(RolePermission rolePermission) {
-        Role role = getBaseMapper().selectById(rolePermission.getRoleId());
-        if (Boolean.TRUE.equals(role.getSystemDefault())) {
-            throw new ServiceException(MODIFY_SYSTEM_DEFAULT_FIELD_WARNING);
-        }
-        int flag = rolePermissionMapper.updateById(rolePermission);
-        if (flag < 1) {
-            throw new ServiceException("The ID does not exist.");
-        }
-    }
-
-    @Override
     public void removeRolePermission(Long id) {
         Role role = getBaseMapper().selectById(id);
         if (Boolean.TRUE.equals(role.getSystemDefault())) {

@@ -5,7 +5,6 @@ import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.dto.UpdateFileDto;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.entity.OperationLog;
-import com.gugu.upload.common.query.FileInfoQueryRequest;
 import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.controller.helper.FileHelper;
@@ -20,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -112,17 +110,14 @@ public class FileController {
     /**
      * Find list result.
      *
-     * @param fileInfoQueryRequest the file info query request
+     * @param fileInfoBo the file info bo
      * @return the result
      */
     @GetMapping
     @ApiOperation("获取管理中的文件列表")
     @ApiImplicitParam(paramType = "query", name = "fileInfoQueryRequest", value = "文件查询参数")
-    public Result<List<FileInfoVo>> findList(@ModelAttribute FileInfoQueryRequest fileInfoQueryRequest) {
-        if (fileInfoQueryRequest == null) {
-            fileInfoQueryRequest = new FileInfoQueryRequest();
-        }
-        List<FileInfoVo> fileInfos = fileService.getFileInfoList(fileInfoQueryRequest);
+    public Result<List<FileInfoVo>> findList(FileInfoBo fileInfoBo) {
+        List<FileInfoVo> fileInfos = fileService.getFileInfoList(fileInfoBo);
         return new Result.Builder<List<FileInfoVo>>().success(fileInfos).build();
     }
 

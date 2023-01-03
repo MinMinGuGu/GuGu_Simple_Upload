@@ -1,11 +1,12 @@
 package com.gugu.upload.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.gugu.upload.common.bo.AccountBo;
 import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
-import com.gugu.upload.common.query.ISupportQuery;
 import com.gugu.upload.common.vo.AccountVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.mapper.IAccountMapper;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * The type Account service.
@@ -43,9 +45,10 @@ public class AccountServiceImpl extends ServiceImpl<IAccountMapper, Account> imp
     }
 
     @Override
-    public List<AccountVo> findByRequest(ISupportQuery<Account> accountQueryRequest) {
-        QueryWrapper<Account> accountQueryWrapper = accountQueryRequest.toQueryWrapper();
-        List<Account> accountList = getBaseMapper().selectList(accountQueryWrapper);
+    public List<AccountVo> findByRequest(AccountBo accountBo) {
+        QueryWrapper<Account> query = Wrappers.query();
+        Optional.ofNullable(accountBo.getUsername()).ifPresent(userName -> query.like("user_name", accountBo.getUsername()));
+        List<Account> accountList = getBaseMapper().selectList(query);
         List<AccountVo> accountVoList = new LinkedList<>();
         accountList.forEach(item -> {
             Integer roleId = item.getRoleId();

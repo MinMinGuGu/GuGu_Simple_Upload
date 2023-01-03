@@ -200,7 +200,7 @@ export default class SystemUser extends CheckLogin {
         return (
             <div>
                 <Form layout="inline" onFinish={this.onFinish}>
-                    <Form.Item name="searchName" label="用户名">
+                    <Form.Item name="username" label="用户名">
                         <Input
                             disabled={searchLoading}
                             placeholder="input username"
