@@ -2,33 +2,16 @@ import React, { Component } from "react";
 import { Alert } from "antd";
 import "./index.css";
 import { doPost } from "../../utils/requestUtil";
-import { getQueryVariable } from "../../utils/urlUtil";
 import apis from "../../config/setting";
 import { withRouter } from "react-router-dom";
 
 class Login extends Component {
-    UNSAFE_componentWillMount = () => {
-        const localRoute = this.getRedirect();
-        if (localRoute) {
-            this.setState({ redirect: localRoute });
-        }
-    };
-
     state = {
         msg: "",
-        redirect: "",
-    };
-
-    getRedirect = () => {
-        let redirect = getQueryVariable("redirect");
-        return redirect
-            ? redirect.substring(redirect.lastIndexOf("#") + 1)
-            : redirect;
     };
 
     postHandler = (event) => {
         event.preventDefault();
-        const { redirect } = this.state;
         const {
             username: { value: username },
             passwrod: { value: password },
@@ -44,10 +27,6 @@ class Login extends Component {
             if (data.code === 200) {
                 // 存储数据至sessionStorage
                 sessionStorage.setItem("account", JSON.stringify(data.data));
-                if (redirect) {
-                    this.props.history.push(redirect);
-                    return;
-                }
                 this.props.history.push("/home");
                 return;
             }

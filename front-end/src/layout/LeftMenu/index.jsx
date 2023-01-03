@@ -7,24 +7,10 @@ import {
     AppstoreAddOutlined,
 } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
-import { getRoute } from "../../utils/urlUtil";
-import routers from "../../config/router";
 
 const { SubMenu } = Menu;
 
 class LeftMenu extends Component {
-    UNSAFE_componentWillMount = () => {
-        let localRoute = getRoute();
-        for (const pass in routers) {
-            if (Object.hasOwnProperty.call(routers, pass)) {
-                const route = routers[pass];
-                if (route.path === localRoute) {
-                    // todo 考虑每次登录都要从概率页开始 而不是重定向
-                }
-            }
-        }
-    };
-
     menuItemClick = (object) => {
         const menuItem = object.item.props;
         this.props.history.push(menuItem.path);

@@ -14,7 +14,7 @@ export default class CheckComponent extends Component {
                 // 清除sessionStorage
                 sessionStorage.removeItem("account");
                 console.log("check login failed");
-                this.props.history.push(`/login?redirect=${window.location}`);
+                this.props.history.push("/login");
             } else {
                 console.log("login verification passed...");
             }
