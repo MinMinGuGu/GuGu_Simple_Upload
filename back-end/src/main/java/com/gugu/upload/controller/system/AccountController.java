@@ -11,6 +11,7 @@ import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.MapUtil;
+import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -88,7 +89,7 @@ public class AccountController {
     @ApiOperation("修改用户")
     @PermissionCheck
     public Result<?> updateAccount(@RequestBody AccountBo accountBo) {
-        boolean updateFlag = accountService.updateById(accountBo.bo2Entity());
+        boolean updateFlag = accountService.updateById(TransformUtil.transform(accountBo, Account.class));
         if (updateFlag) {
             operationLogService.recordLog(OperationLog.OperationName.USER_UPDATE, accountBo.getUsername());
             return Result.fastSuccess();

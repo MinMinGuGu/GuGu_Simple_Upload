@@ -1,7 +1,10 @@
+
 package com.gugu.upload.common.vo;
 
-import io.swagger.annotations.ApiModel;
+import com.gugu.upload.common.entity.Permission;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * The type Login vo.
@@ -11,9 +14,7 @@ import lombok.Data;
  * @since 1.8
  */
 @Data
-@ApiModel(value = "LoginVo", description = "登录信息")
 public class LoginVo {
     private String username;
-    private String password;
-    private String rememberMe;
+    private List<Permission> permissionList;
 }

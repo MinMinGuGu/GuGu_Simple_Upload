@@ -2,7 +2,6 @@ package com.gugu.upload.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.AccountBo;
-import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.vo.AccountVo;
 
@@ -35,10 +34,10 @@ public interface IAccountService extends IService<Account> {
     /**
      * Add account result.
      *
-     * @param accountDto the account dto
+     * @param accountBo the account bo
      * @return the result
      */
-    Boolean addAccount(IBo2Entity<Account> accountDto);
+    Boolean addAccount(AccountBo accountBo);
 
     /**
      * 删除用户时返回删除数据

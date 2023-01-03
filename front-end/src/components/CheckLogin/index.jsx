@@ -11,6 +11,8 @@ export default class CheckComponent extends Component {
         const result = doGet(apis.loginApi);
         result.then((data) => {
             if (data.code !== 200) {
+                // 清除sessionStorage
+                sessionStorage.removeItem("account");
                 console.log("check login failed");
                 this.props.history.push(`/login?redirect=${window.location}`);
             } else {

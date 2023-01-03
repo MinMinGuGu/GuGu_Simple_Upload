@@ -42,6 +42,8 @@ class Login extends Component {
         });
         result.then((data) => {
             if (data.code === 200) {
+                // 存储数据至sessionStorage
+                sessionStorage.setItem("account", JSON.stringify(data.data));
                 if (redirect) {
                     this.props.history.push(redirect);
                     return;

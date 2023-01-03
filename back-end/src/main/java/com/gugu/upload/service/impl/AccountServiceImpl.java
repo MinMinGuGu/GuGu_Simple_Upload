@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.gugu.upload.common.bo.AccountBo;
-import com.gugu.upload.common.bo.IBo2Entity;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.vo.AccountVo;
@@ -61,9 +60,8 @@ public class AccountServiceImpl extends ServiceImpl<IAccountMapper, Account> imp
     }
 
     @Override
-    public Boolean addAccount(IBo2Entity<Account> accountDto) {
-        Account account = accountDto.bo2Entity();
-        return this.save(account);
+    public Boolean addAccount(AccountBo accountBo) {
+        return this.save(TransformUtil.transform(accountBo, Account.class));
     }
 
     @Override

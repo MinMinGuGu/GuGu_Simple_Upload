@@ -9,6 +9,7 @@ import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.entity.RolePermission;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.service.IRoleService;
+import com.gugu.upload.utils.TransformUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -112,7 +113,7 @@ public class RoleController {
     @ApiOperation("创建角色")
     public Result<?> insRole(@RequestBody RoleBo roleBo) {
         roleBo.setId(null);
-        boolean flag = roleService.save(roleBo.bo2Entity());
+        boolean flag = roleService.save(TransformUtil.transform(roleBo, Role.class));
         if (flag) {
             operationLogService.recordLog(OperationLog.OperationName.ROLE_ADD, roleBo.getName());
             return Result.fastSuccess();
@@ -129,7 +130,7 @@ public class RoleController {
     @PutMapping("/role")
     @ApiOperation("修改角色")
     public Result<?> updateRole(@RequestBody RoleBo roleBo) {
-        boolean flag = roleService.updateById(roleBo.bo2Entity());
+        boolean flag = roleService.updateById(TransformUtil.transform(roleBo, Role.class));
         if (flag) {
             operationLogService.recordLog(OperationLog.OperationName.ROLE_UPDATE, roleBo.getName());
             return Result.fastSuccess();

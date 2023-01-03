@@ -22,4 +22,13 @@ public interface IPermissionMapper extends BaseMapper<Permission> {
      */
     @Select("select `id` from permission")
     List<Integer> getIds();
+
+    /**
+     * Gets permission by account id.
+     *
+     * @param id the id
+     * @return the permission by account id
+     */
+    @Select("SELECT * FROM permission WHERE permission.id IN ( SELECT  role_permission.permission_id  FROM  role_permission  WHERE role_permission.role_id = ( SELECT account.role_id FROM account WHERE account.id = #{value} )  )")
+    List<Permission> getPermissionByAccountId(Integer id);
 }

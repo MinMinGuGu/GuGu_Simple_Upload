@@ -1,20 +1,19 @@
 package com.gugu.upload.common.bo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 /**
- * The type Account dto.
+ * The type Login vo.
  *
  * @author minmin
  * @version 1.0
- * @date 2022 /01/23
  * @since 1.8
  */
 @Data
-public class AccountBo {
-    private Integer id;
+@ApiModel(value = "LoginVo", description = "登录信息")
+public class LoginBo {
     private String username;
     private String password;
-    private Integer roleId;
-    private Boolean enable;
+    private String rememberMe;
 }

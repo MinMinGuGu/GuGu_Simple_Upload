@@ -1,11 +1,13 @@
 package com.gugu.upload.controller;
 
 import com.gugu.upload.common.Result;
+import com.gugu.upload.common.bo.LoginBo;
 import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
+import com.gugu.upload.service.ILoginService;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.SessionUtil;
 import io.swagger.annotations.Api;
@@ -41,6 +43,9 @@ public class LoginController {
     @Resource
     private IOperationLogService operationLogService;
 
+    @Resource
+    private ILoginService loginService;
+
     /**
      * Verify result.
      *
@@ -57,31 +62,31 @@ public class LoginController {
     /**
      * Login result.
      *
-     * @param loginVo            the login vo
+     * @param loginBo            the login vo
      * @param httpServletRequest the http servlet request
      * @return the result
      */
     @PostMapping
     @ApiOperation("进行登录")
     @ApiImplicitParam(paramType = "body", name = "loginVo", value = "登录信息", required = true, dataType = "LoginVo")
-    public Result<String> login(@RequestBody LoginVo loginVo, HttpServletRequest httpServletRequest) {
-        if (LoginHelper.checkCache(httpServletRequest)){
+    public Result<?> login(@RequestBody LoginBo loginBo, HttpServletRequest httpServletRequest) {
+        if (loginService.checkCache(httpServletRequest)) {
             log.info("User is already logged in. session id :{}", SessionUtil.getKeyBySessionId(httpServletRequest));
             return Result.fastSuccess();
         }
-        log.info("loginVo : {}", loginVo);
-        if (LoginHelper.checkVo(loginVo)) {
+        log.info("loginVo : {}", loginBo);
+        if (loginService.checkBo(loginBo)) {
             return Result.fastFail("params is error");
         }
-        Account account = LoginHelper.findAccount(loginVo, accountService);
-        if (LoginHelper.checkDto(account)) {
+        Account account = loginService.findAccount(loginBo);
+        if (loginService.check(account)) {
             return Result.fastFail("username or password is error");
         }
         log.info("query result : {}", account);
-        LoginHelper.saveBySession(loginVo, account, httpServletRequest);
+        LoginVo loginVo = loginService.saveBySession(loginBo, account, httpServletRequest);
         log.info("User logged in successfully...");
         operationLogService.recordLog(OperationLog.OperationName.LOGIN, null);
-        return Result.fastSuccess();
+        return Result.fastSuccess(loginVo);
     }
 
     /**
