@@ -10,8 +10,8 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.exception.ServiceException;
 import com.gugu.upload.controller.helper.HttpHelper;
-import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.mapper.IOperationLogMapper;
+import com.gugu.upload.service.ILoginService;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.IpUtil;
 import com.gugu.upload.utils.TomcatUtil;
@@ -19,6 +19,7 @@ import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -37,11 +38,14 @@ public class OperationLogServiceImpl extends ServiceImpl<IOperationLogMapper, Op
 
     private final static String XLSX_NAME = "GuGuSimpleUpload_OperationLog.xlsx";
 
+    @Resource
+    private ILoginService loginService;
+
     @Override
     public void recordLog(OperationLog.OperationName operationName, String context) {
         HttpServletRequest httpServletRequest = TomcatUtil.getHttpRequestFroCurrThread();
         String ipAddress = IpUtil.getIpAddress(httpServletRequest);
-        Account currentAccount = LoginHelper.getCurrentAccount(httpServletRequest);
+        Account currentAccount = loginService.getCurrentAccount(httpServletRequest);
         OperationLog operationLog = new OperationLog();
         operationLog.setIpAddress(ipAddress);
         operationLog.setOperationName(operationName.getDescription());

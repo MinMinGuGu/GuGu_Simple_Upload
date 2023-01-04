@@ -16,6 +16,8 @@ export default class CheckComponent extends Component {
                 console.log("check login failed");
                 this.props.history.push("/login");
             } else {
+                // 存储数据至sessionStorage
+                sessionStorage.setItem("account", JSON.stringify(data.data));
                 console.log("login verification passed...");
             }
         });

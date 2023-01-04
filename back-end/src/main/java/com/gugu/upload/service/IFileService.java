@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.gugu.upload.common.bo.FileInfoBo;
 import com.gugu.upload.common.entity.FileInfo;
 import com.gugu.upload.common.vo.FileInfoVo;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -70,4 +72,13 @@ public interface IFileService extends IService<FileInfo> {
      * @return 已删除的数据 file info
      */
     FileInfo deleteFileReturnEntity(Integer id);
+
+    /**
+     * Init bo file info bo.
+     *
+     * @param multipartFile the multipart file
+     * @param request       the request
+     * @return the file info bo
+     */
+    FileInfoBo initBo(MultipartFile multipartFile, HttpServletRequest request);
 }

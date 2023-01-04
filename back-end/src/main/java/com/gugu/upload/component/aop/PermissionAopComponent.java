@@ -9,10 +9,11 @@ import com.gugu.upload.common.entity.Role;
 import com.gugu.upload.common.entity.RolePermission;
 import com.gugu.upload.common.exception.PermissionException;
 import com.gugu.upload.common.exception.UnknownException;
-import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.mapper.IPermissionMapper;
 import com.gugu.upload.mapper.IRoleMapper;
 import com.gugu.upload.mapper.IRolePermissionMapper;
+import com.gugu.upload.service.ILoginService;
+import com.gugu.upload.utils.TomcatUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
@@ -48,6 +49,9 @@ public class PermissionAopComponent {
     @Resource
     private IRolePermissionMapper rolePermissionMapper;
 
+    @Resource
+    private ILoginService loginService;
+
     @Pointcut("@within(com.gugu.upload.common.annotation.PermissionCheck)")
     private void withinPermissionAopPointCut() {
     }
@@ -63,7 +67,7 @@ public class PermissionAopComponent {
      */
     @Before("withinPermissionAopPointCut()")
     public void checkPermissionByWithin(JoinPoint joinPoint) {
-        Account currentAccount = LoginHelper.getCurrentAccount();
+        Account currentAccount = loginService.getCurrentAccount(TomcatUtil.getHttpRequestFroCurrThread());
         PermissionCheck permissionCheck = getPermissionCheck(joinPoint);
         if (check(currentAccount, permissionCheck)) {
             throw new PermissionException("Insufficient Permissions.");
@@ -77,7 +81,7 @@ public class PermissionAopComponent {
      */
     @Before("annotationPermissionAopPointCut()")
     public void checkPermissionByAnnotation(JoinPoint joinPoint) {
-        Account currentAccount = LoginHelper.getCurrentAccount();
+        Account currentAccount = loginService.getCurrentAccount(TomcatUtil.getHttpRequestFroCurrThread());
         PermissionCheck permissionCheck = getPermissionCheck(joinPoint);
         if (check(currentAccount, permissionCheck)) {
             throw new PermissionException("Insufficient Permissions.");

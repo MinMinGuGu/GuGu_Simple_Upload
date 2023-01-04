@@ -6,7 +6,6 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.controller.helper.LoginHelper;
-import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.ILoginService;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.SessionUtil;
@@ -38,9 +37,6 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController {
 
     @Resource
-    private IAccountService accountService;
-
-    @Resource
     private IOperationLogService operationLogService;
 
     @Resource
@@ -54,9 +50,8 @@ public class LoginController {
      */
     @GetMapping
     @ApiOperation("验证是否登录")
-    public Result<String> verify(HttpServletRequest request) {
-        Result.Builder<String> resultBuilder = new Result.Builder<>();
-        return LoginHelper.isLogged(request) ? resultBuilder.success().build() : resultBuilder.code(401).message("Login required.").build();
+    public Result<?> verify(HttpServletRequest request) {
+        return LoginHelper.isLogged(request) ? Result.fastSuccess(LoginHelper.getCurrentAccountVo(request)) : new Result.Builder<>().code(401).message("Login required.").build();
     }
 
     /**
@@ -70,16 +65,16 @@ public class LoginController {
     @ApiOperation("进行登录")
     @ApiImplicitParam(paramType = "body", name = "loginVo", value = "登录信息", required = true, dataType = "LoginVo")
     public Result<?> login(@RequestBody LoginBo loginBo, HttpServletRequest httpServletRequest) {
-        if (loginService.checkCache(httpServletRequest)) {
+        if (LoginHelper.checkCache(httpServletRequest)) {
             log.info("User is already logged in. session id :{}", SessionUtil.getKeyBySessionId(httpServletRequest));
             return Result.fastSuccess();
         }
         log.info("loginVo : {}", loginBo);
-        if (loginService.checkBo(loginBo)) {
+        if (LoginHelper.checkBo(loginBo)) {
             return Result.fastFail("params is error");
         }
         Account account = loginService.findAccount(loginBo);
-        if (loginService.check(account)) {
+        if (LoginHelper.check(account)) {
             return Result.fastFail("username or password is error");
         }
         log.info("query result : {}", account);

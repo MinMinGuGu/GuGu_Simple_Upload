@@ -7,8 +7,8 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.OperationLog;
 import com.gugu.upload.common.entity.Permission;
 import com.gugu.upload.common.vo.AccountVo;
-import com.gugu.upload.controller.helper.LoginHelper;
 import com.gugu.upload.service.IAccountService;
+import com.gugu.upload.service.ILoginService;
 import com.gugu.upload.service.IOperationLogService;
 import com.gugu.upload.utils.MapUtil;
 import com.gugu.upload.utils.TransformUtil;
@@ -43,6 +43,9 @@ public class AccountController {
 
     @Resource
     private IAccountService accountService;
+
+    @Resource
+    private ILoginService loginService;
 
     @Resource
     private IOperationLogService operationLogService;
@@ -122,7 +125,7 @@ public class AccountController {
     @ApiOperation("获取用户在系统上传的文件数量")
     @PermissionCheck(Permission.PermissionEnum.UPLOAD)
     public Result<?> getAccountFileUploadInfo(HttpServletRequest request) {
-        Account currentAccount = LoginHelper.getCurrentAccount(request);
+        Account currentAccount = loginService.getCurrentAccount(request);
         int userFileUploadCount = accountService.getUserAllFileCount(currentAccount);
         return Result.fastSuccess(MapUtil.toMap("userFileUploadCount", userFileUploadCount));
     }

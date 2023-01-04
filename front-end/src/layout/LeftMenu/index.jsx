@@ -50,6 +50,9 @@ class LeftMenu extends Component {
                             icon={<FormOutlined />}
                             title="系统管理"
                         >
+                            <Menu.Item key="文件管理" path="/system/fileManage">
+                                文件管理
+                            </Menu.Item>
                             <Menu.Item key="用户管理" path="/system/user">
                                 用户管理
                             </Menu.Item>

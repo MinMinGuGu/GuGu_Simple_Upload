@@ -16,30 +16,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ILoginService {
     /**
-     * Check bo boolean.
-     *
-     * @param loginBo the login bo
-     * @return the boolean
-     */
-    boolean checkBo(LoginBo loginBo);
-
-    /**
-     * Check boolean.
-     *
-     * @param account the account
-     * @return the boolean
-     */
-    boolean check(Account account);
-
-    /**
-     * Check cache boolean.
-     *
-     * @param httpServletRequest the http servlet request
-     * @return the boolean
-     */
-    boolean checkCache(HttpServletRequest httpServletRequest);
-
-    /**
      * Find account account.
      *
      * @param loginBo the login bo
@@ -56,4 +32,12 @@ public interface ILoginService {
      * @return the login vo
      */
     LoginVo saveBySession(LoginBo loginBo, Account account, HttpServletRequest httpServletRequest);
+
+    /**
+     * Gets current account.
+     *
+     * @param request the request
+     * @return the current account
+     */
+    Account getCurrentAccount(HttpServletRequest request);
 }

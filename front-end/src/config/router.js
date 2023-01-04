@@ -7,6 +7,7 @@ import SystemRole from '../page/System/Role'
 import SystemUser from '../page/System/User'
 import About from '../page/About'
 import SystemAppLog from '../page/System/AppLog';
+import FileManage from '../page/System/FileManage';
 
 const routers = [
     {
@@ -38,6 +39,12 @@ const routers = [
         component: FileList,
         exact: true,
         title: "文件列表"
+    },
+    {
+        path: '/system/fileManage',
+        component: FileManage,
+        exact: true,
+        title: "文件管理"
     },
     {
         path: '/system/user',

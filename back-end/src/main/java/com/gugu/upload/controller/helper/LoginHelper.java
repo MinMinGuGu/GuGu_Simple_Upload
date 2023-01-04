@@ -1,9 +1,10 @@
 package com.gugu.upload.controller.helper;
 
+import com.gugu.upload.common.bo.LoginBo;
 import com.gugu.upload.common.entity.Account;
+import com.gugu.upload.common.vo.LoginVo;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.SessionUtil;
-import com.gugu.upload.utils.TomcatUtil;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,19 +75,40 @@ public class LoginHelper {
     /**
      * Get current account account.
      *
-     * @return the account
-     */
-    public static Account getCurrentAccount() {
-        return getCurrentAccount(TomcatUtil.getHttpRequestFroCurrThread());
-    }
-
-    /**
-     * Get current account account.
-     *
      * @param request the request
      * @return the account
      */
-    public static Account getCurrentAccount(HttpServletRequest request) {
-        return CacheUtil.get(SessionUtil.getKeyBySessionId(request), Account.class);
+    public static LoginVo getCurrentAccountVo(HttpServletRequest request) {
+        return CacheUtil.get(SessionUtil.getKeyBySessionId(request), LoginVo.class);
+    }
+
+    /**
+     * Check cache boolean.
+     *
+     * @param httpServletRequest the http servlet request
+     * @return the boolean
+     */
+    public static boolean checkCache(HttpServletRequest httpServletRequest) {
+        return CacheUtil.isThere(SessionUtil.getKeyBySessionId(httpServletRequest));
+    }
+
+    /**
+     * Check dto boolean.
+     *
+     * @param account the account
+     * @return the boolean
+     */
+    public static boolean check(Account account) {
+        return account == null || account.getUserName() == null || account.getUserPassword() == null;
+    }
+
+    /**
+     * Check vo boolean.
+     *
+     * @param loginBo the login bo
+     * @return the boolean
+     */
+    public static boolean checkBo(LoginBo loginBo) {
+        return loginBo.getUsername() == null || loginBo.getPassword() == null;
     }
 }
