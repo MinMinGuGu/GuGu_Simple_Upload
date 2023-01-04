@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +77,7 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
                 refuse(servletResponse);
                 return;
             }
-            saveLoginToCache(account, sessionId);
+            saveLoginToCache(account, servletRequest);
             pass(servletRequest, servletResponse, filterChain);
             CacheUtil.remove(sessionId);
             return;
@@ -89,9 +90,10 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
         return request.getParameter("appKey");
     }
 
-    private void saveLoginToCache(Account account, String sessionId) {
-        CacheUtil.CacheObject accountCacheObj = new CacheUtil.CacheObject(loginService.account2LoginVo(account), 24, CacheUtil.CacheObject.TimeUnit.HOUR);
-        CacheUtil.pull(sessionId, accountCacheObj);
+    private void saveLoginToCache(Account account, ServletRequest servletRequest) {
+        HttpSession session = ((HttpServletRequest) servletRequest).getSession();
+        CacheUtil.CacheObject accountCacheObj = new CacheUtil.CacheObject(loginService.account2LoginVo(account), session.getMaxInactiveInterval(), CacheUtil.CacheObject.TimeUnit.SECOND);
+        CacheUtil.pull(session.getId(), accountCacheObj);
     }
 
     private Account analyzeAccount(String appKeyValue) {
