@@ -40,4 +40,12 @@ public interface ILoginService {
      * @return the current account
      */
     Account getCurrentAccount(HttpServletRequest request);
+
+    /**
+     * Account 2 login vo login vo.
+     *
+     * @param account the account
+     * @return the login vo
+     */
+    LoginVo account2LoginVo(Account account);
 }

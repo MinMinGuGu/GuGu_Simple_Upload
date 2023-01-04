@@ -6,6 +6,7 @@ import com.gugu.upload.common.entity.Account;
 import com.gugu.upload.common.entity.AppKey;
 import com.gugu.upload.mapper.IAccountMapper;
 import com.gugu.upload.mapper.IAppKeyMapper;
+import com.gugu.upload.service.ILoginService;
 import com.gugu.upload.utils.CacheUtil;
 import com.gugu.upload.utils.MapUtil;
 import com.gugu.upload.utils.SessionUtil;
@@ -45,15 +46,19 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
 
     private final IAppKeyMapper appKeyMapper;
 
+    private final ILoginService loginService;
+
     /**
      * Instantiates a new App key auth filter.
      *
      * @param accountMapper the account mapper
      * @param appKeyMapper  the app key mapper
+     * @param loginService  the login service
      */
-    public AppKeyAuthFilter(IAccountMapper accountMapper, IAppKeyMapper appKeyMapper) {
+    public AppKeyAuthFilter(IAccountMapper accountMapper, IAppKeyMapper appKeyMapper, ILoginService loginService) {
         this.accountMapper = accountMapper;
         this.appKeyMapper = appKeyMapper;
+        this.loginService = loginService;
     }
 
     @Override
@@ -85,7 +90,7 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
     }
 
     private void saveLoginToCache(Account account, String sessionId) {
-        CacheUtil.CacheObject accountCacheObj = new CacheUtil.CacheObject(account, 24, CacheUtil.CacheObject.TimeUnit.HOUR);
+        CacheUtil.CacheObject accountCacheObj = new CacheUtil.CacheObject(loginService.account2LoginVo(account), 24, CacheUtil.CacheObject.TimeUnit.HOUR);
         CacheUtil.pull(sessionId, accountCacheObj);
     }
 

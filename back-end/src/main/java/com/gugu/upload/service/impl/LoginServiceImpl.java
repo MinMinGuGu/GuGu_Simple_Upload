@@ -58,7 +58,8 @@ public class LoginServiceImpl implements ILoginService {
         return accountMapper.selectByUserName(loginVo.getUsername());
     }
 
-    private LoginVo account2LoginVo(Account account) {
+    @Override
+    public LoginVo account2LoginVo(Account account) {
         LoginVo loginVo = new LoginVo();
         loginVo.setUsername(account.getUserName());
         loginVo.setPermissionList(permissionMapper.getPermissionByAccountId(account.getId()));

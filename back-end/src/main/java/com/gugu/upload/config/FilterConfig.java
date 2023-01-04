@@ -4,6 +4,7 @@ import com.gugu.upload.config.filter.AppKeyAuthFilter;
 import com.gugu.upload.config.filter.AuthFilter;
 import com.gugu.upload.mapper.IAccountMapper;
 import com.gugu.upload.mapper.IAppKeyMapper;
+import com.gugu.upload.service.ILoginService;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ public class FilterConfig {
 
     @Resource
     private IAppKeyMapper appKeyMapper;
+
+    @Resource
+    private ILoginService loginService;
 
     /**
      * Auth filter filter registration bean filter registration bean.
@@ -48,7 +52,7 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<AppKeyAuthFilter> appKeyAuthFilterBean() {
         FilterRegistrationBean<AppKeyAuthFilter> appKeyAuthFilterFilterRegistrationBean = new FilterRegistrationBean<>();
-        appKeyAuthFilterFilterRegistrationBean.setFilter(new AppKeyAuthFilter(accountMapper, appKeyMapper));
+        appKeyAuthFilterFilterRegistrationBean.setFilter(new AppKeyAuthFilter(accountMapper, appKeyMapper, loginService));
         appKeyAuthFilterFilterRegistrationBean.setUrlPatterns(AppKeyAuthFilter.URL_PATTERN_LIST);
         appKeyAuthFilterFilterRegistrationBean.setOrder(99);
         return appKeyAuthFilterFilterRegistrationBean;
