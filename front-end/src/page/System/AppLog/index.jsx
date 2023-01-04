@@ -86,7 +86,7 @@ export default class SystemAppLog extends CheckLogin {
         this.setState({ loading: true });
         let currPage = page || this.state.current;
         pageSize = pageSize || this.state.pageSize;
-        const response = doGet(`${apis.appKeyApi}`, {
+        const response = doGet(`${apis.operationLogApi}`, {
             currPage,
             pageSize,
         });

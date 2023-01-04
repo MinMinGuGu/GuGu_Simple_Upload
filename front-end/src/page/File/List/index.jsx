@@ -1,12 +1,8 @@
 import React from "react";
 import Content from "../../../layout/Content";
-import { Table, Button, message } from "antd";
+import { Table, Button } from "antd";
 import apis from "../../../config/setting";
-import {
-    doGet,
-    doMethod,
-    doMethodByDownload,
-} from "../../../utils/requestUtil";
+import { doGet, doMethodByDownload } from "../../../utils/requestUtil";
 import { creteALinkDownload } from "../../../utils/downloadUtil";
 import CheckComponent from "../../../components/CheckLogin";
 
@@ -30,23 +26,6 @@ export default class FileList extends CheckComponent {
             creteALinkDownload(response, () =>
                 this.setState({ loading: false })
             );
-        }
-    };
-
-    deleteFile = () => {
-        this.setState({ loading: true });
-        setTimeout(() => {
-            this.setState({
-                selectedRowKeys: [],
-                loading: false,
-            });
-            message.success("删除成功");
-            this.loadFileListData();
-        }, 1000);
-        const { selectedRowKeys } = this.state;
-        for (const index in selectedRowKeys) {
-            const fileId = selectedRowKeys[index];
-            doMethod(apis.fileApi + "/" + fileId, "delete");
         }
     };
 
@@ -118,15 +97,6 @@ export default class FileList extends CheckComponent {
                         loading={loading}
                     >
                         下载
-                    </Button>
-                    <Button
-                        style={{ marginLeft: 8 }}
-                        type="primary"
-                        onClick={this.deleteFile}
-                        disabled={!hasSelected}
-                        loading={loading}
-                    >
-                        删除
                     </Button>
                     <span style={{ marginLeft: 8 }}>
                         {hasSelected
