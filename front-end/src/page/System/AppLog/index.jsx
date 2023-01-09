@@ -13,9 +13,9 @@ import {
     Col,
     Space,
 } from "antd";
-import { doDel, doGet, doMethodByDownload } from "../../../utils/requestUtil";
+import { doDel, doGet } from "../../../utils/requestUtil";
 import apis from "../../../config/setting";
-import { creteALinkDownload } from "../../../utils/downloadUtil";
+import { download } from "../../../utils/downloadUtil";
 
 export default class SystemAppLog extends CheckLogin {
     form = null;
@@ -123,13 +123,8 @@ export default class SystemAppLog extends CheckLogin {
 
     exportLog = () => {
         this.setState({ loading: true });
-        const response = doMethodByDownload(
-            apis.operationLogApi + "/export",
-            "GET"
-        );
-        creteALinkDownload(response, () => {
-            this.setState({ loading: false });
-        });
+        download(apis.operationLogApi + "/export");
+        this.setState({ loading: false });
     };
 
     content = () => {
@@ -244,7 +239,7 @@ export default class SystemAppLog extends CheckLogin {
                         </Form>
                     </Col>
                     <Col>
-                        <Space size={15}>
+                        <Space>
                             <Button
                                 type="dashed"
                                 loading={loading}

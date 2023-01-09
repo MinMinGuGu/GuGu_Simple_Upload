@@ -189,6 +189,7 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
     }
 
     private void processStream(BufferedInputStream bufferedInputStream, HttpServletResponse response) throws IOException {
+        response.setContentLength(bufferedInputStream.available());
         BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(response.getOutputStream());
         byte[] bytes = new byte[2048];
         while (bufferedInputStream.read(bytes) != -1) {

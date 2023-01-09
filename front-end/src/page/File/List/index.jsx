@@ -13,10 +13,10 @@ import {
     Row,
     Col,
 } from "antd";
-import { InboxOutlined, DownloadOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import apis from "../../../config/setting";
-import { doGet, doMethodByDownload } from "../../../utils/requestUtil";
-import { creteALinkDownload } from "../../../utils/downloadUtil";
+import { doGet } from "../../../utils/requestUtil";
+import { download, batchDownloadToZip } from "../../../utils/downloadUtil";
 import CheckComponent from "../../../components/CheckLogin";
 
 export default class FileList extends CheckComponent {
@@ -29,19 +29,20 @@ export default class FileList extends CheckComponent {
         addFileFlag: false,
     };
 
-    download = (fileId) => {
-        const response = doMethodByDownload(apis.fileApi + "/" + fileId, "GET");
-        this.setState({ downloading: true });
-        creteALinkDownload(response, () =>
-            this.setState({ downloading: false })
-        );
-    };
-
-    downloadSelectFile = async () => {
+    downloadSelectFile = () => {
         const { selectedRowKeys } = this.state;
-        for (const index in selectedRowKeys) {
-            const fileId = selectedRowKeys[index];
-            this.download(fileId);
+        this.setState({ downloading: true });
+        if (selectedRowKeys.length === 1) {
+            const fileId = selectedRowKeys[0];
+            download(apis.fileApi + "/" + fileId);
+            this.setState({ downloading: false });
+        } else {
+            const downloadLinks = selectedRowKeys.map(
+                (fileId) => apis.fileApi + "/" + fileId
+            );
+            batchDownloadToZip(downloadLinks, "GET", () =>
+                this.setState({ downloading: false })
+            );
         }
     };
 
@@ -80,10 +81,6 @@ export default class FileList extends CheckComponent {
         }
     };
 
-    downloadFile = (value, row, index) => {
-        this.download(value.id);
-    };
-
     formFinish = (values) => {
         if (!values.searchType) {
             values = { ...values, searchType: "fileName" };
@@ -100,19 +97,11 @@ export default class FileList extends CheckComponent {
             },
             {
                 title: "文件名",
-                dataIndex: "fileOriginal",
-                key: "fileOriginal",
-            },
-            {
-                title: "action",
-                key: "action",
                 render: (value, row, index) => {
                     return (
-                        <Button
-                            onClick={() => this.downloadFile(value, row, index)}
-                        >
-                            <DownloadOutlined />
-                        </Button>
+                        <a href={`${apis.fileApi}/${value.id}`}>
+                            {value.fileOriginal}
+                        </a>
                     );
                 },
             },
