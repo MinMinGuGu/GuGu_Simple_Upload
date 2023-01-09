@@ -34,9 +34,6 @@ class LeftMenu extends Component {
                             icon={<ProfileOutlined />}
                             title="文件管理"
                         >
-                            <Menu.Item key="文件上传" path="/file/upload">
-                                文件上传
-                            </Menu.Item>
                             <Menu.Item key="文件列表" path="/file/list">
                                 文件列表
                             </Menu.Item>

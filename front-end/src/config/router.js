@@ -1,6 +1,5 @@
 import Home from '../page/Home';
 import Login from '../page/Login';
-import FileUpload from '../page/File/Upload'
 import FileList from '../page/File/List'
 import SystemAppKey from '../page/System/AppKey'
 import SystemRole from '../page/System/Role'
@@ -27,12 +26,6 @@ const routers = [
         component: Login,
         exact: true,
         title: "登录"
-    },
-    {
-        path: '/file/upload',
-        component: FileUpload,
-        exact: true,
-        title: "文件上传"
     },
     {
         path: '/file/list',
