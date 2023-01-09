@@ -10,6 +10,7 @@ import com.gugu.upload.common.exception.UnknownException;
 import com.gugu.upload.common.vo.FileInfoVo;
 import com.gugu.upload.config.ApplicationConfig;
 import com.gugu.upload.controller.helper.HttpHelper;
+import com.gugu.upload.mapper.IAccountMapper;
 import com.gugu.upload.mapper.IFileInfoMapper;
 import com.gugu.upload.service.IAccountService;
 import com.gugu.upload.service.IFileService;
@@ -22,6 +23,7 @@ import com.gugu.upload.utils.StreamHelper;
 import com.gugu.upload.utils.TransformUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -56,6 +58,9 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
 
     @Resource
     private IAccountService accountService;
+
+    @Resource
+    private IAccountMapper accountMapper;
 
     @Resource
     private ApplicationConfig applicationConfig;
@@ -94,9 +99,16 @@ public class FileServiceImpl extends ServiceImpl<IFileInfoMapper, FileInfo> impl
 
     @Override
     public List<FileInfoVo> getFileInfoList(FileInfoBo fileInfoBo) {
-        FileInfo fileInfo = TransformUtil.transform(fileInfoBo, FileInfo.class);
-        QueryWrapper<FileInfo> query = Wrappers.query(fileInfo);
-        List<FileInfo> fileInfos = baseMapper.selectList(query);
+        QueryWrapper<FileInfo> query = Wrappers.query();
+        if (StringUtils.hasText(fileInfoBo.getValue())) {
+            if (fileInfoBo.findSearchType() == FileInfoBo.SearchType.UPLOADER) {
+                Account account = accountMapper.selectByUserName(fileInfoBo.getValue());
+                query.eq("account_id", account.getId());
+            } else {
+                query.like("file_original", fileInfoBo.getValue());
+            }
+        }
+        List<FileInfo> fileInfos = this.baseMapper.selectList(query);
         List<FileInfoVo> fileInfoVoList = new LinkedList<>();
         fileInfos.forEach(item -> {
             FileInfoVo fileInfoVo = TransformUtil.transform(item, FileInfoVo.class);

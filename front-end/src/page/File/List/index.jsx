@@ -1,7 +1,19 @@
 import React from "react";
 import Content from "../../../layout/Content";
-import { Table, Button, Space, Modal, Upload, message } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import {
+    Table,
+    Button,
+    Space,
+    Modal,
+    Upload,
+    message,
+    Form,
+    Input,
+    Radio,
+    Row,
+    Col,
+} from "antd";
+import { InboxOutlined, DownloadOutlined } from "@ant-design/icons";
 import apis from "../../../config/setting";
 import { doGet, doMethodByDownload } from "../../../utils/requestUtil";
 import { creteALinkDownload } from "../../../utils/downloadUtil";
@@ -12,23 +24,22 @@ export default class FileList extends CheckComponent {
         selectedRowKeys: [],
         loading: false,
         tableData: [],
-        tableDataLoading: true,
+        tableDataLoading: false,
         addFileVisible: false,
         addFileFlag: false,
     };
 
-    downloadFile = async () => {
+    download = (fileId) => {
+        const response = doMethodByDownload(apis.fileApi + "/" + fileId, "GET");
+        this.setState({ loading: true });
+        creteALinkDownload(response, () => this.setState({ loading: false }));
+    };
+
+    downloadSelectFile = async () => {
         const { selectedRowKeys } = this.state;
         for (const index in selectedRowKeys) {
             const fileId = selectedRowKeys[index];
-            const response = doMethodByDownload(
-                apis.fileApi + "/" + fileId,
-                "GET"
-            );
-            this.setState({ loading: true });
-            creteALinkDownload(response, () =>
-                this.setState({ loading: false })
-            );
+            this.download(fileId);
         }
     };
 
@@ -41,8 +52,9 @@ export default class FileList extends CheckComponent {
         this.loadFileListData();
     };
 
-    loadFileListData = () => {
-        const response = doGet(apis.fileApi);
+    loadFileListData = (values) => {
+        this.setState({ tableDataLoading: true });
+        const response = doGet(apis.fileApi, values);
         response.then((result) => {
             const data = result.data;
             const resultData = [];
@@ -62,6 +74,17 @@ export default class FileList extends CheckComponent {
         }
     };
 
+    downloadFile = (value, row, index) => {
+        this.download(value.id);
+    };
+
+    formFinish = (values) => {
+        if (!values.searchType) {
+            values = { ...values, searchType: "fileName" };
+        }
+        this.loadFileListData(values);
+    };
+
     generateComponent = () => {
         const columns = [
             {
@@ -73,6 +96,19 @@ export default class FileList extends CheckComponent {
                 title: "文件名",
                 dataIndex: "fileOriginal",
                 key: "fileOriginal",
+            },
+            {
+                title: "action",
+                key: "action",
+                render: (value, row, index) => {
+                    return (
+                        <Button
+                            onClick={() => this.downloadFile(value, row, index)}
+                        >
+                            <DownloadOutlined />
+                        </Button>
+                    );
+                },
             },
             {
                 title: "文件大小",
@@ -104,32 +140,67 @@ export default class FileList extends CheckComponent {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div>
-                <div style={{ marginBottom: 16 }}>
-                    <Space>
-                        <Button
-                            type="primary"
-                            onClick={() => {
-                                this.setState({ addFileVisible: true });
-                            }}
-                            loading={loading}
-                        >
-                            上传
-                        </Button>
-                        <Button
-                            type="primary"
-                            onClick={this.downloadFile}
-                            disabled={!hasSelected}
-                            loading={loading}
-                        >
-                            下载
-                        </Button>
-                        <span>
-                            {hasSelected
-                                ? `已选择 ${selectedRowKeys.length} 个文件`
-                                : ""}
-                        </span>
-                    </Space>
-                </div>
+                <Row>
+                    <Col>
+                        <Form layout="inline" onFinish={this.formFinish}>
+                            <Form.Item label="搜索类型" name="searchType">
+                                <Radio.Group
+                                    disabled={tableDataLoading}
+                                    defaultValue="fileName"
+                                >
+                                    <Radio.Button value="fileName">
+                                        文件名
+                                    </Radio.Button>
+                                    <Radio.Button value="uploader">
+                                        上传者
+                                    </Radio.Button>
+                                </Radio.Group>
+                            </Form.Item>
+                            <Form.Item name="value" label="值">
+                                <Input
+                                    placeholder="input value"
+                                    allowClear={true}
+                                    disabled={tableDataLoading}
+                                />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading={tableDataLoading}
+                                >
+                                    搜索
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Col>
+                    <Col>
+                        <Space>
+                            <Button
+                                type="primary"
+                                onClick={() => {
+                                    this.setState({ addFileVisible: true });
+                                }}
+                                loading={loading}
+                            >
+                                上传
+                            </Button>
+                            <Button
+                                type="primary"
+                                onClick={this.downloadSelectFile}
+                                disabled={!hasSelected}
+                                loading={loading}
+                            >
+                                下载
+                            </Button>
+                            <span>
+                                {hasSelected
+                                    ? `已选择 ${selectedRowKeys.length} 个文件`
+                                    : ""}
+                            </span>
+                        </Space>
+                    </Col>
+                </Row>
                 <Table
                     rowSelection={rowSelection}
                     columns={columns}

@@ -2,6 +2,7 @@ package com.gugu.upload.common.bo;
 
 import com.gugu.upload.utils.StatusUtil;
 import lombok.Data;
+import lombok.Getter;
 import lombok.experimental.Accessors;
 
 /**
@@ -21,13 +22,15 @@ public class FileInfoBo {
     private Integer status;
     private String uploader;
     private Integer accountId;
+    private String searchType;
+    private String value;
 
     /**
      * Set status.
      *
      * @param status the status
      */
-    public void setStatus(StatusUtil.Status status){
+    public void setStatus(StatusUtil.Status status) {
         this.status = status.getCode();
     }
 
@@ -36,7 +39,34 @@ public class FileInfoBo {
      *
      * @param status the status
      */
-    public void setStatus(Integer status){
+    public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public SearchType findSearchType() {
+        for (SearchType searchType : SearchType.values()) {
+            if (searchType.getValue().equals(this.searchType)) {
+                return searchType;
+            }
+        }
+        return null;
+    }
+
+    @Getter
+    public enum SearchType {
+        /**
+         * 上传者
+         */
+        UPLOADER("uploader"),
+        /**
+         * 文件名
+         */
+        FILENAME("fileName");
+
+        private final String value;
+
+        SearchType(String value) {
+            this.value = value;
+        }
     }
 }
