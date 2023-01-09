@@ -22,7 +22,7 @@ import CheckComponent from "../../../components/CheckLogin";
 export default class FileList extends CheckComponent {
     state = {
         selectedRowKeys: [],
-        loading: false,
+        downloading: false,
         tableData: [],
         tableDataLoading: false,
         addFileVisible: false,
@@ -31,8 +31,10 @@ export default class FileList extends CheckComponent {
 
     download = (fileId) => {
         const response = doMethodByDownload(apis.fileApi + "/" + fileId, "GET");
-        this.setState({ loading: true });
-        creteALinkDownload(response, () => this.setState({ loading: false }));
+        this.setState({ downloading: true });
+        creteALinkDownload(response, () =>
+            this.setState({ downloading: false })
+        );
     };
 
     downloadSelectFile = async () => {
@@ -53,7 +55,11 @@ export default class FileList extends CheckComponent {
     };
 
     loadFileListData = (values) => {
-        this.setState({ tableDataLoading: true });
+        this.setState({
+            tableDataLoading: true,
+            selectedRowKeys: [],
+            addFileFlag: false,
+        });
         const response = doGet(apis.fileApi, values);
         response.then((result) => {
             const data = result.data;
@@ -127,7 +133,7 @@ export default class FileList extends CheckComponent {
             },
         ];
         const {
-            loading,
+            downloading,
             selectedRowKeys,
             tableData,
             tableDataLoading,
@@ -181,7 +187,7 @@ export default class FileList extends CheckComponent {
                                 onClick={() => {
                                     this.setState({ addFileVisible: true });
                                 }}
-                                loading={loading}
+                                loading={downloading}
                             >
                                 上传
                             </Button>
@@ -189,7 +195,7 @@ export default class FileList extends CheckComponent {
                                 type="primary"
                                 onClick={this.downloadSelectFile}
                                 disabled={!hasSelected}
-                                loading={loading}
+                                loading={downloading}
                             >
                                 下载
                             </Button>
