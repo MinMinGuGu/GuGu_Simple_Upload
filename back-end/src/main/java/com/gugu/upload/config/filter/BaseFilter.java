@@ -10,6 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * The type Base filter.
@@ -19,7 +20,7 @@ import java.io.IOException;
  * @date 2022 /12/20
  * @since 1.8
  */
-public class BaseFilter {
+public abstract class BaseFilter {
 
     /**
      * The constant NOT_LOGIN_HTTP_STATUS.
@@ -56,4 +57,11 @@ public class BaseFilter {
                         .build()
         ));
     }
+
+    /**
+     * 获取url匹配拦截列表
+     *
+     * @return 匹配拦截列表 url pattern list
+     */
+    public abstract List<String> getUrlPatternList();
 }

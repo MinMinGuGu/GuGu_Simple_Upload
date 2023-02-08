@@ -24,11 +24,6 @@ import java.util.List;
 @Slf4j
 public class AuthFilter extends BaseFilter implements Filter {
 
-    /**
-     * The constant URL_PATTERN_LIST.
-     */
-    public static final List<String> URL_PATTERN_LIST = Collections.singletonList("/*");
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         log.info("Request path : {}, method : {}", ((HttpServletRequest) servletRequest).getRequestURI(), ((HttpServletRequest) servletRequest).getMethod());
@@ -56,9 +51,16 @@ public class AuthFilter extends BaseFilter implements Filter {
                 || requestUri.contains(".ico")
                 || requestUri.contains(".js")
                 || requestUri.contains(".css")
+                || requestUri.contains(".txt")
+                || requestUri.contains(".html")
                 || requestUri.contains(".woft2")
                 || requestUri.contains("/csrf")
                 || requestUri.contains("/api-docs")
                 ;
+    }
+
+    @Override
+    public List<String> getUrlPatternList() {
+        return Collections.singletonList("/*");
     }
 }

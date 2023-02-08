@@ -38,11 +38,6 @@ import java.util.Objects;
 @Slf4j
 public class AppKeyAuthFilter extends BaseFilter implements Filter {
 
-    /**
-     * The constant URL_PATTERN_LIST.
-     */
-    public static final List<String> URL_PATTERN_LIST = Collections.singletonList("/file");
-
     private final IAccountMapper accountMapper;
 
     private final IAppKeyMapper appKeyMapper;
@@ -111,5 +106,10 @@ public class AppKeyAuthFilter extends BaseFilter implements Filter {
     @Override
     public void destroy() {
         Filter.super.destroy();
+    }
+
+    @Override
+    public List<String> getUrlPatternList() {
+        return Collections.singletonList("/file");
     }
 }
