@@ -32,7 +32,7 @@ public class MvcConfig {
     private static class GuGuMvcConfig implements WebMvcConfigurer {
         @Override
         public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/*")
+            registry.addMapping("/**")
                     .allowedOrigins("*")
                     .allowedMethods(
                             HttpMethod.GET.name(),
